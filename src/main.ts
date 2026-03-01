@@ -1,5 +1,5 @@
 /**
- * Radiant Spirit — Pokémon Pack Opening Simulator
+ * PokeSphere — Pokémon Pack Opening Simulator
  * Main entry point — Auth-gated, production-ready
  */
 import './style.css';
@@ -52,7 +52,7 @@ interface AppState {
   showAuthModal: boolean;
 }
 
-const INVENTORY_KEY = 'radiant_spirit_inventory';
+const INVENTORY_KEY = 'pokesphere_inventory';
 
 function loadInventory(): PackCard[] {
   try {
@@ -256,7 +256,7 @@ function render(): void {
 
   app.innerHTML = `
     <header class="app-header">
-      <div class="app-logo">✦ RADIANT SPIRIT</div>
+      <div class="app-logo">✦ POKESPHERE</div>
       <div class="header-actions">
         <button class="open-btn small-btn" id="MyCollectionBtn">My Collection</button>
         <div class="set-selector">
@@ -306,7 +306,7 @@ function renderLanding(): string {
       <div class="landing-content">
         <div class="landing-logo">
           <span class="landing-logo-icon">✦</span>
-          <h1 class="landing-title">RADIANT SPIRIT</h1>
+          <h1 class="landing-title">POKESPHERE</h1>
         </div>
         <p class="landing-tagline">Open virtual Pokémon booster packs. Build your collection. Track market values.</p>
         <div class="landing-features">

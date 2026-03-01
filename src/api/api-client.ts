@@ -64,7 +64,7 @@ export interface CardLookupEntry {
 export type CardLookupMap = Map<string, CardLookupEntry>;
 
 function cacheKey(setId: string): string {
-    return `radiant_spirit_cache_${setId}`;
+    return `pokesphere_cache_${setId}`;
 }
 
 /** Check if cached data is still valid */
@@ -311,7 +311,7 @@ export function clearCache(): void {
     const keysToRemove: string[] = [];
     for (let i = 0; i < localStorage.length; i++) {
         const key = localStorage.key(i);
-        if (key?.startsWith('radiant_spirit_cache_')) {
+        if (key?.startsWith('pokesphere_cache_')) {
             keysToRemove.push(key);
         }
     }
