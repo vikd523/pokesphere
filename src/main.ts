@@ -255,56 +255,41 @@ function render(): void {
 
   // Authenticated — show the full app
 
-  const SPLINE_URL = 'https://prod.spline.design/4eb09c15-2fe9-4501-896a-a15b40b14100/scene.splinecode';
+  const SPLINE_URL = 'https://prod.spline.design/NoIfSkVO2P9kDRDU/scene.splinecode';
   const shouldLoadSpline = window.innerWidth >= 1024 && navigator.hardwareConcurrency > 2;
 
   app.innerHTML = `
-    <div class="app-shell">
-      <!-- Left Sidebar: Spline 3D + Branding -->
-      <aside class="spline-sidebar" id="spline-sidebar">
-        <div class="sidebar-brand">
-          <div class="app-logo sidebar-logo">✦ POKESPHERE</div>
-        </div>
-        <div class="spline-container" id="spline-container">
-          ${shouldLoadSpline
-      ? `<spline-viewer url="${SPLINE_URL}" background="transparent" events-target="global" style="width:100%; height:100%;"></spline-viewer>`
-      : `<div class="spline-fallback-art">👻</div>`}
-        </div>
-        <div class="sidebar-stats">
-          <div class="sidebar-stat"><span class="sidebar-stat-value">${state.packsOpened}</span><span class="sidebar-stat-label">Packs</span></div>
-          <div class="sidebar-stat"><span class="sidebar-stat-value">${state.totalHits}</span><span class="sidebar-stat-label">Hits</span></div>
-          <div class="sidebar-stat"><span class="sidebar-stat-value">${state.packsOpened > 0 ? Math.round((state.totalHits / state.packsOpened) * 100) : 0}%</span><span class="sidebar-stat-label">Rate</span></div>
-        </div>
-      </aside>
-
-      <!-- Right Panel: Header + Main Content + Footer -->
-      <div class="main-panel">
-        <header class="app-header">
-          <div class="app-logo mobile-logo">✦ POKESPHERE</div>
-          <div class="header-actions">
-            <button class="open-btn small-btn" id="MyCollectionBtn">My Collection</button>
-            <div class="auth-header-user">
-              <span class="auth-avatar">👤</span>
-              <span class="auth-name">${state.user.displayName}</span>
-              <button class="auth-signout-btn" id="signout-btn">Sign Out</button>
-            </div>
+    <div class="app-container">
+      <header class="app-header">
+        <div class="app-logo">✦ POKESPHERE</div>
+        <div class="header-actions">
+          <button class="open-btn small-btn" id="MyCollectionBtn">My Collection</button>
+          <div class="auth-header-user">
+            <span class="auth-avatar">👤</span>
+            <span class="auth-name">${state.user.displayName}</span>
+            <button class="auth-signout-btn" id="signout-btn">Sign Out</button>
           </div>
-        </header>
+        </div>
+      </header>
 
-        <main class="stage">
-          ${state.isLoadingApi ? renderLoading() : ''}
-          ${state.apiError ? `<div class="api-error">${state.apiError}</div>` : ''}
-          ${state.showInventory ? renderInventory() :
+      ${shouldLoadSpline ? `
+      <div class="spline-widget-container" id="spline-container">
+        <spline-viewer url="${SPLINE_URL}" background="transparent" events-target="global"></spline-viewer>
+      </div>` : ''}
+
+      <main class="stage">
+        ${state.isLoadingApi ? renderLoading() : ''}
+        ${state.apiError ? `<div class="api-error">${state.apiError}</div>` : ''}
+        ${state.showInventory ? renderInventory() :
       state.showSummary && state.currentPack ? renderPackSummary() :
         state.currentPack ? renderRevealArea() : renderPackSelect()}
-        </main>
+      </main>
 
-        <footer class="stats-banner">
-          <span>Packs Opened: <span class="stat-value">${state.packsOpened}</span></span>
-          <span>Hits: <span class="stat-value">${state.totalHits}</span></span>
-          <span>Hit Rate: <span class="stat-value">${state.packsOpened > 0 ? Math.round((state.totalHits / state.packsOpened) * 100) : 0}%</span></span>
-        </footer>
-      </div>
+      <footer class="stats-banner">
+        <span>Packs Opened: <span class="stat-value">${state.packsOpened}</span></span>
+        <span>Hits: <span class="stat-value">${state.totalHits}</span></span>
+        <span>Hit Rate: <span class="stat-value">${state.packsOpened > 0 ? Math.round((state.totalHits / state.packsOpened) * 100) : 0}%</span></span>
+      </footer>
     </div>
 
     <div class="screen-flash" id="screen-flash"></div>
