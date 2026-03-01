@@ -157,7 +157,6 @@ function reEnrichInventory(): void {
   for (const card of state.inventory) {
     const compositeKey = `${card.name.toLowerCase()}|${card.number}`;
     const lookup = state.lookupMap.get(compositeKey)
-      || state.lookupMap.get(card.number)
       || findFuzzyMatch(card);
     if (lookup) {
       const oldImg = card.imageSmall;
@@ -193,7 +192,6 @@ function enrichPack(pack: PackCard[]): void {
     // Try composite key first (name+number), then number, then fuzzy name
     const compositeKey = `${card.name.toLowerCase()}|${card.number}`;
     const lookup = state.lookupMap.get(compositeKey)
-      || state.lookupMap.get(card.number)
       || findFuzzyMatch(card);
     if (lookup) {
       card.imageSmall = lookup.imageSmall;
@@ -702,7 +700,7 @@ function openPack(): void {
   // Preload images for this pack
   if (state.lookupMap) {
     const packEntries = state.currentPack
-      .map(c => state.lookupMap!.get(c.number))
+      .map(c => state.lookupMap!.get(`${c.name.toLowerCase()}|${c.number}`))
       .filter((e): e is CardLookupEntry => !!e);
     preloadImages(packEntries);
   }

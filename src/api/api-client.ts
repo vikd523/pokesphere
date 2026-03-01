@@ -292,7 +292,6 @@ export function buildLookupMap(apiCards: ApiCard[]): CardLookupMap {
             allPrices,
         };
 
-        map.set(card.number, entry);
         map.set(card.id, entry);
         // Composite key: name|number for precise matching
         map.set(`${card.name.toLowerCase()}|${card.number}`, entry);
