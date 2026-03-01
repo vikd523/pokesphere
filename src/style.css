@@ -2181,11 +2181,15 @@ body {
   position: fixed;
   top: 50px;
   left: 10px;
-  width: 200px;
-  height: 200px;
+  width: 400px;
+  height: 400px;
   z-index: 105;
   pointer-events: none;
-  /* No border, no background, no clipping — just a transparent window */
+  /* Scale the 400x400 canvas down to 200x200 visually.
+     This gives Spline enough internal canvas to show the full Gastly model
+     without the camera zooming into his face. */
+  transform: scale(0.5);
+  transform-origin: top left;
 }
 
 .spline-widget-container spline-viewer {

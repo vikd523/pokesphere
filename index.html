@@ -33,7 +33,7 @@
   <script>
     (function () {
       // 1) Block scroll-wheel zoom on the Spline container
-      const container = document.getElementById('spline-persistent-container');
+      var container = document.getElementById('spline-persistent-container');
       if (container) {
         container.addEventListener('wheel', function (e) {
           e.preventDefault();
@@ -41,58 +41,73 @@
         }, { passive: false, capture: true });
       }
 
-      // 2) Aggressively find and hide the "Built with Spline" logo
-      //    The logo lives inside spline-viewer's shadow DOM as an <a> or <div> with the Spline branding.
+      // 2) Remove the "Built with Spline" watermark from the shadow DOM
       function removeSplineLogo() {
-        const viewer = document.querySelector('spline-viewer');
+        var viewer = document.querySelector('spline-viewer');
         if (!viewer || !viewer.shadowRoot) return false;
+        var root = viewer.shadowRoot;
+        var removed = false;
 
-        // The logo is typically an anchor tag with id="logo" or a div containing "Built with Spline"
-        const logo = viewer.shadowRoot.getElementById('logo');
-        if (logo) {
-          logo.remove();
-          return true;
-        }
+        // Strategy A: Find by ID
+        var logo = root.getElementById('logo');
+        if (logo) { logo.remove(); removed = true; }
 
-        // Fallback: find any element containing the text "Built with Spline" or "Spline" branding
-        const allElements = viewer.shadowRoot.querySelectorAll('a, div, span, img');
-        for (const el of allElements) {
-          if (el.textContent && el.textContent.includes('Built with')) {
+        // Strategy B: Find any <a> tag linking to spline.design
+        var anchors = root.querySelectorAll('a');
+        anchors.forEach(function (a) {
+          var href = a.getAttribute('href') || '';
+          if (href.indexOf('spline') !== -1) {
+            a.remove();
+            removed = true;
+          }
+        });
+
+        // Strategy C: Find any element with "Built with" text
+        var textEls = root.querySelectorAll('div, span, a, p');
+        textEls.forEach(function (el) {
+          var txt = el.textContent || '';
+          if (txt.indexOf('Built with') !== -1 || txt.indexOf('built with') !== -1) {
             el.remove();
-            return true;
+            removed = true;
           }
-          // Also check for the Spline logo image
-          if (el.tagName === 'IMG' && el.src && el.src.includes('spline')) {
-            el.parentElement.remove();
-            return true;
-          }
+        });
+
+        // Strategy D: Inject CSS to hide anything we might have missed
+        if (!root.querySelector('#hide-spline-logo')) {
+          var s = document.createElement('style');
+          s.id = 'hide-spline-logo';
+          s.textContent = [
+            '#logo { display:none!important; }',
+            'a[href*="spline"] { display:none!important; }',
+            'div[style*="bottom"] a { display:none!important; }'
+          ].join('\n');
+          root.appendChild(s);
+          removed = true;
         }
-        return false;
+
+        return removed;
       }
 
-      // Try immediately, then poll every 500ms until found (Spline loads async)
-      let attempts = 0;
-      const maxAttempts = 30; // Try for 15 seconds
-      const interval = setInterval(function () {
+      // Poll every 500ms for 30 seconds
+      var attempts = 0;
+      var interval = setInterval(function () {
         attempts++;
-        if (removeSplineLogo() || attempts >= maxAttempts) {
+        if (removeSplineLogo() || attempts >= 60) {
           clearInterval(interval);
         }
       }, 500);
 
-      // Also use MutationObserver on the spline-viewer for extra safety
-      const observer = new MutationObserver(function () {
-        removeSplineLogo();
-      });
-
-      // Wait for spline-viewer to be defined, then observe its shadow root
-      customElements.whenDefined('spline-viewer').then(function () {
-        const viewer = document.querySelector('spline-viewer');
-        if (viewer && viewer.shadowRoot) {
-          observer.observe(viewer.shadowRoot, { childList: true, subtree: true });
-          removeSplineLogo(); // Try once immediately
-        }
-      }).catch(function () { });
+      // Also observe shadow root mutations once the element is defined
+      if (window.customElements) {
+        customElements.whenDefined('spline-viewer').then(function () {
+          var viewer = document.querySelector('spline-viewer');
+          if (viewer && viewer.shadowRoot) {
+            new MutationObserver(function () { removeSplineLogo(); })
+              .observe(viewer.shadowRoot, { childList: true, subtree: true });
+            removeSplineLogo();
+          }
+        }).catch(function () { });
+      }
     })();
   </script>
 </body>
