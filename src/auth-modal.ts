@@ -1,6 +1,7 @@
 /**
  * Auth Modal — Renders sign-in / sign-up modal UI.
- * Matches the existing dark premium aesthetic.
+ * Premium dark aesthetic with glassmorphism.
+ * Defaults to signup mode since auth is required.
  */
 import { signUp, signIn, type AuthUser } from './auth';
 
@@ -16,7 +17,7 @@ interface AuthModalState {
 }
 
 const modalState: AuthModalState = {
-    mode: 'signin',
+    mode: 'signup', // Default to signup since new users need accounts
     email: '',
     password: '',
     displayName: '',
@@ -81,7 +82,7 @@ export function renderAuthModal(isVisible: boolean): string {
 
 export function bindAuthModalEvents(
     onSuccess: (user: AuthUser) => void,
-    onClose: () => void
+    onRerender: () => void
 ): void {
     const form = document.getElementById('auth-form') as HTMLFormElement;
     const closeBtn = document.getElementById('auth-modal-close');
@@ -90,26 +91,20 @@ export function bindAuthModalEvents(
 
     closeBtn?.addEventListener('click', () => {
         resetModal();
-        onClose();
+        onRerender();
     });
 
     overlay?.addEventListener('click', (e) => {
         if (e.target === e.currentTarget) {
             resetModal();
-            onClose();
+            onRerender();
         }
     });
 
     toggleBtn?.addEventListener('click', () => {
         modalState.mode = modalState.mode === 'signin' ? 'signup' : 'signin';
         modalState.error = null;
-        // Re-render will be triggered by the parent
-        onClose();
-        // Re-open with new mode — caller should handle this
-        setTimeout(() => {
-            const event = new CustomEvent('auth-toggle', { detail: modalState.mode });
-            document.dispatchEvent(event);
-        }, 0);
+        onRerender();
     });
 
     form?.addEventListener('submit', async (e) => {
@@ -121,7 +116,7 @@ export function bindAuthModalEvents(
 
         if (!email || !password) {
             modalState.error = 'Please fill in all fields';
-            onClose(); // triggers re-render
+            onRerender();
             return;
         }
 
@@ -130,13 +125,14 @@ export function bindAuthModalEvents(
         modalState.email = email;
         modalState.password = password;
         modalState.displayName = name || '';
+        onRerender();
 
         let result;
         if (modalState.mode === 'signup') {
             if (!name) {
                 modalState.error = 'Please enter a trainer name';
                 modalState.isLoading = false;
-                onClose();
+                onRerender();
                 return;
             }
             result = await signUp(email, password, name);
@@ -148,7 +144,7 @@ export function bindAuthModalEvents(
 
         if (result.error) {
             modalState.error = result.error;
-            onClose(); // triggers re-render
+            onRerender();
         } else if (result.user) {
             resetModal();
             onSuccess(result.user);

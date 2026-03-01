@@ -1,7 +1,8 @@
 /**
  * Auth Module — Sign up, sign in, sign out, and session management.
+ * Supabase is always required — no guest fallback.
  */
-import { supabase, isSupabaseConfigured } from './supabase';
+import { supabase } from './supabase';
 import type { User, Session } from '@supabase/supabase-js';
 
 export interface AuthUser {
@@ -23,8 +24,6 @@ export async function signUp(
     password: string,
     displayName: string
 ): Promise<{ user: AuthUser | null; error: string | null }> {
-    if (!isSupabaseConfigured) return { user: null, error: 'Auth not configured' };
-
     const { data, error } = await supabase.auth.signUp({
         email,
         password,
@@ -43,8 +42,6 @@ export async function signIn(
     email: string,
     password: string
 ): Promise<{ user: AuthUser | null; error: string | null }> {
-    if (!isSupabaseConfigured) return { user: null, error: 'Auth not configured' };
-
     const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
@@ -57,20 +54,15 @@ export async function signIn(
 }
 
 export async function signOut(): Promise<void> {
-    if (!isSupabaseConfigured) return;
     await supabase.auth.signOut();
 }
 
 export async function getUser(): Promise<AuthUser | null> {
-    if (!isSupabaseConfigured) return null;
-
     const { data: { user } } = await supabase.auth.getUser();
     return user ? toAuthUser(user) : null;
 }
 
 export function onAuthChange(callback: (user: AuthUser | null) => void): () => void {
-    if (!isSupabaseConfigured) return () => { };
-
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
         (_event: string, session: Session | null) => {
             callback(session?.user ? toAuthUser(session.user) : null);

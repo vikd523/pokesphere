@@ -1,6 +1,6 @@
 /**
  * Radiant Spirit — Pokémon Pack Opening Simulator
- * Main entry point — Phase 3: Auth + Persistent Collections
+ * Main entry point — Auth-gated, production-ready
  */
 import './style.css';
 import crownZenithData from './data/crown-zenith.json';
@@ -14,9 +14,8 @@ import { createParticles, destroyParticles } from './effects/particles';
 import { fetchSetCards, buildLookupMap, preloadImages, clearCache, type CardLookupMap, type CardLookupEntry } from './api/api-client';
 import { formatPrice, getMarketPrice, calculatePackValue, getTopPulls, getValueTier, formatPriceDate } from './engine/price-engine';
 import { getUser, signOut, onAuthChange, type AuthUser } from './auth';
-import { renderAuthModal, bindAuthModalEvents, setModalMode, type AuthMode } from './auth-modal';
-import { saveCardsToCollection, loadCollection, collectionToPackCards } from './collection-sync';
-import { isSupabaseConfigured } from './supabase';
+import { renderAuthModal, bindAuthModalEvents, setModalMode } from './auth-modal';
+import { saveCardsToCollection, loadCollection, clearUserCollection, collectionToPackCards } from './collection-sync';
 
 // ─── State ─────────────────────────────────────────
 const SETS: Record<string, SetData> = {
@@ -228,6 +227,31 @@ function findFuzzyMatch(card: PackCard): CardLookupEntry | undefined {
 // ─── Render ────────────────────────────────────────
 function render(): void {
   const app = document.getElementById('app')!;
+
+  // Show auth loading spinner
+  if (state.isAuthLoading) {
+    app.innerHTML = `
+      <div class="landing-page">
+        <div class="landing-loader">
+          <div class="landing-logo-icon">✦</div>
+          <div class="api-loading-spinner"></div>
+        </div>
+      </div>
+    `;
+    return;
+  }
+
+  // Show landing page if not authenticated
+  if (!state.user) {
+    app.innerHTML = `
+      ${renderLanding()}
+      ${renderAuthModal(state.showAuthModal)}
+    `;
+    bindLandingEvents();
+    return;
+  }
+
+  // Authenticated — show the full app
   const set = getActiveSet();
 
   app.innerHTML = `
@@ -243,16 +267,11 @@ function render(): void {
   ).join('')}
           </select>
         </div>
-        ${isSupabaseConfigured ? (state.user
-      ? `<div class="auth-header-user">
-               <span class="auth-avatar">👤</span>
-               <span class="auth-name">${state.user.displayName}</span>
-               <button class="auth-signout-btn" id="signout-btn">Sign Out</button>
-             </div>`
-      : `<button class="open-btn small-btn auth-signin-btn" id="signin-btn">
-               ${state.isAuthLoading ? '...' : 'Sign In'}
-             </button>`
-    ) : ''}
+        <div class="auth-header-user">
+          <span class="auth-avatar">👤</span>
+          <span class="auth-name">${state.user.displayName}</span>
+          <button class="auth-signout-btn" id="signout-btn">Sign Out</button>
+        </div>
       </div>
     </header>
 
@@ -277,6 +296,71 @@ function render(): void {
 
   bindEvents();
   bindAuthEvents();
+}
+
+// ─── Landing Page ──────────────────────────────────
+function renderLanding(): string {
+  return `
+    <div class="landing-page">
+      <div class="landing-bg-glow"></div>
+      <div class="landing-content">
+        <div class="landing-logo">
+          <span class="landing-logo-icon">✦</span>
+          <h1 class="landing-title">RADIANT SPIRIT</h1>
+        </div>
+        <p class="landing-tagline">Open virtual Pokémon booster packs. Build your collection. Track market values.</p>
+        <div class="landing-features">
+          <div class="landing-feature">
+            <span class="landing-feature-icon">🎴</span>
+            <span>HD card art from every expansion</span>
+          </div>
+          <div class="landing-feature">
+            <span class="landing-feature-icon">💰</span>
+            <span>Live TCGPlayer market prices</span>
+          </div>
+          <div class="landing-feature">
+            <span class="landing-feature-icon">📦</span>
+            <span>Persistent cloud collection</span>
+          </div>
+        </div>
+        <div class="landing-actions">
+          <button class="landing-cta-primary" id="landing-signup-btn">Create Free Account</button>
+          <button class="landing-cta-secondary" id="landing-signin-btn">Sign In</button>
+        </div>
+        <p class="landing-legal">Free to play · No credit card required</p>
+      </div>
+    </div>
+  `;
+}
+
+function bindLandingEvents(): void {
+  document.getElementById('landing-signup-btn')?.addEventListener('click', () => {
+    setModalMode('signup');
+    state.showAuthModal = true;
+    render();
+  });
+
+  document.getElementById('landing-signin-btn')?.addEventListener('click', () => {
+    setModalMode('signin');
+    state.showAuthModal = true;
+    render();
+  });
+
+  // Bind auth modal events if modal is open
+  if (state.showAuthModal) {
+    bindAuthModalEvents(
+      (user) => {
+        state.user = user;
+        state.showAuthModal = false;
+        loadCloudCollection();
+        loadAllSetsApiData();
+        render();
+      },
+      () => {
+        render();
+      }
+    );
+  }
 }
 
 function renderLoading(): string {
@@ -572,10 +656,16 @@ function bindEvents(): void {
   });
 
   const invClearBtn = document.getElementById('InventoryClearBtn');
-  invClearBtn?.addEventListener('click', () => {
-    if (confirm('Are you sure you want to clear your entire collection?')) {
+  invClearBtn?.addEventListener('click', async () => {
+    if (confirm('Are you sure you want to clear your entire collection? This cannot be undone.')) {
       state.inventory = [];
       saveInventory();
+      // Also clear from Supabase
+      if (state.user) {
+        const { error } = await clearUserCollection(state.user.id);
+        if (error) console.warn('[Sync] Failed to clear cloud collection:', error);
+        else console.log('[Sync] Cloud collection cleared');
+      }
       render();
     }
   });
@@ -705,18 +795,16 @@ function openPack(): void {
     preloadImages(packEntries);
   }
 
-  // Add all to inventory (localStorage for all, Supabase for logged-in users)
+  // Add all to inventory (localStorage cache + Supabase primary)
   state.inventory.push(...state.currentPack);
   saveInventory();
 
-  // Persist to Supabase if logged in
-  if (state.user) {
-    saveCardsToCollection(state.user.id, state.currentPack, state.activeSetId)
-      .then(result => {
-        if (result.error) console.warn('[Sync] Failed to save to Supabase:', result.error);
-        else console.log('[Sync] Pack saved to Supabase');
-      });
-  }
+  // Always persist to Supabase (user is guaranteed to exist)
+  saveCardsToCollection(state.user!.id, state.currentPack, state.activeSetId)
+    .then(result => {
+      if (result.error) console.warn('[Sync] Failed to save to Supabase:', result.error);
+      else console.log('[Sync] Pack saved to Supabase');
+    });
 
   render();
 }
@@ -852,17 +940,20 @@ function renderModal(): string {
 
 // ─── Auth Events ───────────────────────────────────
 function bindAuthEvents(): void {
-  const signinBtn = document.getElementById('signin-btn');
-  signinBtn?.addEventListener('click', () => {
-    state.showAuthModal = true;
-    render();
-  });
-
   const signoutBtn = document.getElementById('signout-btn');
   signoutBtn?.addEventListener('click', async () => {
     await signOut();
     state.user = null;
-    // Keep localStorage inventory, just disconnect from cloud
+    // Clear local state — user must log in again
+    state.inventory = [];
+    state.currentPack = null;
+    state.revealedCount = 0;
+    state.showSummary = false;
+    state.showInventory = false;
+    state.packsOpened = 0;
+    state.totalHits = 0;
+    state.lookupMap = null;
+    saveInventory();
     render();
   });
 
@@ -871,8 +962,9 @@ function bindAuthEvents(): void {
       (user) => {
         state.user = user;
         state.showAuthModal = false;
-        // Load cloud collection
+        // Load cloud collection and API data
         loadCloudCollection();
+        loadAllSetsApiData();
         render();
       },
       () => {
@@ -881,13 +973,6 @@ function bindAuthEvents(): void {
       }
     );
   }
-
-  // Listen for auth mode toggle
-  document.addEventListener('auth-toggle', ((e: CustomEvent<AuthMode>) => {
-    setModalMode(e.detail);
-    state.showAuthModal = true;
-    render();
-  }) as EventListener);
 }
 
 async function loadCloudCollection(): Promise<void> {
@@ -914,12 +999,6 @@ render();
 
 // Check auth state
 async function initAuth(): Promise<void> {
-  if (!isSupabaseConfigured) {
-    state.isAuthLoading = false;
-    render();
-    return;
-  }
-
   const user = await getUser();
   state.user = user;
   state.isAuthLoading = false;
@@ -927,12 +1006,19 @@ async function initAuth(): Promise<void> {
 
   if (user) {
     await loadCloudCollection();
+    await loadAllSetsApiData();
   }
 
   // Listen for auth changes (e.g., token refresh)
   onAuthChange((updatedUser) => {
+    const wasLoggedOut = !state.user;
     state.user = updatedUser;
     render();
+    // If user just logged in via onAuthStateChange, load their data
+    if (wasLoggedOut && updatedUser) {
+      loadCloudCollection();
+      loadAllSetsApiData();
+    }
   });
 }
 
@@ -970,5 +1056,3 @@ async function loadAllSetsApiData(): Promise<void> {
     }
   }
 }
-
-loadAllSetsApiData();

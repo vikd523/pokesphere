@@ -1,8 +1,9 @@
 /**
  * Collection Sync — Persist card collections to Supabase.
  * Upserts cards (increments quantity for duplicates).
+ * Supabase is always required — no guest fallback.
  */
-import { supabase, isSupabaseConfigured } from './supabase';
+import { supabase } from './supabase';
 import type { PackCard } from './engine/pack-generator';
 
 export interface CollectionCard {
@@ -26,8 +27,6 @@ export async function saveCardsToCollection(
     cards: PackCard[],
     setId: string
 ): Promise<{ error: string | null }> {
-    if (!isSupabaseConfigured) return { error: 'Supabase not configured' };
-
     for (const card of cards) {
         // Check if the card already exists
         const { data: existing } = await supabase
@@ -95,8 +94,6 @@ export async function loadCollection(
     userId: string,
     setId?: string
 ): Promise<{ cards: CollectionCard[]; error: string | null }> {
-    if (!isSupabaseConfigured) return { cards: [], error: 'Supabase not configured' };
-
     let query = supabase
         .from('collections')
         .select('*')
@@ -113,6 +110,16 @@ export async function loadCollection(
     return { cards: (data || []) as CollectionCard[], error: null };
 }
 
+export async function clearUserCollection(userId: string): Promise<{ error: string | null }> {
+    const { error } = await supabase
+        .from('collections')
+        .delete()
+        .eq('user_id', userId);
+
+    if (error) return { error: error.message };
+    return { error: null };
+}
+
 export async function getCollectionStats(userId: string): Promise<{
     totalCards: number;
     uniqueCards: number;
@@ -120,7 +127,6 @@ export async function getCollectionStats(userId: string): Promise<{
     packsOpened: number;
 }> {
     const defaultStats = { totalCards: 0, uniqueCards: 0, totalValue: 0, packsOpened: 0 };
-    if (!isSupabaseConfigured) return defaultStats;
 
     const { data: cards } = await supabase
         .from('collections')
