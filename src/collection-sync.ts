@@ -94,20 +94,39 @@ export async function loadCollection(
     userId: string,
     setId?: string
 ): Promise<{ cards: CollectionCard[]; error: string | null }> {
-    let query = supabase
-        .from('collections')
-        .select('*')
-        .eq('user_id', userId)
-        .order('last_pulled_at', { ascending: false });
+    // Supabase default limit is 1000 rows — paginate to get all cards
+    const allCards: CollectionCard[] = [];
+    const PAGE_SIZE = 1000;
+    let from = 0;
+    let keepGoing = true;
 
-    if (setId) {
-        query = query.eq('set_id', setId);
+    while (keepGoing) {
+        let query = supabase
+            .from('collections')
+            .select('*')
+            .eq('user_id', userId)
+            .order('last_pulled_at', { ascending: false })
+            .range(from, from + PAGE_SIZE - 1);
+
+        if (setId) {
+            query = query.eq('set_id', setId);
+        }
+
+        const { data, error } = await query;
+
+        if (error) return { cards: [], error: error.message };
+
+        const rows = (data || []) as CollectionCard[];
+        allCards.push(...rows);
+
+        if (rows.length < PAGE_SIZE) {
+            keepGoing = false;
+        } else {
+            from += PAGE_SIZE;
+        }
     }
 
-    const { data, error } = await query;
-
-    if (error) return { cards: [], error: error.message };
-    return { cards: (data || []) as CollectionCard[], error: null };
+    return { cards: allCards, error: null };
 }
 
 export async function clearUserCollection(userId: string): Promise<{ error: string | null }> {

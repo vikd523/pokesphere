@@ -2182,6 +2182,17 @@ body {
 /* --- Mobile: ≤ 480px --- */
 @media (max-width: 480px) {
 
+  /* CRITICAL: allow scrolling on mobile */
+  body {
+    overflow: auto !important;
+  }
+
+  .app-container {
+    height: auto !important;
+    min-height: 100vh;
+    overflow-y: auto !important;
+  }
+
   /* Header: stack vertically */
   .app-header {
     flex-direction: column;
@@ -2233,7 +2244,7 @@ body {
     height: 224px;
   }
 
-  /* Collection tray: single column */
+  /* Collection tray */
   .collection-tray {
     gap: var(--space-md);
     padding: 0 var(--space-sm);
@@ -2257,42 +2268,60 @@ body {
     padding-right: var(--space-md);
   }
 
-  /* Pack selection: horizontal scroll */
+  /* Pack selection: 2-col grid instead of horizontal scroll */
   .pack-selection-carousel {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scroll-snap-type: x mandatory;
-    justify-content: flex-start;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-items: center;
     gap: var(--space-md);
     padding: var(--space-md);
+    overflow-x: visible;
   }
 
   .pack-container {
-    scroll-snap-align: center;
-    flex-shrink: 0;
-    width: 120px;
+    width: 100%;
+    max-width: 150px;
   }
 
-  /* Pack summary */
-  .pack-summary {
-    padding: var(--space-sm);
+  /* Card reveal: stack vertically, hide side panels */
+  .glassy-showcase {
+    flex-direction: column;
+    gap: var(--space-md);
+    min-height: auto;
   }
 
-  /* Carousel viewport */
+  .glass-side-panel {
+    display: none;
+  }
+
+  /* Carousel viewport: mobile-sized */
   .carousel-viewport {
-    width: 180px;
-    height: 252px;
+    width: 220px;
+    height: 308px;
   }
 
-  .carousel-nav-btn {
+  .glass-nav-btn {
     width: 40px;
     height: 40px;
     min-height: 40px;
     font-size: 1rem;
   }
 
-  /* Footer stats: stack */
+  /* Pack summary: ensure scrollable and buttons visible */
+  .pack-summary {
+    padding: var(--space-sm);
+    padding-bottom: 120px;
+    /* Extra space to clear fixed stats bar */
+    overflow-y: auto;
+  }
+
+  /* Footer stats */
+  .stats-banner {
+    gap: var(--space-md);
+    font-size: 0.7rem;
+    padding: var(--space-sm) var(--space-md);
+  }
+
   .glass-panel {
     width: 100%;
     margin: 0 var(--space-sm);
@@ -2312,9 +2341,12 @@ body {
     font-size: 0.75rem;
   }
 
-  /* Stage padding */
+  /* Stage: allow scroll, clear stats bar */
   .stage {
     padding: var(--space-sm);
+    padding-bottom: 60px;
+    overflow-y: auto !important;
+    min-height: 0;
   }
 
   /* Post-reveal actions */
@@ -2342,6 +2374,17 @@ body {
 /* --- Tablet: 481px – 1023px --- */
 @media (min-width: 481px) and (max-width: 1023px) {
 
+  /* Allow scrolling on tablet */
+  body {
+    overflow: auto !important;
+  }
+
+  .app-container {
+    height: auto !important;
+    min-height: 100vh;
+    overflow-y: auto !important;
+  }
+
   /* Header: tighter spacing */
   .app-header {
     padding: var(--space-sm) var(--space-lg);
@@ -2359,6 +2402,17 @@ body {
   /* Typography */
   .set-title {
     font-size: 2rem !important;
+  }
+
+  /* Card reveal: stack vertically, hide side panels */
+  .glassy-showcase {
+    flex-direction: column;
+    gap: var(--space-md);
+    min-height: auto;
+  }
+
+  .glass-side-panel {
+    display: none;
   }
 
   /* 2-column card grid */
@@ -2405,36 +2459,17 @@ body {
     height: 308px;
   }
 
-  /* Stage */
+  /* Stage: allow scroll */
   .stage {
     padding: var(--space-md);
+    overflow-y: auto !important;
+    min-height: 0;
   }
 }
 
 /* ============================================
-   SPLINE 3D HERO
+   SPLINE 3D HERO — Desktop Only (≥1024px)
    ============================================ */
-
-/* Anti-scroll-hijack safeguard (Spline can inject overflow:hidden) */
-body {
-  overflow: hidden !important;
-}
-
-.app-container {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  width: 100%;
-  overflow: hidden;
-}
-
-/* Make sure the header has z-index so it sits above the spline if needed */
-.app-header {
-  position: relative;
-  z-index: 100;
-  background: var(--glass-bg);
-  border-bottom: 1px solid var(--border-subtle);
-}
 
 /* The widget container sits at the top left under the header logo */
 .spline-widget-container {
@@ -2464,15 +2499,33 @@ body {
   pointer-events: auto;
 }
 
-/* The main stage fills remaining vertical space — no scroll */
-.stage {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  z-index: 10;
-  padding: var(--space-md);
-  overflow: hidden;
+/*
+ * Desktop-only scroll lock: Spline injects overflow:hidden on the body.
+ * We keep that behavior on desktop where Spline renders, but allow
+ * scrolling on mobile/tablet where Spline is hidden.
+ */
+@media (min-width: 1024px) {
+  body {
+    overflow: hidden !important;
+  }
+
+  .app-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .stage {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 10;
+    padding: var(--space-md);
+    overflow: hidden;
+  }
 }

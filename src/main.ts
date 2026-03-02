@@ -928,28 +928,12 @@ function openPack(): void {
     return tierA - tierB;
   });
 
-  // Insert pack cover as the first card in the reveal sequence
-  const coverLogoUrl = SET_LOGOS[state.activeSetId];
-  const coverCard: PackCard = {
-    name: setData.set.name + ' Pack',
-    number: 'cover',
-    type: 'Normal',
-    emoji: '📦',
-    rarity: 'common',
-    isReverseHolo: false,
-    isGallery: false,
-    slotIndex: 0,
-    imageSmall: coverLogoUrl || undefined,
-    imageLarge: coverLogoUrl || undefined,
-  };
-  state.currentPack.unshift(coverCard);
-
-  // Re-assign slot indices after sort + cover insert
+  // Assign slot indices after sort
   state.currentPack.forEach((card, i) => {
     card.slotIndex = i;
   });
 
-  // Enrich with API data (skips the cover card since it has no lookup key)
+  // Enrich with API data
   enrichPack(state.currentPack);
 
   // Preload images for this pack
@@ -960,13 +944,12 @@ function openPack(): void {
     preloadImages(packEntries);
   }
 
-  // Add real cards (not cover) to inventory (localStorage cache + Supabase primary)
-  const realCards = state.currentPack.filter(c => c.number !== 'cover');
-  state.inventory.push(...realCards);
+  // Add cards to inventory (localStorage cache + Supabase primary)
+  state.inventory.push(...state.currentPack);
   saveInventory();
 
   // Always persist to Supabase (user is guaranteed to exist)
-  saveCardsToCollection(state.user!.id, realCards, state.activeSetId)
+  saveCardsToCollection(state.user!.id, state.currentPack, state.activeSetId)
     .then(result => {
       if (result.error) console.warn('[Sync] Failed to save to Supabase:', result.error);
       else console.log('[Sync] Pack saved to Supabase');
