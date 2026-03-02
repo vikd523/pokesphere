@@ -2170,6 +2170,248 @@ body {
 }
 
 /* ============================================
+   RESPONSIVE — Global Cross-Platform
+   ============================================ */
+
+/* --- Cross-cutting --- */
+.card-slot {
+  aspect-ratio: 220 / 308;
+  /* CLS prevention */
+}
+
+/* --- Mobile: ≤ 480px --- */
+@media (max-width: 480px) {
+
+  /* Header: stack vertically */
+  .app-header {
+    flex-direction: column;
+    gap: var(--space-sm);
+    padding: var(--space-sm) var(--space-md);
+    padding-top: env(safe-area-inset-top, var(--space-sm));
+  }
+
+  .header-actions {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-sm);
+    width: 100%;
+  }
+
+  .set-selector {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .set-selector select {
+    flex: 1;
+    min-width: 0;
+  }
+
+  /* Hide Spline on mobile */
+  .spline-widget-container {
+    display: none !important;
+  }
+
+  /* Typography scaling */
+  .set-title {
+    font-size: 1.5rem !important;
+  }
+
+  .set-subtitle {
+    font-size: 0.8rem;
+  }
+
+  /* Single-column card grid */
+  .reveal-area {
+    gap: var(--space-md);
+    min-height: auto;
+    padding: var(--space-sm);
+  }
+
+  .card-slot {
+    width: 160px;
+    height: 224px;
+  }
+
+  /* Collection tray: single column */
+  .collection-tray {
+    gap: var(--space-md);
+    padding: 0 var(--space-sm);
+  }
+
+  .collection-tray .card-slot {
+    width: 140px;
+    height: 196px;
+  }
+
+  /* Touch targets: min 48px */
+  .open-btn,
+  .nav-btn,
+  .small-btn,
+  .auth-signin-btn,
+  .auth-signout-btn,
+  .landing-cta-primary,
+  .landing-cta-secondary {
+    min-height: 48px;
+    padding-left: var(--space-md);
+    padding-right: var(--space-md);
+  }
+
+  /* Pack selection: horizontal scroll */
+  .pack-selection-carousel {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    justify-content: flex-start;
+    gap: var(--space-md);
+    padding: var(--space-md);
+  }
+
+  .pack-container {
+    scroll-snap-align: center;
+    flex-shrink: 0;
+    width: 120px;
+  }
+
+  /* Pack summary */
+  .pack-summary {
+    padding: var(--space-sm);
+  }
+
+  /* Carousel viewport */
+  .carousel-viewport {
+    width: 180px;
+    height: 252px;
+  }
+
+  .carousel-nav-btn {
+    width: 40px;
+    height: 40px;
+    min-height: 40px;
+    font-size: 1rem;
+  }
+
+  /* Footer stats: stack */
+  .glass-panel {
+    width: 100%;
+    margin: 0 var(--space-sm);
+  }
+
+  .glass-panel-row {
+    font-size: 0.8rem;
+  }
+
+  /* Auth user section */
+  .auth-header-user {
+    gap: var(--space-xs);
+  }
+
+  .auth-name {
+    max-width: 80px;
+    font-size: 0.75rem;
+  }
+
+  /* Stage padding */
+  .stage {
+    padding: var(--space-sm);
+  }
+
+  /* Post-reveal actions */
+  .post-reveal-actions {
+    flex-direction: column;
+    width: 100%;
+    gap: var(--space-sm);
+  }
+
+  .post-reveal-actions .open-btn {
+    width: 100%;
+  }
+
+  /* Inventory view */
+  .inventory-view {
+    padding: var(--space-sm);
+  }
+
+  /* Safe area bottom padding */
+  .app-container {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+}
+
+/* --- Tablet: 481px – 1023px --- */
+@media (min-width: 481px) and (max-width: 1023px) {
+
+  /* Header: tighter spacing */
+  .app-header {
+    padding: var(--space-sm) var(--space-lg);
+  }
+
+  .header-actions {
+    gap: var(--space-md);
+  }
+
+  /* Hide Spline on tablet */
+  .spline-widget-container {
+    display: none !important;
+  }
+
+  /* Typography */
+  .set-title {
+    font-size: 2rem !important;
+  }
+
+  /* 2-column card grid */
+  .reveal-area {
+    gap: var(--space-md);
+    min-height: auto;
+  }
+
+  .card-slot {
+    width: 180px;
+    height: 252px;
+  }
+
+  /* Collection: 2-3 col */
+  .collection-tray {
+    gap: var(--space-md);
+    max-width: 800px;
+  }
+
+  .collection-tray .card-slot {
+    width: 160px;
+    height: 224px;
+  }
+
+  /* Pack selection */
+  .pack-selection-carousel {
+    gap: var(--space-lg);
+  }
+
+  .pack-container {
+    width: 140px;
+  }
+
+  /* Touch targets */
+  .open-btn,
+  .nav-btn,
+  .small-btn {
+    min-height: 44px;
+  }
+
+  /* Carousel */
+  .carousel-viewport {
+    width: 220px;
+    height: 308px;
+  }
+
+  /* Stage */
+  .stage {
+    padding: var(--space-md);
+  }
+}
+
+/* ============================================
    SPLINE 3D HERO
    ============================================ */
 
