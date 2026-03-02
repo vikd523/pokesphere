@@ -26,6 +26,15 @@ const SETS: Record<string, SetData> = {
   'paldea-evolved': paldeaEvolvedData as unknown as SetData,
 };
 
+// Official set logo URLs from Pokémon TCG API CDN
+const SET_LOGOS: Record<string, string> = {
+  'crown-zenith': 'https://images.pokemontcg.io/swsh12pt5/logo.png',
+  'silver-tempest': 'https://images.pokemontcg.io/swsh12/logo.png',
+  'pokemon-151': 'https://images.pokemontcg.io/sv3pt5/logo.png',
+  'evolving-skies': 'https://images.pokemontcg.io/swsh7/logo.png',
+  'paldea-evolved': 'https://images.pokemontcg.io/sv2/logo.png',
+};
+
 interface AppState {
   activeSetId: string;
   currentPack: PackCard[] | null;
@@ -384,15 +393,19 @@ function renderPackSelect(): string {
     <h1 class="set-title">${activeSet.set.name}</h1>
     <p class="set-subtitle">${activeSet.set.series} · ${activeSet.set.totalCards} Cards</p>
     <div class="pack-selection-carousel" id="pack-selection-carousel">
-      ${Object.entries(SETS).map(([id, set]) => `
+      ${Object.entries(SETS).map(([id, set]) => {
+    const logoUrl = SET_LOGOS[id];
+    return `
         <div class="pack-container ${id === state.activeSetId ? 'active' : ''}" data-set-id="${id}">
           <div class="pack-wrapper">
-            <span class="pack-icon">🎴</span>
+            ${logoUrl
+        ? `<img class="pack-logo-img" src="${logoUrl}" alt="${set.set.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" /><span class="pack-icon" style="display:none">🎴</span>`
+        : `<span class="pack-icon">🎴</span>`}
             <span class="pack-set-name">${set.set.name}</span>
             <span class="pack-label">Booster Pack</span>
           </div>
         </div>
-      `).join('')}
+      `}).join('')}
     </div>
     <button class="open-btn" id="open-btn" ${state.isLoadingApi ? 'disabled' : ''}>Open Pack</button>
   `;

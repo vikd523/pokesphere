@@ -183,10 +183,10 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   padding: var(--space-2xl) var(--space-xl);
   gap: var(--space-xl);
   position: relative;
+  overflow-y: auto;
 }
 
 .set-title {
@@ -303,6 +303,19 @@ body {
   font-size: 3rem;
   z-index: 1;
   filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.3));
+}
+
+.pack-logo-img {
+  width: 80%;
+  max-height: 60%;
+  object-fit: contain;
+  z-index: 1;
+  filter: drop-shadow(0 4px 16px rgba(0, 0, 0, 0.6));
+  transition: transform 0.4s var(--ease-out-expo);
+}
+
+.pack-container:hover .pack-logo-img {
+  transform: scale(1.05);
 }
 
 .pack-wrapper .pack-label {
@@ -1136,19 +1149,21 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--space-lg);
+  gap: var(--space-sm);
   width: 100%;
   max-width: 600px;
-  padding: var(--space-xl);
+  padding: var(--space-md) var(--space-lg);
+  max-height: calc(100vh - 140px);
+  overflow: hidden;
 }
 
 .summary-total-value {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--space-xs);
-  padding: var(--space-lg) var(--space-xl);
-  border-radius: var(--radius-lg);
+  gap: 2px;
+  padding: var(--space-sm) var(--space-lg);
+  border-radius: var(--radius-md);
   background: linear-gradient(145deg, rgba(255, 215, 0, 0.05), rgba(255, 78, 163, 0.03));
   border: 1px solid rgba(255, 215, 0, 0.15);
 }
@@ -1164,7 +1179,7 @@ body {
 
 .total-price {
   font-family: var(--font-display);
-  font-size: 2.5rem;
+  font-size: 1.8rem;
   font-weight: 700;
   background: linear-gradient(135deg, var(--accent-gold), var(--accent-pink));
   -webkit-background-clip: text;
@@ -1178,19 +1193,19 @@ body {
 
 .summary-heading {
   font-family: var(--font-display);
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 600;
   color: var(--text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  margin-bottom: var(--space-md);
+  margin-bottom: var(--space-xs);
 }
 
 /* Top Pulls Row */
 .top-pulls-row {
   display: flex;
   justify-content: center;
-  gap: var(--space-lg);
+  gap: var(--space-md);
   flex-wrap: wrap;
 }
 
@@ -1203,8 +1218,8 @@ body {
 }
 
 .top-pull-img {
-  width: 100px;
-  height: 140px;
+  width: 70px;
+  height: 98px;
   object-fit: contain;
   border-radius: var(--radius-sm);
   box-shadow: var(--shadow-card);
@@ -1216,12 +1231,12 @@ body {
 }
 
 .top-pull-emoji {
-  width: 100px;
-  height: 140px;
+  width: 70px;
+  height: 98px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 3rem;
+  font-size: 2rem;
   background: var(--bg-card);
   border-radius: var(--radius-sm);
   border: 1px solid var(--border-medium);
@@ -1263,11 +1278,15 @@ body {
 .price-breakdown {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  padding: var(--space-md);
+  gap: 3px;
+  padding: var(--space-sm);
   background: var(--bg-card);
   border-radius: var(--radius-md);
   border: 1px solid var(--border-subtle);
+  max-height: 180px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-gold) transparent;
 }
 
 .breakdown-row {
@@ -2163,7 +2182,6 @@ body {
   display: flex;
   flex-direction: column;
   height: 100vh;
-  /* Single page layout */
   width: 100%;
   overflow: hidden;
 }
@@ -2204,7 +2222,7 @@ body {
   pointer-events: auto;
 }
 
-/* The main stage fills remaining vertical space but doesn't scroll natively */
+/* The main stage fills remaining vertical space — no scroll */
 .stage {
   flex: 1;
   display: flex;
@@ -2213,7 +2231,6 @@ body {
   justify-content: center;
   position: relative;
   z-index: 10;
-  padding: var(--space-xl);
+  padding: var(--space-md);
   overflow: hidden;
-  /* No scroll on main page */
 }
