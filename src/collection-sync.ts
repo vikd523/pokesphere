@@ -127,6 +127,7 @@ export async function loadCollection(
             .select('*')
             .eq('user_id', userId)
             .order('last_pulled_at', { ascending: false })
+            .order('id', { ascending: true })
             .range(from, from + PAGE_SIZE - 1);
 
         if (setId) {
@@ -178,6 +179,7 @@ export async function getCollectionStats(userId: string): Promise<{
             .from('collections')
             .select('quantity, market_price')
             .eq('user_id', userId)
+            .order('id', { ascending: true })
             .range(from, from + PAGE_SIZE - 1);
 
         if (error || !cards) {
