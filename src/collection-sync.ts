@@ -27,7 +27,19 @@ export async function saveCardsToCollection(
     cards: PackCard[],
     setId: string
 ): Promise<{ error: string | null }> {
+    // 1. Group cards within the pack to avoid redundant queries for duplicates
+    const groupedCards = new Map<string, { card: PackCard, count: number }>();
     for (const card of cards) {
+        const key = `${card.number}-${card.rarity}-${card.isReverseHolo}`;
+        if (groupedCards.has(key)) {
+            groupedCards.get(key)!.count += 1;
+        } else {
+            groupedCards.set(key, { card, count: 1 });
+        }
+    }
+
+    // 2. Process all unique cards concurrently
+    const operations = Array.from(groupedCards.values()).map(async ({ card, count }) => {
         // Check if the card already exists
         const { data: existing } = await supabase
             .from('collections')
@@ -44,7 +56,7 @@ export async function saveCardsToCollection(
             const { error } = await supabase
                 .from('collections')
                 .update({
-                    quantity: existing.quantity + 1,
+                    quantity: existing.quantity + count,
                     last_pulled_at: new Date().toISOString(),
                     market_price: card.marketPrice ?? null,
                     image_small: card.imageSmall ?? null,
@@ -69,7 +81,7 @@ export async function saveCardsToCollection(
                 image_small: card.imageSmall ?? null,
                 image_large: card.imageLarge ?? null,
                 market_price: card.marketPrice ?? null,
-                quantity: 1,
+                quantity: count,
             });
 
             if (error) {
@@ -77,7 +89,16 @@ export async function saveCardsToCollection(
                 return { error: error.message };
             }
         }
+        return { error: null };
+    });
+
+    // Wait for all database operations to complete
+    const results = await Promise.all(operations);
+    const firstError = results.find(r => r.error);
+    if (firstError) {
+        return { error: firstError.error };
     }
+
 
     // Increment packs_opened counter
     try {

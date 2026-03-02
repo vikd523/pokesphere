@@ -17,6 +17,19 @@ import { getUser, signOut, onAuthChange, type AuthUser } from './auth';
 import { renderAuthModal, bindAuthModalEvents, setModalMode } from './auth-modal';
 import { saveCardsToCollection, loadCollection, clearUserCollection, collectionToPackCards } from './collection-sync';
 
+/**
+ * Escapes HTML characters to prevent Cross-Site Scripting (XSS) attacks.
+ */
+function escapeHtml(unsafe: string | null | undefined): string {
+  if (unsafe == null) return '';
+  return String(unsafe)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
 // ─── State ─────────────────────────────────────────
 const SETS: Record<string, SetData> = {
   'crown-zenith': crownZenithData as unknown as SetData,
@@ -306,7 +319,7 @@ function render(): void {
           <button class="open-btn small-btn" id="MyCollectionBtn">My Collection</button>
           <div class="auth-header-user">
             <span class="auth-avatar">👤</span>
-            <span class="auth-name">${state.user.displayName}</span>
+            <span class="auth-name">${escapeHtml(state.user.displayName)}</span>
             <button class="auth-signout-btn" id="signout-btn">Sign Out</button>
           </div>
         </div>
@@ -1031,10 +1044,10 @@ function updateGlassPanels() {
     if (leftPanel) {
       leftPanel.innerHTML = `
         <h3 class="glass-panel-title">Details</h3>
-        <div class="glass-panel-row"><span>Name</span> <strong>${card.name}</strong></div>
-        <div class="glass-panel-row"><span>Type</span> <strong>${card.type}</strong></div>
-        <div class="glass-panel-row"><span>Rarity</span> <strong class="${card.rarity}">${RARITY_DISPLAY[card.rarity]?.label || card.rarity}</strong></div>
-        <div class="glass-panel-row"><span>Number</span> <strong>#${card.number}</strong></div>
+        <div class="glass-panel-row"><span>Name</span> <strong>${escapeHtml(card.name)}</strong></div>
+        <div class="glass-panel-row"><span>Type</span> <strong>${escapeHtml(card.type)}</strong></div>
+        <div class="glass-panel-row"><span>Rarity</span> <strong class="${escapeHtml(card.rarity)}">${escapeHtml(RARITY_DISPLAY[card.rarity]?.label || card.rarity)}</strong></div>
+        <div class="glass-panel-row"><span>Number</span> <strong>#${escapeHtml(card.number)}</strong></div>
       `;
       document.getElementById('showcase-left-panel')?.classList.add('visible');
     }
@@ -1042,8 +1055,8 @@ function updateGlassPanels() {
       const priceStr = card.marketPrice !== undefined && card.marketPrice !== null ? formatPrice(card.marketPrice) : 'N/A';
       rightPanel.innerHTML = `
         <h3 class="glass-panel-title">Market</h3>
-        <div class="glass-panel-row"><span>Value</span> <strong class="${getValueTier(card.marketPrice ?? null)}">${priceStr}</strong></div>
-        ${card.priceVariant ? `<div class="glass-panel-row"><span>Variant</span> <strong>${card.priceVariant}</strong></div>` : ''}
+        <div class="glass-panel-row"><span>Value</span> <strong class="${getValueTier(card.marketPrice ?? null)}">${escapeHtml(priceStr)}</strong></div>
+        ${card.priceVariant ? `<div class="glass-panel-row"><span>Variant</span> <strong>${escapeHtml(card.priceVariant)}</strong></div>` : ''}
       `;
       document.getElementById('showcase-right-panel')?.classList.add('visible');
     }
