@@ -26,7 +26,7 @@ const SETS: Record<string, SetData> = {
   'paldea-evolved': paldeaEvolvedData as unknown as SetData,
 };
 
-// Official set logo URLs from Pokémon TCG API CDN
+// Official set logo URLs — dynamically updated from API proxy
 const SET_LOGOS: Record<string, string> = {
   'crown-zenith': 'https://images.pokemontcg.io/swsh12pt5/logo.png',
   'silver-tempest': 'https://images.pokemontcg.io/swsh12/logo.png',
@@ -34,6 +34,32 @@ const SET_LOGOS: Record<string, string> = {
   'evolving-skies': 'https://images.pokemontcg.io/swsh7/logo.png',
   'paldea-evolved': 'https://images.pokemontcg.io/sv2/logo.png',
 };
+
+// Map our internal set IDs to the API set IDs for fetching logos
+const SET_API_IDS: Record<string, string> = {
+  'crown-zenith': 'swsh12pt5',
+  'silver-tempest': 'swsh12',
+  'pokemon-151': 'sv3pt5',
+  'evolving-skies': 'swsh7',
+  'paldea-evolved': 'sv2',
+};
+
+/** Fetch real logo URLs from the API (proxied on Vercel) and update SET_LOGOS */
+async function fetchSetLogos(): Promise<void> {
+  for (const [internalId, apiSetId] of Object.entries(SET_API_IDS)) {
+    try {
+      const res = await fetch(`/api/pokemontcg/v2/sets/${apiSetId}`);
+      if (res.ok) {
+        const json = await res.json();
+        if (json.data?.images?.logo) {
+          SET_LOGOS[internalId] = json.data.images.logo;
+        }
+      }
+    } catch {
+      // Keep hardcoded fallback — non-critical
+    }
+  }
+}
 
 interface AppState {
   activeSetId: string;
@@ -708,22 +734,23 @@ function bindEvents(): void {
   const myCollectionBtn = document.getElementById('MyCollectionBtn');
   myCollectionBtn?.addEventListener('click', async () => {
     state.showInventory = true;
-    render(); // Show inventory immediately with cached data
+    state.isLoadingApi = true; // Show loading spinner while fetching
+    render();
 
-    // Then fetch fresh data from Supabase and re-render
+    // Fetch fresh data from Supabase before showing inventory
     if (state.user) {
       const { cards, error } = await loadCollection(state.user.id);
       if (!error && cards.length > 0) {
         const cloudCards = collectionToPackCards(cards);
         state.inventory = cloudCards;
         saveInventory();
-        if (state.showInventory) render(); // Re-render only if still viewing inventory
       } else if (!error && cards.length === 0) {
         state.inventory = [];
         saveInventory();
-        if (state.showInventory) render();
       }
     }
+    state.isLoadingApi = false;
+    if (state.showInventory) render();
   });
 
   const invBackBtn = document.getElementById('InventoryBackBtn');
@@ -901,12 +928,28 @@ function openPack(): void {
     return tierA - tierB;
   });
 
-  // Re-assign slot indices after sort
+  // Insert pack cover as the first card in the reveal sequence
+  const coverLogoUrl = SET_LOGOS[state.activeSetId];
+  const coverCard: PackCard = {
+    name: setData.set.name + ' Pack',
+    number: 'cover',
+    type: 'Normal',
+    emoji: '📦',
+    rarity: 'common',
+    isReverseHolo: false,
+    isGallery: false,
+    slotIndex: 0,
+    imageSmall: coverLogoUrl || undefined,
+    imageLarge: coverLogoUrl || undefined,
+  };
+  state.currentPack.unshift(coverCard);
+
+  // Re-assign slot indices after sort + cover insert
   state.currentPack.forEach((card, i) => {
     card.slotIndex = i;
   });
 
-  // Enrich with API data
+  // Enrich with API data (skips the cover card since it has no lookup key)
   enrichPack(state.currentPack);
 
   // Preload images for this pack
@@ -917,12 +960,13 @@ function openPack(): void {
     preloadImages(packEntries);
   }
 
-  // Add all to inventory (localStorage cache + Supabase primary)
-  state.inventory.push(...state.currentPack);
+  // Add real cards (not cover) to inventory (localStorage cache + Supabase primary)
+  const realCards = state.currentPack.filter(c => c.number !== 'cover');
+  state.inventory.push(...realCards);
   saveInventory();
 
   // Always persist to Supabase (user is guaranteed to exist)
-  saveCardsToCollection(state.user!.id, state.currentPack, state.activeSetId)
+  saveCardsToCollection(state.user!.id, realCards, state.activeSetId)
     .then(result => {
       if (result.error) console.warn('[Sync] Failed to save to Supabase:', result.error);
       else console.log('[Sync] Pack saved to Supabase');
@@ -1239,6 +1283,9 @@ initAuth();
 
 // Load API data for ALL sets so inventory cards across expansions get correct images
 async function loadAllSetsApiData(): Promise<void> {
+  // Fetch real logo URLs from API (proxied on Vercel to avoid CDN blocks)
+  fetchSetLogos().then(() => render()).catch(() => { });
+
   // Load active set first (user sees it immediately)
   await loadApiData();
 
