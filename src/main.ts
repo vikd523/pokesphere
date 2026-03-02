@@ -706,9 +706,24 @@ function bindEvents(): void {
   });
 
   const myCollectionBtn = document.getElementById('MyCollectionBtn');
-  myCollectionBtn?.addEventListener('click', () => {
+  myCollectionBtn?.addEventListener('click', async () => {
     state.showInventory = true;
-    render();
+    render(); // Show inventory immediately with cached data
+
+    // Then fetch fresh data from Supabase and re-render
+    if (state.user) {
+      const { cards, error } = await loadCollection(state.user.id);
+      if (!error && cards.length > 0) {
+        const cloudCards = collectionToPackCards(cards);
+        state.inventory = cloudCards;
+        saveInventory();
+        if (state.showInventory) render(); // Re-render only if still viewing inventory
+      } else if (!error && cards.length === 0) {
+        state.inventory = [];
+        saveInventory();
+        if (state.showInventory) render();
+      }
+    }
   });
 
   const invBackBtn = document.getElementById('InventoryBackBtn');
