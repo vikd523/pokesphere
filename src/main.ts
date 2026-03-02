@@ -102,25 +102,8 @@ interface AppState {
   showAuthModal: boolean;
 }
 
-const INVENTORY_KEY = 'pokesphere_inventory';
-
-function loadInventory(): PackCard[] {
-  try {
-    const data = localStorage.getItem(INVENTORY_KEY);
-    return data ? JSON.parse(data) : [];
-  } catch (e) {
-    console.error('Failed to load inventory', e);
-    return [];
-  }
-}
-
-function saveInventory(): void {
-  try {
-    localStorage.setItem(INVENTORY_KEY, JSON.stringify(state.inventory));
-  } catch (e) {
-    console.error('Failed to save inventory', e);
-  }
-}
+// In-memory inventory cache — populated from Supabase on login,
+// updated optimistically on pack open. No localStorage.
 
 const state: AppState = {
   activeSetId: 'crown-zenith',
@@ -136,7 +119,7 @@ const state: AppState = {
   apiError: null,
   showSummary: false,
   showInventory: false,
-  inventory: loadInventory(),
+  inventory: [],
   selectedCard: null,
   inventoryFilters: { type: 'All', rarity: 'All' },
   inventoryDisplayCount: 100,
@@ -221,7 +204,6 @@ function reEnrichInventory(): void {
     }
   }
   if (updated > 0) {
-    saveInventory();
     console.log(`[App] Re-enriched ${updated} inventory cards with fresh images`);
   }
 }
@@ -760,13 +742,8 @@ function bindEvents(): void {
     // Fetch fresh data from Supabase before showing inventory
     if (state.user) {
       const { cards, error } = await loadCollection(state.user.id);
-      if (!error && cards.length > 0) {
-        const cloudCards = collectionToPackCards(cards);
-        state.inventory = cloudCards;
-        saveInventory();
-      } else if (!error && cards.length === 0) {
-        state.inventory = [];
-        saveInventory();
+      if (!error) {
+        state.inventory = cards.length > 0 ? collectionToPackCards(cards) : [];
       }
     }
     state.isLoadingApi = false;
@@ -783,7 +760,6 @@ function bindEvents(): void {
   invClearBtn?.addEventListener('click', async () => {
     if (confirm('Are you sure you want to clear your entire collection? This cannot be undone.')) {
       state.inventory = [];
-      saveInventory();
       // Also clear from Supabase
       if (state.user) {
         const { error } = await clearUserCollection(state.user.id);
@@ -964,9 +940,8 @@ async function openPack(): Promise<void> {
     preloadImages(packEntries);
   }
 
-  // Add cards to inventory (localStorage cache)
+  // Optimistic update — add to in-memory cache for instant display
   state.inventory.push(...state.currentPack);
-  saveInventory();
 
   // Render immediately so user sees the pack
   render();
@@ -1212,7 +1187,6 @@ function bindAuthEvents(): void {
     state.packsOpened = 0;
     state.totalHits = 0;
     state.lookupMap = null;
-    saveInventory();
     render();
   });
 
@@ -1242,10 +1216,7 @@ async function loadCloudCollection(): Promise<void> {
     return;
   }
   if (cards.length > 0) {
-    // Merge cloud collection into local state
-    const cloudCards = collectionToPackCards(cards);
-    state.inventory = cloudCards;
-    saveInventory();
+    state.inventory = collectionToPackCards(cards);
     console.log(`[Sync] Loaded ${cards.length} cards from cloud`);
     render();
   }
