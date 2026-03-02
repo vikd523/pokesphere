@@ -138,6 +138,7 @@ const state: AppState = {
   inventory: loadInventory(),
   selectedCard: null,
   inventoryFilters: { type: 'All', rarity: 'All' },
+  inventoryDisplayCount: 100,
   // Auth
   user: null,
   isAuthLoading: true,
@@ -616,8 +617,13 @@ function renderInventory(): string {
 
       ${invSorted.length > 0 ? `
       <div class="collection-tray">
-        ${invSorted.map((item, i) => renderCardSlot(item.card, i, true, 'inventory', item.count)).join('')}
+        ${invSorted.slice(0, state.inventoryDisplayCount).map((item, i) => renderCardSlot(item.card, i, true, 'inventory', item.count)).join('')}
       </div>
+      ${invSorted.length > state.inventoryDisplayCount ? `
+        <div style="text-align:center; margin: 2rem 0;">
+          <button class="open-btn secondary-btn" id="load-more-cards-btn">Load More (${state.inventoryDisplayCount} of ${invSorted.length})</button>
+        </div>
+      ` : ''}
       ` : `
       <p style="text-align:center; color: var(--text-muted); margin-top: 2rem;">No cards match the selected filters.</p>
       `}
@@ -1184,7 +1190,7 @@ function renderModal(): string {
             <span class="modal-price-label">Market Value</span>
             <span class="modal-price-value ${getValueTier(card.marketPrice ?? null)}">${formatPrice(card.marketPrice)}</span>
           </div>
-          ${card.tcgplayerUrl ? `<a href="${card.tcgplayerUrl}" target="_blank" rel="noopener noreferrer" class="tcg-link">View on TCGPlayer →</a>` : ''}
+          <a href="${card.tcgplayerUrl || `https://www.tcgplayer.com/search/pokemon/product?productName=${encodeURIComponent(card.name)}`}" target="_blank" rel="noopener noreferrer" class="tcg-link">View on TCGPlayer →</a>
         </div>
       </div>
     </div>
