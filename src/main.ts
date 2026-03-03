@@ -175,7 +175,17 @@ async function loadApiData(): Promise<void> {
     let allCards;
 
     if (CUSTOM_SET_IDS.has(apiSetId)) {
-      // Custom set — fetch images by individual card names instead of set ID
+      // Custom set — use pre-baked imageMap from the JSON data
+      const imageMap = (set as any).imageMap as Record<string, { small: string; large: string }> | undefined;
+      if (imageMap && Object.keys(imageMap).length > 0) {
+        console.log(`[App] Using pre-baked imageMap for ${apiSetId} (${Object.keys(imageMap).length} entries)`);
+        // Apply imageMap to all card data objects in the set so they carry through pack generation
+        applyImageMapToSet(set, imageMap);
+        state.isLoadingApi = false;
+        render();
+        return; // No API call needed
+      }
+      // Fallback: try runtime API lookup (slower, less reliable)
       const cardNames = extractUniqueCardNames(set);
       allCards = await fetchCardsByNames(cardNames, apiSetId, (loaded, total) => {
         state.apiProgress = { loaded, total };
@@ -230,6 +240,26 @@ function extractUniqueCardNames(set: SetData): string[] {
     }
   }
   return Array.from(names);
+}
+
+/** Apply pre-baked imageMap to all cards in a set's data.
+ *  Mutates CardData objects so images flow through generatePack's spread. */
+function applyImageMapToSet(
+  set: SetData,
+  imageMap: Record<string, { small: string; large: string }>
+): void {
+  let applied = 0;
+  for (const rarityCards of Object.values(set.cards)) {
+    for (const card of rarityCards) {
+      const images = imageMap[card.name];
+      if (images) {
+        (card as any).imageSmall = images.small;
+        (card as any).imageLarge = images.large;
+        applied++;
+      }
+    }
+  }
+  console.log(`[App] Applied pre-baked images to ${applied} card slots`);
 }
 
 /** Re-enrich existing inventory cards with latest API lookup data */

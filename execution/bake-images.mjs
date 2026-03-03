@@ -1,15 +1,10 @@
 /**
- * bake-images.mjs — One-time script to pre-bake Pokémon TCG card image URLs
- * into custom set JSON files.
+ * bake-images.mjs — Pre-bake Pokémon TCG card image URLs into custom set JSON files.
+ *
+ * Uses GitHub raw data from PokemonTCG/pokemon-tcg-data (no rate limits!)
+ * to find card images for every unique name in our custom sets.
  *
  * Usage: node execution/bake-images.mjs
- *
- * For each custom set JSON, this script:
- *   1. Collects all unique card names
- *   2. Strips variant suffixes (ex, Mega, V, etc.) to get base Pokémon names
- *   3. Queries the public Pokémon TCG API for each base name
- *   4. Picks the best card image (most recent set)
- *   5. Writes an `imageMap` dictionary into the JSON file
  */
 
 import { readFileSync, writeFileSync } from 'fs';
@@ -19,7 +14,7 @@ import { fileURLToPath } from 'url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = resolve(__dirname, '..', 'src', 'data');
 
-const API_BASE = 'https://api.pokemontcg.io/v2';
+const GITHUB_BASE = 'https://raw.githubusercontent.com/PokemonTCG/pokemon-tcg-data/master/cards/en';
 
 const CUSTOM_SETS = [
     'mega-evolution.json',
@@ -27,122 +22,167 @@ const CUSTOM_SETS = [
     'ascended-heroes.json',
 ];
 
+// Real TCG sets to scan for card images (modern sets with HD art, ordered by preference)
+const SOURCE_SETS = [
+    // Scarlet & Violet era (best quality images)
+    'sv8', 'sv7', 'sv6pt5', 'sv6', 'sv5', 'sv4pt5', 'sv4', 'sv3pt5', 'sv3', 'sv2', 'sv1',
+    // Sword & Shield era
+    'swsh12pt5', 'swsh12', 'swsh11', 'swsh10', 'swsh9', 'swsh8', 'swsh7', 'swsh6', 'swsh5',
+    'swsh4', 'swsh3', 'swsh2', 'swsh1',
+    // Sun & Moon era
+    'sm12', 'sm11', 'sm10', 'sm9', 'sm8', 'sm7', 'sm6', 'sm5', 'sm4', 'sm3', 'sm2', 'sm1',
+    // XY era (for Mega evolutions)
+    'xy12', 'xy11', 'xy10', 'xy9', 'xy8', 'xy7', 'xy6', 'xy5', 'xy4', 'xy3', 'xy2', 'xy1',
+    // Pokémon GO, Celebrations, etc.
+    'pgo', 'cel25',
+    // Base set (classics)
+    'base1', 'base2', 'base3',
+];
+
 /** Strip variant suffixes to get the base Pokémon name */
 function toBaseName(name) {
     return name
         .replace(/^Mega /i, '')
         .replace(/ ex$/i, '')
+        .replace(/ EX$/i, '')
         .replace(/ V$/i, '')
         .replace(/ VMAX$/i, '')
         .replace(/ VSTAR$/i, '')
         .replace(/ GX$/i, '')
-        .replace(/ EX$/i, '')
         .trim();
 }
 
-/** Sleep helper */
 function sleep(ms) {
     return new Promise(r => setTimeout(r, ms));
 }
 
-/** Fetch a card image from the Pokémon TCG API by name */
-async function fetchCardImage(name) {
-    const query = encodeURIComponent(`name:"${name}"`);
-    const url = `${API_BASE}/cards?q=${query}&pageSize=5&page=1&select=id,name,images&orderBy=-set.releaseDate`;
-
+/** Fetch all card data for a set from GitHub */
+async function fetchSetData(setId) {
+    const url = `${GITHUB_BASE}/${setId}.json`;
     try {
         const res = await fetch(url);
-        if (!res.ok) {
-            console.warn(`  ⚠ API returned ${res.status} for "${name}"`);
-            return null;
-        }
-        const json = await res.json();
-        if (json.data && json.data.length > 0) {
-            const card = json.data[0]; // Most recent set first
-            return {
-                small: card.images.small,
-                large: card.images.large,
-            };
-        }
-        return null;
-    } catch (err) {
-        console.warn(`  ⚠ Fetch failed for "${name}":`, err.message);
-        return null;
+        if (!res.ok) return [];
+        return await res.json();
+    } catch {
+        return [];
     }
 }
 
-async function processSet(filename) {
-    const filepath = resolve(DATA_DIR, filename);
-    console.log(`\n━━━ Processing ${filename} ━━━`);
+async function main() {
+    console.log('🎴 Pokémon TCG Image Baker (GitHub Source)');
+    console.log('════════════════════════════════════════');
 
-    const data = JSON.parse(readFileSync(filepath, 'utf-8'));
+    // Step 1: Collect all unique card names we need across all custom sets
+    const allNeededNames = new Set();
+    const setDatas = {};
 
-    // Collect all unique card names across all rarities
-    const allNames = new Set();
-    for (const rarityCards of Object.values(data.cards)) {
-        for (const card of rarityCards) {
-            allNames.add(card.name);
+    for (const filename of CUSTOM_SETS) {
+        const filepath = resolve(DATA_DIR, filename);
+        const data = JSON.parse(readFileSync(filepath, 'utf-8'));
+        setDatas[filename] = { data, filepath };
+
+        for (const rarityCards of Object.values(data.cards)) {
+            for (const card of rarityCards) {
+                allNeededNames.add(card.name);
+            }
         }
     }
 
-    console.log(`  Found ${allNames.size} unique card names`);
+    console.log(`\n📋 Need images for ${allNeededNames.size} unique card names across all custom sets`);
 
-    // Group by base name to avoid duplicate lookups
+    // Build base→originals map
     const baseToOriginals = new Map();
-    for (const name of allNames) {
-        const base = toBaseName(name);
+    for (const name of allNeededNames) {
+        const base = toBaseName(name).toLowerCase();
         if (!baseToOriginals.has(base)) baseToOriginals.set(base, []);
         baseToOriginals.get(base).push(name);
     }
 
-    console.log(`  ${baseToOriginals.size} unique base names to look up`);
+    console.log(`🔍 ${baseToOriginals.size} unique base names to look up\n`);
 
-    const imageMap = {};
-    let found = 0;
-    let missed = 0;
-    let i = 0;
+    // Step 2: Scan real TCG sets from GitHub to build a name→image lookup
+    const nameToImage = new Map(); // lowercase base name → { small, large }
+    let setsScanned = 0;
 
-    for (const [baseName, originals] of baseToOriginals) {
-        i++;
-        process.stdout.write(`  [${i}/${baseToOriginals.size}] Looking up "${baseName}"...`);
-
-        const images = await fetchCardImage(baseName);
-
-        if (images) {
-            // Map all variant names to the same image
-            for (const origName of originals) {
-                imageMap[origName] = images;
-            }
-            found += originals.length;
-            console.log(` ✓ (${originals.length} variant${originals.length > 1 ? 's' : ''})`);
-        } else {
-            missed += originals.length;
-            console.log(` ✗ NOT FOUND`);
+    for (const setId of SOURCE_SETS) {
+        // Stop if we've found all names
+        if (nameToImage.size >= baseToOriginals.size) {
+            console.log(`  ✅ Found all ${baseToOriginals.size} names, stopping scan.`);
+            break;
         }
 
-        // Rate-limit: 300ms between requests
-        await sleep(300);
+        process.stdout.write(`  [${++setsScanned}/${SOURCE_SETS.length}] Scanning set ${setId}...`);
+        const cards = await fetchSetData(setId);
+
+        if (cards.length === 0) {
+            console.log(' (empty or not found)');
+            await sleep(100);
+            continue;
+        }
+
+        let newFinds = 0;
+        for (const card of cards) {
+            if (!card.images || !card.images.small) continue;
+            const baseName = toBaseName(card.name).toLowerCase();
+
+            // Only store if we actually need this name AND haven't found it yet
+            if (baseToOriginals.has(baseName) && !nameToImage.has(baseName)) {
+                nameToImage.set(baseName, {
+                    small: card.images.small,
+                    large: card.images.large,
+                });
+                newFinds++;
+            }
+        }
+
+        const remaining = baseToOriginals.size - nameToImage.size;
+        console.log(` ${cards.length} cards, ${newFinds} new finds (${remaining} still needed)`);
+        await sleep(100); // Small delay to be nice to GitHub
     }
 
-    // Write imageMap into the JSON data
-    data.imageMap = imageMap;
-    writeFileSync(filepath, JSON.stringify(data, null, 2), 'utf-8');
+    console.log(`\n📊 Found images for ${nameToImage.size}/${baseToOriginals.size} base names`);
 
-    console.log(`\n  ✅ Done! ${found} cards with images, ${missed} missed.`);
-    console.log(`  📄 Saved to ${filename}`);
-}
+    // List any missing names
+    const missing = [];
+    for (const [base, originals] of baseToOriginals) {
+        if (!nameToImage.has(base)) {
+            missing.push(...originals);
+        }
+    }
+    if (missing.length > 0) {
+        console.log(`⚠ Missing: ${missing.join(', ')}`);
+    }
 
-// ─── Main ────────────────────────────────────────────
-async function main() {
-    console.log('🎴 Pokémon TCG Image Baker');
-    console.log('════════════════════════════════════════');
+    // Step 3: Write imageMap into each custom set JSON
+    for (const filename of CUSTOM_SETS) {
+        const { data, filepath } = setDatas[filename];
+        const imageMap = {};
 
-    for (const setFile of CUSTOM_SETS) {
-        await processSet(setFile);
+        // Collect all names in this set
+        const setNames = new Set();
+        for (const rarityCards of Object.values(data.cards)) {
+            for (const card of rarityCards) {
+                setNames.add(card.name);
+            }
+        }
+
+        let covered = 0;
+        for (const name of setNames) {
+            const base = toBaseName(name).toLowerCase();
+            const images = nameToImage.get(base);
+            if (images) {
+                imageMap[name] = images;
+                covered++;
+            }
+        }
+
+        data.imageMap = imageMap;
+        writeFileSync(filepath, JSON.stringify(data, null, 2), 'utf-8');
+        console.log(`\n✅ ${filename}: ${covered}/${setNames.size} cards with images`);
     }
 
     console.log('\n════════════════════════════════════════');
-    console.log('🎉 All custom sets processed!');
+    console.log('🎉 Done! Image baking complete.');
 }
 
 main().catch(err => {

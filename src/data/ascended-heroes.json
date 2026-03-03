@@ -1,905 +1,1303 @@
 {
-    "set": {
-        "id": "ascended-heroes",
-        "name": "Ascended Heroes",
-        "series": "Mega Evolution",
-        "releaseDate": "2026-01-30",
-        "totalCards": 175,
-        "apiSetId": "me02pt5"
+  "set": {
+    "id": "ascended-heroes",
+    "name": "Ascended Heroes",
+    "series": "Mega Evolution",
+    "releaseDate": "2026-01-30",
+    "totalCards": 175,
+    "apiSetId": "me02pt5"
+  },
+  "rarityWeights": {
+    "rare": 0.8,
+    "holo_rare": 0.1,
+    "ultra_rare": 0.05,
+    "full_art": 0.025,
+    "secret_rare": 0.015,
+    "gold": 0.01
+  },
+  "reverseHoloGalleryChance": 0.12,
+  "cards": {
+    "energy": [
+      {
+        "number": "166",
+        "name": "Grass Energy",
+        "type": "energy",
+        "emoji": "🌿"
+      },
+      {
+        "number": "167",
+        "name": "Fire Energy",
+        "type": "energy",
+        "emoji": "🔥"
+      },
+      {
+        "number": "168",
+        "name": "Water Energy",
+        "type": "energy",
+        "emoji": "💧"
+      },
+      {
+        "number": "169",
+        "name": "Lightning Energy",
+        "type": "energy",
+        "emoji": "⚡"
+      },
+      {
+        "number": "170",
+        "name": "Psychic Energy",
+        "type": "energy",
+        "emoji": "👁️"
+      },
+      {
+        "number": "171",
+        "name": "Fighting Energy",
+        "type": "energy",
+        "emoji": "🪨"
+      },
+      {
+        "number": "172",
+        "name": "Darkness Energy",
+        "type": "energy",
+        "emoji": "🟣"
+      },
+      {
+        "number": "173",
+        "name": "Metal Energy",
+        "type": "energy",
+        "emoji": "⚙️"
+      },
+      {
+        "number": "174",
+        "name": "Fairy Energy",
+        "type": "energy",
+        "emoji": "🧚"
+      },
+      {
+        "number": "175",
+        "name": "Dragon Energy",
+        "type": "energy",
+        "emoji": "🐉"
+      }
+    ],
+    "common": [
+      {
+        "number": "1",
+        "name": "Chikorita",
+        "type": "Grass",
+        "emoji": "🌿"
+      },
+      {
+        "number": "2",
+        "name": "Bayleef",
+        "type": "Grass",
+        "emoji": "🌿"
+      },
+      {
+        "number": "5",
+        "name": "Seedot",
+        "type": "Grass",
+        "emoji": "🌿"
+      },
+      {
+        "number": "6",
+        "name": "Nuzleaf",
+        "type": "Grass",
+        "emoji": "🌿"
+      },
+      {
+        "number": "9",
+        "name": "Cottonee",
+        "type": "Grass",
+        "emoji": "🌿"
+      },
+      {
+        "number": "11",
+        "name": "Petilil",
+        "type": "Grass",
+        "emoji": "🌿"
+      },
+      {
+        "number": "14",
+        "name": "Cyndaquil",
+        "type": "Fire",
+        "emoji": "🔥"
+      },
+      {
+        "number": "15",
+        "name": "Quilava",
+        "type": "Fire",
+        "emoji": "🔥"
+      },
+      {
+        "number": "18",
+        "name": "Torchic",
+        "type": "Fire",
+        "emoji": "🔥"
+      },
+      {
+        "number": "19",
+        "name": "Combusken",
+        "type": "Fire",
+        "emoji": "🔥"
+      },
+      {
+        "number": "22",
+        "name": "Houndour",
+        "type": "Fire",
+        "emoji": "🔥"
+      },
+      {
+        "number": "25",
+        "name": "Mudkip",
+        "type": "Water",
+        "emoji": "💧"
+      },
+      {
+        "number": "26",
+        "name": "Marshtomp",
+        "type": "Water",
+        "emoji": "💧"
+      },
+      {
+        "number": "29",
+        "name": "Lapras",
+        "type": "Water",
+        "emoji": "💧"
+      },
+      {
+        "number": "31",
+        "name": "Froakie",
+        "type": "Water",
+        "emoji": "💧"
+      },
+      {
+        "number": "32",
+        "name": "Frogadier",
+        "type": "Water",
+        "emoji": "💧"
+      },
+      {
+        "number": "36",
+        "name": "Voltorb",
+        "type": "Lightning",
+        "emoji": "⚡"
+      },
+      {
+        "number": "38",
+        "name": "Elekid",
+        "type": "Lightning",
+        "emoji": "⚡"
+      },
+      {
+        "number": "39",
+        "name": "Electabuzz",
+        "type": "Lightning",
+        "emoji": "⚡"
+      },
+      {
+        "number": "42",
+        "name": "Blitzle",
+        "type": "Lightning",
+        "emoji": "⚡"
+      },
+      {
+        "number": "45",
+        "name": "Slowpoke",
+        "type": "Psychic",
+        "emoji": "👁️"
+      },
+      {
+        "number": "47",
+        "name": "Espurr",
+        "type": "Psychic",
+        "emoji": "👁️"
+      },
+      {
+        "number": "49",
+        "name": "Solosis",
+        "type": "Psychic",
+        "emoji": "👁️"
+      },
+      {
+        "number": "50",
+        "name": "Duosion",
+        "type": "Psychic",
+        "emoji": "👁️"
+      },
+      {
+        "number": "54",
+        "name": "Mankey",
+        "type": "Fighting",
+        "emoji": "🪨"
+      },
+      {
+        "number": "56",
+        "name": "Makuhita",
+        "type": "Fighting",
+        "emoji": "🪨"
+      },
+      {
+        "number": "58",
+        "name": "Croagunk",
+        "type": "Fighting",
+        "emoji": "🪨"
+      },
+      {
+        "number": "61",
+        "name": "Sandile",
+        "type": "Darkness",
+        "emoji": "🟣"
+      },
+      {
+        "number": "62",
+        "name": "Krokorok",
+        "type": "Darkness",
+        "emoji": "🟣"
+      },
+      {
+        "number": "65",
+        "name": "Inkay",
+        "type": "Darkness",
+        "emoji": "🟣"
+      },
+      {
+        "number": "68",
+        "name": "Magnemite",
+        "type": "Metal",
+        "emoji": "⚙️"
+      },
+      {
+        "number": "69",
+        "name": "Magneton",
+        "type": "Metal",
+        "emoji": "⚙️"
+      },
+      {
+        "number": "72",
+        "name": "Skarmory",
+        "type": "Metal",
+        "emoji": "⚙️"
+      },
+      {
+        "number": "75",
+        "name": "Gible",
+        "type": "Dragon",
+        "emoji": "🐉"
+      },
+      {
+        "number": "76",
+        "name": "Gabite",
+        "type": "Dragon",
+        "emoji": "🐉"
+      },
+      {
+        "number": "80",
+        "name": "Dratini",
+        "type": "Dragon",
+        "emoji": "🐉"
+      },
+      {
+        "number": "81",
+        "name": "Dragonair",
+        "type": "Dragon",
+        "emoji": "🐉"
+      },
+      {
+        "number": "84",
+        "name": "Starly",
+        "type": "Colorless",
+        "emoji": "⚪"
+      },
+      {
+        "number": "85",
+        "name": "Staravia",
+        "type": "Colorless",
+        "emoji": "⚪"
+      },
+      {
+        "number": "87",
+        "name": "Minccino",
+        "type": "Colorless",
+        "emoji": "⚪"
+      }
+    ],
+    "uncommon": [
+      {
+        "number": "3",
+        "name": "Meganium",
+        "type": "Grass",
+        "emoji": "🌿"
+      },
+      {
+        "number": "7",
+        "name": "Shiftry",
+        "type": "Grass",
+        "emoji": "🌿"
+      },
+      {
+        "number": "10",
+        "name": "Whimsicott",
+        "type": "Grass",
+        "emoji": "🌿"
+      },
+      {
+        "number": "12",
+        "name": "Lilligant",
+        "type": "Grass",
+        "emoji": "🌿"
+      },
+      {
+        "number": "16",
+        "name": "Typhlosion",
+        "type": "Fire",
+        "emoji": "🔥"
+      },
+      {
+        "number": "20",
+        "name": "Blaziken",
+        "type": "Fire",
+        "emoji": "🔥"
+      },
+      {
+        "number": "23",
+        "name": "Houndoom",
+        "type": "Fire",
+        "emoji": "🔥"
+      },
+      {
+        "number": "27",
+        "name": "Swampert",
+        "type": "Water",
+        "emoji": "💧"
+      },
+      {
+        "number": "30",
+        "name": "Lapras",
+        "type": "Water",
+        "emoji": "💧"
+      },
+      {
+        "number": "33",
+        "name": "Greninja",
+        "type": "Water",
+        "emoji": "💧"
+      },
+      {
+        "number": "37",
+        "name": "Electrode",
+        "type": "Lightning",
+        "emoji": "⚡"
+      },
+      {
+        "number": "40",
+        "name": "Electivire",
+        "type": "Lightning",
+        "emoji": "⚡"
+      },
+      {
+        "number": "43",
+        "name": "Zebstrika",
+        "type": "Lightning",
+        "emoji": "⚡"
+      },
+      {
+        "number": "46",
+        "name": "Slowking",
+        "type": "Psychic",
+        "emoji": "👁️"
+      },
+      {
+        "number": "48",
+        "name": "Meowstic",
+        "type": "Psychic",
+        "emoji": "👁️"
+      },
+      {
+        "number": "51",
+        "name": "Reuniclus",
+        "type": "Psychic",
+        "emoji": "👁️"
+      },
+      {
+        "number": "55",
+        "name": "Primeape",
+        "type": "Fighting",
+        "emoji": "🪨"
+      },
+      {
+        "number": "57",
+        "name": "Hariyama",
+        "type": "Fighting",
+        "emoji": "🪨"
+      },
+      {
+        "number": "59",
+        "name": "Toxicroak",
+        "type": "Fighting",
+        "emoji": "🪨"
+      },
+      {
+        "number": "63",
+        "name": "Krookodile",
+        "type": "Darkness",
+        "emoji": "🟣"
+      },
+      {
+        "number": "66",
+        "name": "Malamar",
+        "type": "Darkness",
+        "emoji": "🟣"
+      },
+      {
+        "number": "70",
+        "name": "Magnezone",
+        "type": "Metal",
+        "emoji": "⚙️"
+      },
+      {
+        "number": "73",
+        "name": "Steelix",
+        "type": "Metal",
+        "emoji": "⚙️"
+      },
+      {
+        "number": "77",
+        "name": "Garchomp",
+        "type": "Dragon",
+        "emoji": "🐉"
+      },
+      {
+        "number": "82",
+        "name": "Dragonite",
+        "type": "Dragon",
+        "emoji": "🐉"
+      },
+      {
+        "number": "86",
+        "name": "Staraptor",
+        "type": "Colorless",
+        "emoji": "⚪"
+      },
+      {
+        "number": "88",
+        "name": "Cinccino",
+        "type": "Colorless",
+        "emoji": "⚪"
+      },
+      {
+        "number": "89",
+        "name": "Nest Ball",
+        "type": "trainer",
+        "emoji": "🎒"
+      },
+      {
+        "number": "90",
+        "name": "Pal Pad",
+        "type": "trainer",
+        "emoji": "🎒"
+      },
+      {
+        "number": "91",
+        "name": "Energy Recycler",
+        "type": "trainer",
+        "emoji": "🎒"
+      }
+    ],
+    "rare": [
+      {
+        "number": "4",
+        "name": "Meganium",
+        "type": "Grass",
+        "emoji": "🌿"
+      },
+      {
+        "number": "8",
+        "name": "Shiftry",
+        "type": "Grass",
+        "emoji": "🌿"
+      },
+      {
+        "number": "13",
+        "name": "Lilligant",
+        "type": "Grass",
+        "emoji": "🌿"
+      },
+      {
+        "number": "17",
+        "name": "Typhlosion",
+        "type": "Fire",
+        "emoji": "🔥"
+      },
+      {
+        "number": "21",
+        "name": "Blaziken",
+        "type": "Fire",
+        "emoji": "🔥"
+      },
+      {
+        "number": "24",
+        "name": "Houndoom",
+        "type": "Fire",
+        "emoji": "🔥"
+      },
+      {
+        "number": "28",
+        "name": "Swampert",
+        "type": "Water",
+        "emoji": "💧"
+      },
+      {
+        "number": "34",
+        "name": "Greninja",
+        "type": "Water",
+        "emoji": "💧"
+      },
+      {
+        "number": "35",
+        "name": "Suicune",
+        "type": "Water",
+        "emoji": "💧"
+      },
+      {
+        "number": "41",
+        "name": "Electivire",
+        "type": "Lightning",
+        "emoji": "⚡"
+      },
+      {
+        "number": "44",
+        "name": "Zebstrika",
+        "type": "Lightning",
+        "emoji": "⚡"
+      },
+      {
+        "number": "52",
+        "name": "Reuniclus",
+        "type": "Psychic",
+        "emoji": "👁️"
+      },
+      {
+        "number": "53",
+        "name": "Mewtwo",
+        "type": "Psychic",
+        "emoji": "👁️"
+      },
+      {
+        "number": "60",
+        "name": "Annihilape",
+        "type": "Fighting",
+        "emoji": "🪨"
+      },
+      {
+        "number": "64",
+        "name": "Krookodile",
+        "type": "Darkness",
+        "emoji": "🟣"
+      },
+      {
+        "number": "67",
+        "name": "Malamar",
+        "type": "Darkness",
+        "emoji": "🟣"
+      },
+      {
+        "number": "71",
+        "name": "Magnezone",
+        "type": "Metal",
+        "emoji": "⚙️"
+      },
+      {
+        "number": "74",
+        "name": "Steelix",
+        "type": "Metal",
+        "emoji": "⚙️"
+      },
+      {
+        "number": "78",
+        "name": "Garchomp",
+        "type": "Dragon",
+        "emoji": "🐉"
+      },
+      {
+        "number": "83",
+        "name": "Dragonite",
+        "type": "Dragon",
+        "emoji": "🐉"
+      }
+    ],
+    "holo_rare": [
+      {
+        "number": "92",
+        "name": "Meganium ex",
+        "type": "Grass",
+        "emoji": "🌿"
+      },
+      {
+        "number": "93",
+        "name": "Blaziken ex",
+        "type": "Fire",
+        "emoji": "🔥"
+      },
+      {
+        "number": "94",
+        "name": "Swampert ex",
+        "type": "Water",
+        "emoji": "💧"
+      },
+      {
+        "number": "95",
+        "name": "Garchomp ex",
+        "type": "Dragon",
+        "emoji": "🐉"
+      },
+      {
+        "number": "96",
+        "name": "Steelix ex",
+        "type": "Metal",
+        "emoji": "⚙️"
+      },
+      {
+        "number": "97",
+        "name": "Houndoom ex",
+        "type": "Fire",
+        "emoji": "🔥"
+      },
+      {
+        "number": "98",
+        "name": "Dragonite ex",
+        "type": "Dragon",
+        "emoji": "🐉"
+      },
+      {
+        "number": "99",
+        "name": "Slowking ex",
+        "type": "Psychic",
+        "emoji": "👁️"
+      },
+      {
+        "number": "100",
+        "name": "Cynthia",
+        "type": "trainer",
+        "emoji": "🎒"
+      },
+      {
+        "number": "101",
+        "name": "Steven",
+        "type": "trainer",
+        "emoji": "🎒"
+      }
+    ],
+    "ultra_rare": [
+      {
+        "number": "110",
+        "name": "Mega Meganium ex",
+        "type": "Grass",
+        "emoji": "🌿"
+      },
+      {
+        "number": "111",
+        "name": "Mega Blaziken ex",
+        "type": "Fire",
+        "emoji": "🔥"
+      },
+      {
+        "number": "112",
+        "name": "Mega Swampert ex",
+        "type": "Water",
+        "emoji": "💧"
+      },
+      {
+        "number": "113",
+        "name": "Mega Garchomp ex",
+        "type": "Dragon",
+        "emoji": "🐉"
+      },
+      {
+        "number": "114",
+        "name": "Mega Steelix ex",
+        "type": "Metal",
+        "emoji": "⚙️"
+      },
+      {
+        "number": "115",
+        "name": "Mega Houndoom ex",
+        "type": "Fire",
+        "emoji": "🔥"
+      },
+      {
+        "number": "116",
+        "name": "Mega Slowbro ex",
+        "type": "Psychic",
+        "emoji": "👁️"
+      },
+      {
+        "number": "117",
+        "name": "Mega Dragonite ex",
+        "type": "Dragon",
+        "emoji": "🐉"
+      }
+    ],
+    "full_art": [
+      {
+        "number": "130",
+        "name": "Mega Blaziken ex",
+        "type": "Fire",
+        "emoji": "🔥"
+      },
+      {
+        "number": "131",
+        "name": "Mega Swampert ex",
+        "type": "Water",
+        "emoji": "💧"
+      },
+      {
+        "number": "132",
+        "name": "Mega Garchomp ex",
+        "type": "Dragon",
+        "emoji": "🐉"
+      },
+      {
+        "number": "133",
+        "name": "Mega Steelix ex",
+        "type": "Metal",
+        "emoji": "⚙️"
+      },
+      {
+        "number": "134",
+        "name": "Mega Houndoom ex",
+        "type": "Fire",
+        "emoji": "🔥"
+      },
+      {
+        "number": "135",
+        "name": "Mega Dragonite ex",
+        "type": "Dragon",
+        "emoji": "🐉"
+      },
+      {
+        "number": "136",
+        "name": "Cynthia",
+        "type": "trainer",
+        "emoji": "🎒"
+      },
+      {
+        "number": "137",
+        "name": "Steven",
+        "type": "trainer",
+        "emoji": "🎒"
+      }
+    ],
+    "secret_rare": [
+      {
+        "number": "150",
+        "name": "Mega Blaziken ex",
+        "type": "Fire",
+        "emoji": "🔥"
+      },
+      {
+        "number": "151",
+        "name": "Mega Garchomp ex",
+        "type": "Dragon",
+        "emoji": "🐉"
+      },
+      {
+        "number": "152",
+        "name": "Mega Houndoom ex",
+        "type": "Fire",
+        "emoji": "🔥"
+      },
+      {
+        "number": "153",
+        "name": "Mega Dragonite ex",
+        "type": "Dragon",
+        "emoji": "🐉"
+      },
+      {
+        "number": "154",
+        "name": "Mega Steelix ex",
+        "type": "Metal",
+        "emoji": "⚙️"
+      }
+    ],
+    "gold": [
+      {
+        "number": "160",
+        "name": "Mega Garchomp ex",
+        "type": "Dragon",
+        "emoji": "🐉"
+      },
+      {
+        "number": "161",
+        "name": "Mega Slowbro ex",
+        "type": "Psychic",
+        "emoji": "👁️"
+      },
+      {
+        "number": "162",
+        "name": "Nest Ball",
+        "type": "trainer",
+        "emoji": "🎒"
+      }
+    ],
+    "gallery": [
+      {
+        "number": "118",
+        "name": "Cyndaquil",
+        "type": "Fire",
+        "emoji": "🔥"
+      },
+      {
+        "number": "119",
+        "name": "Typhlosion",
+        "type": "Fire",
+        "emoji": "🔥"
+      },
+      {
+        "number": "120",
+        "name": "Mudkip",
+        "type": "Water",
+        "emoji": "💧"
+      },
+      {
+        "number": "121",
+        "name": "Swampert",
+        "type": "Water",
+        "emoji": "💧"
+      },
+      {
+        "number": "122",
+        "name": "Torchic",
+        "type": "Fire",
+        "emoji": "🔥"
+      },
+      {
+        "number": "123",
+        "name": "Blaziken",
+        "type": "Fire",
+        "emoji": "🔥"
+      },
+      {
+        "number": "124",
+        "name": "Gible",
+        "type": "Dragon",
+        "emoji": "🐉"
+      },
+      {
+        "number": "125",
+        "name": "Garchomp",
+        "type": "Dragon",
+        "emoji": "🐉"
+      },
+      {
+        "number": "126",
+        "name": "Dratini",
+        "type": "Dragon",
+        "emoji": "🐉"
+      },
+      {
+        "number": "127",
+        "name": "Dragonite",
+        "type": "Dragon",
+        "emoji": "🐉"
+      }
+    ]
+  },
+  "imageMap": {
+    "Grass Energy": {
+      "small": "https://images.pokemontcg.io/swsh12pt5/152.png",
+      "large": "https://images.pokemontcg.io/swsh12pt5/152_hires.png"
     },
-    "rarityWeights": {
-        "rare": 0.80,
-        "holo_rare": 0.10,
-        "ultra_rare": 0.05,
-        "full_art": 0.025,
-        "secret_rare": 0.015,
-        "gold": 0.010
+    "Fire Energy": {
+      "small": "https://images.pokemontcg.io/swsh12pt5/153.png",
+      "large": "https://images.pokemontcg.io/swsh12pt5/153_hires.png"
     },
-    "reverseHoloGalleryChance": 0.12,
-    "cards": {
-        "energy": [
-            {
-                "number": "166",
-                "name": "Grass Energy",
-                "type": "energy",
-                "emoji": "🌿"
-            },
-            {
-                "number": "167",
-                "name": "Fire Energy",
-                "type": "energy",
-                "emoji": "🔥"
-            },
-            {
-                "number": "168",
-                "name": "Water Energy",
-                "type": "energy",
-                "emoji": "💧"
-            },
-            {
-                "number": "169",
-                "name": "Lightning Energy",
-                "type": "energy",
-                "emoji": "⚡"
-            },
-            {
-                "number": "170",
-                "name": "Psychic Energy",
-                "type": "energy",
-                "emoji": "👁️"
-            },
-            {
-                "number": "171",
-                "name": "Fighting Energy",
-                "type": "energy",
-                "emoji": "🪨"
-            },
-            {
-                "number": "172",
-                "name": "Darkness Energy",
-                "type": "energy",
-                "emoji": "🟣"
-            },
-            {
-                "number": "173",
-                "name": "Metal Energy",
-                "type": "energy",
-                "emoji": "⚙️"
-            },
-            {
-                "number": "174",
-                "name": "Fairy Energy",
-                "type": "energy",
-                "emoji": "🧚"
-            },
-            {
-                "number": "175",
-                "name": "Dragon Energy",
-                "type": "energy",
-                "emoji": "🐉"
-            }
-        ],
-        "common": [
-            {
-                "number": "1",
-                "name": "Chikorita",
-                "type": "Grass",
-                "emoji": "🌿"
-            },
-            {
-                "number": "2",
-                "name": "Bayleef",
-                "type": "Grass",
-                "emoji": "🌿"
-            },
-            {
-                "number": "5",
-                "name": "Seedot",
-                "type": "Grass",
-                "emoji": "🌿"
-            },
-            {
-                "number": "6",
-                "name": "Nuzleaf",
-                "type": "Grass",
-                "emoji": "🌿"
-            },
-            {
-                "number": "9",
-                "name": "Cottonee",
-                "type": "Grass",
-                "emoji": "🌿"
-            },
-            {
-                "number": "11",
-                "name": "Petilil",
-                "type": "Grass",
-                "emoji": "🌿"
-            },
-            {
-                "number": "14",
-                "name": "Cyndaquil",
-                "type": "Fire",
-                "emoji": "🔥"
-            },
-            {
-                "number": "15",
-                "name": "Quilava",
-                "type": "Fire",
-                "emoji": "🔥"
-            },
-            {
-                "number": "18",
-                "name": "Torchic",
-                "type": "Fire",
-                "emoji": "🔥"
-            },
-            {
-                "number": "19",
-                "name": "Combusken",
-                "type": "Fire",
-                "emoji": "🔥"
-            },
-            {
-                "number": "22",
-                "name": "Houndour",
-                "type": "Fire",
-                "emoji": "🔥"
-            },
-            {
-                "number": "25",
-                "name": "Mudkip",
-                "type": "Water",
-                "emoji": "💧"
-            },
-            {
-                "number": "26",
-                "name": "Marshtomp",
-                "type": "Water",
-                "emoji": "💧"
-            },
-            {
-                "number": "29",
-                "name": "Lapras",
-                "type": "Water",
-                "emoji": "💧"
-            },
-            {
-                "number": "31",
-                "name": "Froakie",
-                "type": "Water",
-                "emoji": "💧"
-            },
-            {
-                "number": "32",
-                "name": "Frogadier",
-                "type": "Water",
-                "emoji": "💧"
-            },
-            {
-                "number": "36",
-                "name": "Voltorb",
-                "type": "Lightning",
-                "emoji": "⚡"
-            },
-            {
-                "number": "38",
-                "name": "Elekid",
-                "type": "Lightning",
-                "emoji": "⚡"
-            },
-            {
-                "number": "39",
-                "name": "Electabuzz",
-                "type": "Lightning",
-                "emoji": "⚡"
-            },
-            {
-                "number": "42",
-                "name": "Blitzle",
-                "type": "Lightning",
-                "emoji": "⚡"
-            },
-            {
-                "number": "45",
-                "name": "Slowpoke",
-                "type": "Psychic",
-                "emoji": "👁️"
-            },
-            {
-                "number": "47",
-                "name": "Espurr",
-                "type": "Psychic",
-                "emoji": "👁️"
-            },
-            {
-                "number": "49",
-                "name": "Solosis",
-                "type": "Psychic",
-                "emoji": "👁️"
-            },
-            {
-                "number": "50",
-                "name": "Duosion",
-                "type": "Psychic",
-                "emoji": "👁️"
-            },
-            {
-                "number": "54",
-                "name": "Mankey",
-                "type": "Fighting",
-                "emoji": "🪨"
-            },
-            {
-                "number": "56",
-                "name": "Makuhita",
-                "type": "Fighting",
-                "emoji": "🪨"
-            },
-            {
-                "number": "58",
-                "name": "Croagunk",
-                "type": "Fighting",
-                "emoji": "🪨"
-            },
-            {
-                "number": "61",
-                "name": "Sandile",
-                "type": "Darkness",
-                "emoji": "🟣"
-            },
-            {
-                "number": "62",
-                "name": "Krokorok",
-                "type": "Darkness",
-                "emoji": "🟣"
-            },
-            {
-                "number": "65",
-                "name": "Inkay",
-                "type": "Darkness",
-                "emoji": "🟣"
-            },
-            {
-                "number": "68",
-                "name": "Magnemite",
-                "type": "Metal",
-                "emoji": "⚙️"
-            },
-            {
-                "number": "69",
-                "name": "Magneton",
-                "type": "Metal",
-                "emoji": "⚙️"
-            },
-            {
-                "number": "72",
-                "name": "Skarmory",
-                "type": "Metal",
-                "emoji": "⚙️"
-            },
-            {
-                "number": "75",
-                "name": "Gible",
-                "type": "Dragon",
-                "emoji": "🐉"
-            },
-            {
-                "number": "76",
-                "name": "Gabite",
-                "type": "Dragon",
-                "emoji": "🐉"
-            },
-            {
-                "number": "80",
-                "name": "Dratini",
-                "type": "Dragon",
-                "emoji": "🐉"
-            },
-            {
-                "number": "81",
-                "name": "Dragonair",
-                "type": "Dragon",
-                "emoji": "🐉"
-            },
-            {
-                "number": "84",
-                "name": "Starly",
-                "type": "Colorless",
-                "emoji": "⚪"
-            },
-            {
-                "number": "85",
-                "name": "Staravia",
-                "type": "Colorless",
-                "emoji": "⚪"
-            },
-            {
-                "number": "87",
-                "name": "Minccino",
-                "type": "Colorless",
-                "emoji": "⚪"
-            }
-        ],
-        "uncommon": [
-            {
-                "number": "3",
-                "name": "Meganium",
-                "type": "Grass",
-                "emoji": "🌿"
-            },
-            {
-                "number": "7",
-                "name": "Shiftry",
-                "type": "Grass",
-                "emoji": "🌿"
-            },
-            {
-                "number": "10",
-                "name": "Whimsicott",
-                "type": "Grass",
-                "emoji": "🌿"
-            },
-            {
-                "number": "12",
-                "name": "Lilligant",
-                "type": "Grass",
-                "emoji": "🌿"
-            },
-            {
-                "number": "16",
-                "name": "Typhlosion",
-                "type": "Fire",
-                "emoji": "🔥"
-            },
-            {
-                "number": "20",
-                "name": "Blaziken",
-                "type": "Fire",
-                "emoji": "🔥"
-            },
-            {
-                "number": "23",
-                "name": "Houndoom",
-                "type": "Fire",
-                "emoji": "🔥"
-            },
-            {
-                "number": "27",
-                "name": "Swampert",
-                "type": "Water",
-                "emoji": "💧"
-            },
-            {
-                "number": "30",
-                "name": "Lapras",
-                "type": "Water",
-                "emoji": "💧"
-            },
-            {
-                "number": "33",
-                "name": "Greninja",
-                "type": "Water",
-                "emoji": "💧"
-            },
-            {
-                "number": "37",
-                "name": "Electrode",
-                "type": "Lightning",
-                "emoji": "⚡"
-            },
-            {
-                "number": "40",
-                "name": "Electivire",
-                "type": "Lightning",
-                "emoji": "⚡"
-            },
-            {
-                "number": "43",
-                "name": "Zebstrika",
-                "type": "Lightning",
-                "emoji": "⚡"
-            },
-            {
-                "number": "46",
-                "name": "Slowking",
-                "type": "Psychic",
-                "emoji": "👁️"
-            },
-            {
-                "number": "48",
-                "name": "Meowstic",
-                "type": "Psychic",
-                "emoji": "👁️"
-            },
-            {
-                "number": "51",
-                "name": "Reuniclus",
-                "type": "Psychic",
-                "emoji": "👁️"
-            },
-            {
-                "number": "55",
-                "name": "Primeape",
-                "type": "Fighting",
-                "emoji": "🪨"
-            },
-            {
-                "number": "57",
-                "name": "Hariyama",
-                "type": "Fighting",
-                "emoji": "🪨"
-            },
-            {
-                "number": "59",
-                "name": "Toxicroak",
-                "type": "Fighting",
-                "emoji": "🪨"
-            },
-            {
-                "number": "63",
-                "name": "Krookodile",
-                "type": "Darkness",
-                "emoji": "🟣"
-            },
-            {
-                "number": "66",
-                "name": "Malamar",
-                "type": "Darkness",
-                "emoji": "🟣"
-            },
-            {
-                "number": "70",
-                "name": "Magnezone",
-                "type": "Metal",
-                "emoji": "⚙️"
-            },
-            {
-                "number": "73",
-                "name": "Steelix",
-                "type": "Metal",
-                "emoji": "⚙️"
-            },
-            {
-                "number": "77",
-                "name": "Garchomp",
-                "type": "Dragon",
-                "emoji": "🐉"
-            },
-            {
-                "number": "82",
-                "name": "Dragonite",
-                "type": "Dragon",
-                "emoji": "🐉"
-            },
-            {
-                "number": "86",
-                "name": "Staraptor",
-                "type": "Colorless",
-                "emoji": "⚪"
-            },
-            {
-                "number": "88",
-                "name": "Cinccino",
-                "type": "Colorless",
-                "emoji": "⚪"
-            },
-            {
-                "number": "89",
-                "name": "Nest Ball",
-                "type": "trainer",
-                "emoji": "🎒"
-            },
-            {
-                "number": "90",
-                "name": "Pal Pad",
-                "type": "trainer",
-                "emoji": "🎒"
-            },
-            {
-                "number": "91",
-                "name": "Energy Recycler",
-                "type": "trainer",
-                "emoji": "🎒"
-            }
-        ],
-        "rare": [
-            {
-                "number": "4",
-                "name": "Meganium",
-                "type": "Grass",
-                "emoji": "🌿"
-            },
-            {
-                "number": "8",
-                "name": "Shiftry",
-                "type": "Grass",
-                "emoji": "🌿"
-            },
-            {
-                "number": "13",
-                "name": "Lilligant",
-                "type": "Grass",
-                "emoji": "🌿"
-            },
-            {
-                "number": "17",
-                "name": "Typhlosion",
-                "type": "Fire",
-                "emoji": "🔥"
-            },
-            {
-                "number": "21",
-                "name": "Blaziken",
-                "type": "Fire",
-                "emoji": "🔥"
-            },
-            {
-                "number": "24",
-                "name": "Houndoom",
-                "type": "Fire",
-                "emoji": "🔥"
-            },
-            {
-                "number": "28",
-                "name": "Swampert",
-                "type": "Water",
-                "emoji": "💧"
-            },
-            {
-                "number": "34",
-                "name": "Greninja",
-                "type": "Water",
-                "emoji": "💧"
-            },
-            {
-                "number": "35",
-                "name": "Suicune",
-                "type": "Water",
-                "emoji": "💧"
-            },
-            {
-                "number": "41",
-                "name": "Electivire",
-                "type": "Lightning",
-                "emoji": "⚡"
-            },
-            {
-                "number": "44",
-                "name": "Zebstrika",
-                "type": "Lightning",
-                "emoji": "⚡"
-            },
-            {
-                "number": "52",
-                "name": "Reuniclus",
-                "type": "Psychic",
-                "emoji": "👁️"
-            },
-            {
-                "number": "53",
-                "name": "Mewtwo",
-                "type": "Psychic",
-                "emoji": "👁️"
-            },
-            {
-                "number": "60",
-                "name": "Annihilape",
-                "type": "Fighting",
-                "emoji": "🪨"
-            },
-            {
-                "number": "64",
-                "name": "Krookodile",
-                "type": "Darkness",
-                "emoji": "🟣"
-            },
-            {
-                "number": "67",
-                "name": "Malamar",
-                "type": "Darkness",
-                "emoji": "🟣"
-            },
-            {
-                "number": "71",
-                "name": "Magnezone",
-                "type": "Metal",
-                "emoji": "⚙️"
-            },
-            {
-                "number": "74",
-                "name": "Steelix",
-                "type": "Metal",
-                "emoji": "⚙️"
-            },
-            {
-                "number": "78",
-                "name": "Garchomp",
-                "type": "Dragon",
-                "emoji": "🐉"
-            },
-            {
-                "number": "83",
-                "name": "Dragonite",
-                "type": "Dragon",
-                "emoji": "🐉"
-            }
-        ],
-        "holo_rare": [
-            {
-                "number": "92",
-                "name": "Meganium ex",
-                "type": "Grass",
-                "emoji": "🌿"
-            },
-            {
-                "number": "93",
-                "name": "Blaziken ex",
-                "type": "Fire",
-                "emoji": "🔥"
-            },
-            {
-                "number": "94",
-                "name": "Swampert ex",
-                "type": "Water",
-                "emoji": "💧"
-            },
-            {
-                "number": "95",
-                "name": "Garchomp ex",
-                "type": "Dragon",
-                "emoji": "🐉"
-            },
-            {
-                "number": "96",
-                "name": "Steelix ex",
-                "type": "Metal",
-                "emoji": "⚙️"
-            },
-            {
-                "number": "97",
-                "name": "Houndoom ex",
-                "type": "Fire",
-                "emoji": "🔥"
-            },
-            {
-                "number": "98",
-                "name": "Dragonite ex",
-                "type": "Dragon",
-                "emoji": "🐉"
-            },
-            {
-                "number": "99",
-                "name": "Slowking ex",
-                "type": "Psychic",
-                "emoji": "👁️"
-            },
-            {
-                "number": "100",
-                "name": "Cynthia",
-                "type": "trainer",
-                "emoji": "🎒"
-            },
-            {
-                "number": "101",
-                "name": "Steven",
-                "type": "trainer",
-                "emoji": "🎒"
-            }
-        ],
-        "ultra_rare": [
-            {
-                "number": "110",
-                "name": "Mega Meganium ex",
-                "type": "Grass",
-                "emoji": "🌿"
-            },
-            {
-                "number": "111",
-                "name": "Mega Blaziken ex",
-                "type": "Fire",
-                "emoji": "🔥"
-            },
-            {
-                "number": "112",
-                "name": "Mega Swampert ex",
-                "type": "Water",
-                "emoji": "💧"
-            },
-            {
-                "number": "113",
-                "name": "Mega Garchomp ex",
-                "type": "Dragon",
-                "emoji": "🐉"
-            },
-            {
-                "number": "114",
-                "name": "Mega Steelix ex",
-                "type": "Metal",
-                "emoji": "⚙️"
-            },
-            {
-                "number": "115",
-                "name": "Mega Houndoom ex",
-                "type": "Fire",
-                "emoji": "🔥"
-            },
-            {
-                "number": "116",
-                "name": "Mega Slowbro ex",
-                "type": "Psychic",
-                "emoji": "👁️"
-            },
-            {
-                "number": "117",
-                "name": "Mega Dragonite ex",
-                "type": "Dragon",
-                "emoji": "🐉"
-            }
-        ],
-        "full_art": [
-            {
-                "number": "130",
-                "name": "Mega Blaziken ex",
-                "type": "Fire",
-                "emoji": "🔥"
-            },
-            {
-                "number": "131",
-                "name": "Mega Swampert ex",
-                "type": "Water",
-                "emoji": "💧"
-            },
-            {
-                "number": "132",
-                "name": "Mega Garchomp ex",
-                "type": "Dragon",
-                "emoji": "🐉"
-            },
-            {
-                "number": "133",
-                "name": "Mega Steelix ex",
-                "type": "Metal",
-                "emoji": "⚙️"
-            },
-            {
-                "number": "134",
-                "name": "Mega Houndoom ex",
-                "type": "Fire",
-                "emoji": "🔥"
-            },
-            {
-                "number": "135",
-                "name": "Mega Dragonite ex",
-                "type": "Dragon",
-                "emoji": "🐉"
-            },
-            {
-                "number": "136",
-                "name": "Cynthia",
-                "type": "trainer",
-                "emoji": "🎒"
-            },
-            {
-                "number": "137",
-                "name": "Steven",
-                "type": "trainer",
-                "emoji": "🎒"
-            }
-        ],
-        "secret_rare": [
-            {
-                "number": "150",
-                "name": "Mega Blaziken ex",
-                "type": "Fire",
-                "emoji": "🔥"
-            },
-            {
-                "number": "151",
-                "name": "Mega Garchomp ex",
-                "type": "Dragon",
-                "emoji": "🐉"
-            },
-            {
-                "number": "152",
-                "name": "Mega Houndoom ex",
-                "type": "Fire",
-                "emoji": "🔥"
-            },
-            {
-                "number": "153",
-                "name": "Mega Dragonite ex",
-                "type": "Dragon",
-                "emoji": "🐉"
-            },
-            {
-                "number": "154",
-                "name": "Mega Steelix ex",
-                "type": "Metal",
-                "emoji": "⚙️"
-            }
-        ],
-        "gold": [
-            {
-                "number": "160",
-                "name": "Mega Garchomp ex",
-                "type": "Dragon",
-                "emoji": "🐉"
-            },
-            {
-                "number": "161",
-                "name": "Mega Slowbro ex",
-                "type": "Psychic",
-                "emoji": "👁️"
-            },
-            {
-                "number": "162",
-                "name": "Nest Ball",
-                "type": "trainer",
-                "emoji": "🎒"
-            }
-        ],
-        "gallery": [
-            {
-                "number": "118",
-                "name": "Cyndaquil",
-                "type": "Fire",
-                "emoji": "🔥"
-            },
-            {
-                "number": "119",
-                "name": "Typhlosion",
-                "type": "Fire",
-                "emoji": "🔥"
-            },
-            {
-                "number": "120",
-                "name": "Mudkip",
-                "type": "Water",
-                "emoji": "💧"
-            },
-            {
-                "number": "121",
-                "name": "Swampert",
-                "type": "Water",
-                "emoji": "💧"
-            },
-            {
-                "number": "122",
-                "name": "Torchic",
-                "type": "Fire",
-                "emoji": "🔥"
-            },
-            {
-                "number": "123",
-                "name": "Blaziken",
-                "type": "Fire",
-                "emoji": "🔥"
-            },
-            {
-                "number": "124",
-                "name": "Gible",
-                "type": "Dragon",
-                "emoji": "🐉"
-            },
-            {
-                "number": "125",
-                "name": "Garchomp",
-                "type": "Dragon",
-                "emoji": "🐉"
-            },
-            {
-                "number": "126",
-                "name": "Dratini",
-                "type": "Dragon",
-                "emoji": "🐉"
-            },
-            {
-                "number": "127",
-                "name": "Dragonite",
-                "type": "Dragon",
-                "emoji": "🐉"
-            }
-        ]
+    "Water Energy": {
+      "small": "https://images.pokemontcg.io/swsh12pt5/154.png",
+      "large": "https://images.pokemontcg.io/swsh12pt5/154_hires.png"
+    },
+    "Lightning Energy": {
+      "small": "https://images.pokemontcg.io/swsh12pt5/155.png",
+      "large": "https://images.pokemontcg.io/swsh12pt5/155_hires.png"
+    },
+    "Psychic Energy": {
+      "small": "https://images.pokemontcg.io/swsh12pt5/156.png",
+      "large": "https://images.pokemontcg.io/swsh12pt5/156_hires.png"
+    },
+    "Fighting Energy": {
+      "small": "https://images.pokemontcg.io/swsh12pt5/157.png",
+      "large": "https://images.pokemontcg.io/swsh12pt5/157_hires.png"
+    },
+    "Darkness Energy": {
+      "small": "https://images.pokemontcg.io/swsh12pt5/158.png",
+      "large": "https://images.pokemontcg.io/swsh12pt5/158_hires.png"
+    },
+    "Metal Energy": {
+      "small": "https://images.pokemontcg.io/swsh12pt5/159.png",
+      "large": "https://images.pokemontcg.io/swsh12pt5/159_hires.png"
+    },
+    "Fairy Energy": {
+      "small": "https://images.pokemontcg.io/sm3/169.png",
+      "large": "https://images.pokemontcg.io/sm3/169_hires.png"
+    },
+    "Chikorita": {
+      "small": "https://images.pokemontcg.io/sm8/5.png",
+      "large": "https://images.pokemontcg.io/sm8/5_hires.png"
+    },
+    "Bayleef": {
+      "small": "https://images.pokemontcg.io/sm8/7.png",
+      "large": "https://images.pokemontcg.io/sm8/7_hires.png"
+    },
+    "Seedot": {
+      "small": "https://images.pokemontcg.io/sv5/3.png",
+      "large": "https://images.pokemontcg.io/sv5/3_hires.png"
+    },
+    "Nuzleaf": {
+      "small": "https://images.pokemontcg.io/sv5/4.png",
+      "large": "https://images.pokemontcg.io/sv5/4_hires.png"
+    },
+    "Cottonee": {
+      "small": "https://images.pokemontcg.io/sv5/14.png",
+      "large": "https://images.pokemontcg.io/sv5/14_hires.png"
+    },
+    "Petilil": {
+      "small": "https://images.pokemontcg.io/swsh12/9.png",
+      "large": "https://images.pokemontcg.io/swsh12/9_hires.png"
+    },
+    "Cyndaquil": {
+      "small": "https://images.pokemontcg.io/swsh10/23.png",
+      "large": "https://images.pokemontcg.io/swsh10/23_hires.png"
+    },
+    "Quilava": {
+      "small": "https://images.pokemontcg.io/swsh10/24.png",
+      "large": "https://images.pokemontcg.io/swsh10/24_hires.png"
+    },
+    "Torchic": {
+      "small": "https://images.pokemontcg.io/swsh3/22.png",
+      "large": "https://images.pokemontcg.io/swsh3/22_hires.png"
+    },
+    "Combusken": {
+      "small": "https://images.pokemontcg.io/swsh3/23.png",
+      "large": "https://images.pokemontcg.io/swsh3/23_hires.png"
+    },
+    "Houndour": {
+      "small": "https://images.pokemontcg.io/sv6pt5/7.png",
+      "large": "https://images.pokemontcg.io/sv6pt5/7_hires.png"
+    },
+    "Mudkip": {
+      "small": "https://images.pokemontcg.io/swsh8/62.png",
+      "large": "https://images.pokemontcg.io/swsh8/62_hires.png"
+    },
+    "Marshtomp": {
+      "small": "https://images.pokemontcg.io/swsh8/63.png",
+      "large": "https://images.pokemontcg.io/swsh8/63_hires.png"
+    },
+    "Lapras": {
+      "small": "https://images.pokemontcg.io/sv7/31.png",
+      "large": "https://images.pokemontcg.io/sv7/31_hires.png"
+    },
+    "Froakie": {
+      "small": "https://images.pokemontcg.io/sv7/39.png",
+      "large": "https://images.pokemontcg.io/sv7/39_hires.png"
+    },
+    "Frogadier": {
+      "small": "https://images.pokemontcg.io/sv7/40.png",
+      "large": "https://images.pokemontcg.io/sv7/40_hires.png"
+    },
+    "Voltorb": {
+      "small": "https://images.pokemontcg.io/sv4pt5/133.png",
+      "large": "https://images.pokemontcg.io/sv4pt5/133_hires.png"
+    },
+    "Elekid": {
+      "small": "https://images.pokemontcg.io/sv4/59.png",
+      "large": "https://images.pokemontcg.io/sv4/59_hires.png"
+    },
+    "Electabuzz": {
+      "small": "https://images.pokemontcg.io/sv7/46.png",
+      "large": "https://images.pokemontcg.io/sv7/46_hires.png"
+    },
+    "Blitzle": {
+      "small": "https://images.pokemontcg.io/sv8/62.png",
+      "large": "https://images.pokemontcg.io/sv8/62_hires.png"
+    },
+    "Slowpoke": {
+      "small": "https://images.pokemontcg.io/sv7/57.png",
+      "large": "https://images.pokemontcg.io/sv7/57_hires.png"
+    },
+    "Espurr": {
+      "small": "https://images.pokemontcg.io/sv8/84.png",
+      "large": "https://images.pokemontcg.io/sv8/84_hires.png"
+    },
+    "Solosis": {
+      "small": "https://images.pokemontcg.io/sv5/70.png",
+      "large": "https://images.pokemontcg.io/sv5/70_hires.png"
+    },
+    "Duosion": {
+      "small": "https://images.pokemontcg.io/sv5/71.png",
+      "large": "https://images.pokemontcg.io/sv5/71_hires.png"
+    },
+    "Mankey": {
+      "small": "https://images.pokemontcg.io/sv8/98.png",
+      "large": "https://images.pokemontcg.io/sv8/98_hires.png"
+    },
+    "Makuhita": {
+      "small": "https://images.pokemontcg.io/sv2/112.png",
+      "large": "https://images.pokemontcg.io/sv2/112_hires.png"
+    },
+    "Croagunk": {
+      "small": "https://images.pokemontcg.io/sv6pt5/23.png",
+      "large": "https://images.pokemontcg.io/sv6pt5/23_hires.png"
+    },
+    "Sandile": {
+      "small": "https://images.pokemontcg.io/sv1/115.png",
+      "large": "https://images.pokemontcg.io/sv1/115_hires.png"
+    },
+    "Krokorok": {
+      "small": "https://images.pokemontcg.io/sv1/116.png",
+      "large": "https://images.pokemontcg.io/sv1/116_hires.png"
+    },
+    "Inkay": {
+      "small": "https://images.pokemontcg.io/sv6pt5/33.png",
+      "large": "https://images.pokemontcg.io/sv6pt5/33_hires.png"
+    },
+    "Magnemite": {
+      "small": "https://images.pokemontcg.io/sv8/58.png",
+      "large": "https://images.pokemontcg.io/sv8/58_hires.png"
+    },
+    "Magneton": {
+      "small": "https://images.pokemontcg.io/sv8/59.png",
+      "large": "https://images.pokemontcg.io/sv8/59_hires.png"
+    },
+    "Skarmory": {
+      "small": "https://images.pokemontcg.io/sv8/124.png",
+      "large": "https://images.pokemontcg.io/sv8/124_hires.png"
+    },
+    "Gible": {
+      "small": "https://images.pokemontcg.io/sv4/94.png",
+      "large": "https://images.pokemontcg.io/sv4/94_hires.png"
+    },
+    "Gabite": {
+      "small": "https://images.pokemontcg.io/sv4/95.png",
+      "large": "https://images.pokemontcg.io/sv4/95_hires.png"
+    },
+    "Dratini": {
+      "small": "https://images.pokemontcg.io/sv3pt5/147.png",
+      "large": "https://images.pokemontcg.io/sv3pt5/147_hires.png"
+    },
+    "Dragonair": {
+      "small": "https://images.pokemontcg.io/sv3pt5/148.png",
+      "large": "https://images.pokemontcg.io/sv3pt5/148_hires.png"
+    },
+    "Starly": {
+      "small": "https://images.pokemontcg.io/sv1/148.png",
+      "large": "https://images.pokemontcg.io/sv1/148_hires.png"
+    },
+    "Staravia": {
+      "small": "https://images.pokemontcg.io/sv1/149.png",
+      "large": "https://images.pokemontcg.io/sv1/149_hires.png"
+    },
+    "Minccino": {
+      "small": "https://images.pokemontcg.io/sv5/136.png",
+      "large": "https://images.pokemontcg.io/sv5/136_hires.png"
+    },
+    "Meganium": {
+      "small": "https://images.pokemontcg.io/sm8/8.png",
+      "large": "https://images.pokemontcg.io/sm8/8_hires.png"
+    },
+    "Shiftry": {
+      "small": "https://images.pokemontcg.io/sv5/5.png",
+      "large": "https://images.pokemontcg.io/sv5/5_hires.png"
+    },
+    "Whimsicott": {
+      "small": "https://images.pokemontcg.io/sv5/15.png",
+      "large": "https://images.pokemontcg.io/sv5/15_hires.png"
+    },
+    "Lilligant": {
+      "small": "https://images.pokemontcg.io/swsh7/10.png",
+      "large": "https://images.pokemontcg.io/swsh7/10_hires.png"
+    },
+    "Typhlosion": {
+      "small": "https://images.pokemontcg.io/sm8/42.png",
+      "large": "https://images.pokemontcg.io/sm8/42_hires.png"
+    },
+    "Blaziken": {
+      "small": "https://images.pokemontcg.io/swsh6/20.png",
+      "large": "https://images.pokemontcg.io/swsh6/20_hires.png"
+    },
+    "Houndoom": {
+      "small": "https://images.pokemontcg.io/sv6pt5/8.png",
+      "large": "https://images.pokemontcg.io/sv6pt5/8_hires.png"
+    },
+    "Swampert": {
+      "small": "https://images.pokemontcg.io/swsh8/64.png",
+      "large": "https://images.pokemontcg.io/swsh8/64_hires.png"
+    },
+    "Greninja": {
+      "small": "https://images.pokemontcg.io/sv7/41.png",
+      "large": "https://images.pokemontcg.io/sv7/41_hires.png"
+    },
+    "Electrode": {
+      "small": "https://images.pokemontcg.io/sv4pt5/134.png",
+      "large": "https://images.pokemontcg.io/sv4pt5/134_hires.png"
+    },
+    "Electivire": {
+      "small": "https://images.pokemontcg.io/sv7/47.png",
+      "large": "https://images.pokemontcg.io/sv7/47_hires.png"
+    },
+    "Zebstrika": {
+      "small": "https://images.pokemontcg.io/sv8/63.png",
+      "large": "https://images.pokemontcg.io/sv8/63_hires.png"
+    },
+    "Slowking": {
+      "small": "https://images.pokemontcg.io/sv7/58.png",
+      "large": "https://images.pokemontcg.io/sv7/58_hires.png"
+    },
+    "Meowstic": {
+      "small": "https://images.pokemontcg.io/sv8/85.png",
+      "large": "https://images.pokemontcg.io/sv8/85_hires.png"
+    },
+    "Reuniclus": {
+      "small": "https://images.pokemontcg.io/sv5/72.png",
+      "large": "https://images.pokemontcg.io/sv5/72_hires.png"
+    },
+    "Primeape": {
+      "small": "https://images.pokemontcg.io/sv8/99.png",
+      "large": "https://images.pokemontcg.io/sv8/99_hires.png"
+    },
+    "Hariyama": {
+      "small": "https://images.pokemontcg.io/sv2/113.png",
+      "large": "https://images.pokemontcg.io/sv2/113_hires.png"
+    },
+    "Toxicroak": {
+      "small": "https://images.pokemontcg.io/sv6pt5/24.png",
+      "large": "https://images.pokemontcg.io/sv6pt5/24_hires.png"
+    },
+    "Krookodile": {
+      "small": "https://images.pokemontcg.io/sv1/117.png",
+      "large": "https://images.pokemontcg.io/sv1/117_hires.png"
+    },
+    "Malamar": {
+      "small": "https://images.pokemontcg.io/sv6pt5/34.png",
+      "large": "https://images.pokemontcg.io/sv6pt5/34_hires.png"
+    },
+    "Magnezone": {
+      "small": "https://images.pokemontcg.io/sv8/60.png",
+      "large": "https://images.pokemontcg.io/sv8/60_hires.png"
+    },
+    "Steelix": {
+      "small": "https://images.pokemontcg.io/sv4/125.png",
+      "large": "https://images.pokemontcg.io/sv4/125_hires.png"
+    },
+    "Garchomp": {
+      "small": "https://images.pokemontcg.io/sv4/38.png",
+      "large": "https://images.pokemontcg.io/sv4/38_hires.png"
+    },
+    "Dragonite": {
+      "small": "https://images.pokemontcg.io/sv3pt5/149.png",
+      "large": "https://images.pokemontcg.io/sv3pt5/149_hires.png"
+    },
+    "Staraptor": {
+      "small": "https://images.pokemontcg.io/sv1/150.png",
+      "large": "https://images.pokemontcg.io/sv1/150_hires.png"
+    },
+    "Cinccino": {
+      "small": "https://images.pokemontcg.io/sv5/137.png",
+      "large": "https://images.pokemontcg.io/sv5/137_hires.png"
+    },
+    "Nest Ball": {
+      "small": "https://images.pokemontcg.io/sv4pt5/84.png",
+      "large": "https://images.pokemontcg.io/sv4pt5/84_hires.png"
+    },
+    "Pal Pad": {
+      "small": "https://images.pokemontcg.io/sv1/182.png",
+      "large": "https://images.pokemontcg.io/sv1/182_hires.png"
+    },
+    "Energy Recycler": {
+      "small": "https://images.pokemontcg.io/swsh5/124.png",
+      "large": "https://images.pokemontcg.io/swsh5/124_hires.png"
+    },
+    "Suicune": {
+      "small": "https://images.pokemontcg.io/swsh7/31.png",
+      "large": "https://images.pokemontcg.io/swsh7/31_hires.png"
+    },
+    "Mewtwo": {
+      "small": "https://images.pokemontcg.io/sv7/59.png",
+      "large": "https://images.pokemontcg.io/sv7/59_hires.png"
+    },
+    "Annihilape": {
+      "small": "https://images.pokemontcg.io/sv8/100.png",
+      "large": "https://images.pokemontcg.io/sv8/100_hires.png"
+    },
+    "Meganium ex": {
+      "small": "https://images.pokemontcg.io/sm8/8.png",
+      "large": "https://images.pokemontcg.io/sm8/8_hires.png"
+    },
+    "Blaziken ex": {
+      "small": "https://images.pokemontcg.io/swsh6/20.png",
+      "large": "https://images.pokemontcg.io/swsh6/20_hires.png"
+    },
+    "Swampert ex": {
+      "small": "https://images.pokemontcg.io/swsh8/64.png",
+      "large": "https://images.pokemontcg.io/swsh8/64_hires.png"
+    },
+    "Garchomp ex": {
+      "small": "https://images.pokemontcg.io/sv4/38.png",
+      "large": "https://images.pokemontcg.io/sv4/38_hires.png"
+    },
+    "Steelix ex": {
+      "small": "https://images.pokemontcg.io/sv4/125.png",
+      "large": "https://images.pokemontcg.io/sv4/125_hires.png"
+    },
+    "Houndoom ex": {
+      "small": "https://images.pokemontcg.io/sv6pt5/8.png",
+      "large": "https://images.pokemontcg.io/sv6pt5/8_hires.png"
+    },
+    "Dragonite ex": {
+      "small": "https://images.pokemontcg.io/sv3pt5/149.png",
+      "large": "https://images.pokemontcg.io/sv3pt5/149_hires.png"
+    },
+    "Slowking ex": {
+      "small": "https://images.pokemontcg.io/sv7/58.png",
+      "large": "https://images.pokemontcg.io/sv7/58_hires.png"
+    },
+    "Cynthia": {
+      "small": "https://images.pokemontcg.io/sm5/119.png",
+      "large": "https://images.pokemontcg.io/sm5/119_hires.png"
+    },
+    "Steven": {
+      "small": "https://images.pokemontcg.io/xy7/95.png",
+      "large": "https://images.pokemontcg.io/xy7/95_hires.png"
+    },
+    "Mega Meganium ex": {
+      "small": "https://images.pokemontcg.io/sm8/8.png",
+      "large": "https://images.pokemontcg.io/sm8/8_hires.png"
+    },
+    "Mega Blaziken ex": {
+      "small": "https://images.pokemontcg.io/swsh6/20.png",
+      "large": "https://images.pokemontcg.io/swsh6/20_hires.png"
+    },
+    "Mega Swampert ex": {
+      "small": "https://images.pokemontcg.io/swsh8/64.png",
+      "large": "https://images.pokemontcg.io/swsh8/64_hires.png"
+    },
+    "Mega Garchomp ex": {
+      "small": "https://images.pokemontcg.io/sv4/38.png",
+      "large": "https://images.pokemontcg.io/sv4/38_hires.png"
+    },
+    "Mega Steelix ex": {
+      "small": "https://images.pokemontcg.io/sv4/125.png",
+      "large": "https://images.pokemontcg.io/sv4/125_hires.png"
+    },
+    "Mega Houndoom ex": {
+      "small": "https://images.pokemontcg.io/sv6pt5/8.png",
+      "large": "https://images.pokemontcg.io/sv6pt5/8_hires.png"
+    },
+    "Mega Slowbro ex": {
+      "small": "https://images.pokemontcg.io/sv4pt5/117.png",
+      "large": "https://images.pokemontcg.io/sv4pt5/117_hires.png"
+    },
+    "Mega Dragonite ex": {
+      "small": "https://images.pokemontcg.io/sv3pt5/149.png",
+      "large": "https://images.pokemontcg.io/sv3pt5/149_hires.png"
     }
+  }
 }

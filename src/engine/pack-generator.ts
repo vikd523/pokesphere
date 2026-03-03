@@ -14,6 +14,9 @@ export interface CardData {
     name: string;
     type: string;
     emoji: string;
+    // Pre-baked image URLs (from imageMap in custom set JSON)
+    imageSmall?: string;
+    imageLarge?: string;
 }
 
 export interface PackCard extends CardData {
