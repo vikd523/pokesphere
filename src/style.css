@@ -196,8 +196,8 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: var(--space-2xl) var(--space-xl);
-  gap: var(--space-xl);
+  padding: var(--space-lg) var(--space-xl);
+  gap: var(--space-md);
   position: relative;
   overflow-y: auto;
 }
@@ -226,18 +226,36 @@ body {
 /* --- Pack Selection Carousel --- */
 .pack-selection-carousel {
   display: flex;
-  flex-wrap: wrap;
-  /* Wrap elements to multiple lines cleanly */
-  gap: var(--space-xl);
-  padding: var(--space-lg) var(--space-md);
+  flex-wrap: nowrap;
+  gap: var(--space-md);
+  padding: var(--space-md) var(--space-lg);
   width: 100%;
-  justify-content: center;
-  align-items: center;
-  overflow: visible;
-  /* Don't hide overflow so they render */
+  overflow-x: auto;
+  overflow-y: hidden;
+  align-items: flex-start;
+  /* Thin styled scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-gold-dim) transparent;
+  -webkit-overflow-scrolling: touch;
+  /* Snap to cards */
+  scroll-snap-type: x proximity;
 }
 
-@media (min-width: 1024px) {
+.pack-selection-carousel::-webkit-scrollbar {
+  height: 6px;
+}
+
+.pack-selection-carousel::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.pack-selection-carousel::-webkit-scrollbar-thumb {
+  background-color: var(--accent-gold-dim);
+  border-radius: 10px;
+}
+
+/* Center the strip when all packs fit without scrolling */
+@media (min-width: 1500px) {
   .pack-selection-carousel {
     justify-content: center;
   }
@@ -249,16 +267,16 @@ body {
   cursor: pointer;
   transition: all var(--duration-medium) var(--ease-spring);
   flex: 0 0 auto;
-  width: 200px;
-  /* Rigid width to prevent squish */
+  width: 130px;
   opacity: 0.6;
-  transform: scale(0.9);
+  transform: scale(0.92);
   filter: grayscale(0.5);
+  scroll-snap-align: center;
 }
 
 .pack-container.active {
   opacity: 1;
-  transform: scale(1.05);
+  transform: scale(1.02);
   filter: grayscale(0);
   z-index: 10;
 }
@@ -269,17 +287,18 @@ body {
 }
 
 .pack-container:hover {
-  transform: scale(0.95) rotateY(-3deg);
+  transform: scale(0.96) rotateY(-3deg);
   opacity: 0.8;
 }
 
 .pack-container.active:hover {
-  transform: scale(1.08) rotateY(-3deg);
+  transform: scale(1.04) rotateY(-3deg);
   opacity: 1;
 }
 
 .pack-wrapper {
   width: 100%;
+  min-height: 0;
   aspect-ratio: 200 / 300;
   border-radius: var(--radius-lg);
   background: linear-gradient(145deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
@@ -333,17 +352,17 @@ body {
 
 .pack-wrapper .pack-label {
   font-family: var(--font-display);
-  font-size: 0.75rem;
+  font-size: 0.6rem;
   font-weight: 600;
   color: var(--text-secondary);
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
   z-index: 1;
 }
 
 .pack-wrapper .pack-set-name {
   font-family: var(--font-display);
-  font-size: 1rem;
+  font-size: 0.75rem;
   font-weight: 700;
   color: var(--text-primary);
   text-align: center;
