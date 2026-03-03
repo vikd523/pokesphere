@@ -8,6 +8,11 @@ import silverTempestData from './data/silver-tempest.json';
 import pokemon151Data from './data/pokemon-151.json';
 import evolvingSkiesData from './data/evolving-skies.json';
 import paldeaEvolvedData from './data/paldea-evolved.json';
+import obsidianFlamesData from './data/obsidian-flames.json';
+import baseSetData from './data/base-set.json';
+import megaEvolutionData from './data/mega-evolution.json';
+import phantasmalFlamesData from './data/phantasmal-flames.json';
+import ascendedHeroesData from './data/ascended-heroes.json';
 import { generatePack, type SetData, type PackCard } from './engine/pack-generator';
 import { RARITY_DISPLAY, TYPE_GRADIENTS, isHit, isBigHit, isJackpot } from './engine/rarity-table';
 import { createParticles, destroyParticles } from './effects/particles';
@@ -37,6 +42,11 @@ const SETS: Record<string, SetData> = {
   'pokemon-151': pokemon151Data as unknown as SetData,
   'evolving-skies': evolvingSkiesData as unknown as SetData,
   'paldea-evolved': paldeaEvolvedData as unknown as SetData,
+  'obsidian-flames': obsidianFlamesData as unknown as SetData,
+  'base-set': baseSetData as unknown as SetData,
+  'mega-evolution': megaEvolutionData as unknown as SetData,
+  'phantasmal-flames': phantasmalFlamesData as unknown as SetData,
+  'ascended-heroes': ascendedHeroesData as unknown as SetData,
 };
 
 // Official set logo URLs — dynamically updated from API proxy
@@ -46,6 +56,11 @@ const SET_LOGOS: Record<string, string> = {
   'pokemon-151': 'https://images.pokemontcg.io/sv3pt5/logo.png',
   'evolving-skies': 'https://images.pokemontcg.io/swsh7/logo.png',
   'paldea-evolved': 'https://images.pokemontcg.io/sv2/logo.png',
+  'obsidian-flames': 'https://images.pokemontcg.io/sv3/logo.png',
+  'base-set': 'https://images.pokemontcg.io/base1/logo.png',
+  'mega-evolution': 'https://images.pokemontcg.io/me01/logo.png',
+  'phantasmal-flames': 'https://images.pokemontcg.io/me02/logo.png',
+  'ascended-heroes': 'https://images.pokemontcg.io/me02pt5/logo.png',
 };
 
 // Map our internal set IDs to the API set IDs for fetching logos
@@ -55,6 +70,11 @@ const SET_API_IDS: Record<string, string> = {
   'pokemon-151': 'sv3pt5',
   'evolving-skies': 'swsh7',
   'paldea-evolved': 'sv2',
+  'obsidian-flames': 'sv3',
+  'base-set': 'base1',
+  'mega-evolution': 'me01',
+  'phantasmal-flames': 'me02',
+  'ascended-heroes': 'me02pt5',
 };
 
 /** Fetch real logo URLs from the API (proxied on Vercel) and update SET_LOGOS */

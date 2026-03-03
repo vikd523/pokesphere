@@ -1,0 +1,1416 @@
+{
+  "set": {
+    "id": "obsidian-flames",
+    "name": "Obsidian Flames",
+    "series": "Scarlet & Violet",
+    "releaseDate": "2023-08-11",
+    "totalCards": 230,
+    "apiSetId": "sv3"
+  },
+  "rarityWeights": {
+    "rare": 0.85,
+    "holo_rare": 0.08,
+    "ultra_rare": 0.04,
+    "radiant": 0.01,
+    "full_art": 0.01,
+    "secret_rare": 0.005,
+    "gold": 0.005
+  },
+  "reverseHoloGalleryChance": 0.1,
+  "cards": {
+    "common": [
+      {
+        "number": "1",
+        "name": "Oddish",
+        "type": "Grass",
+        "emoji": "✨"
+      },
+      {
+        "number": "2",
+        "name": "Gloom",
+        "type": "Grass",
+        "emoji": "✨"
+      },
+      {
+        "number": "4",
+        "name": "Scyther",
+        "type": "Grass",
+        "emoji": "✨"
+      },
+      {
+        "number": "5",
+        "name": "Shuckle",
+        "type": "Grass",
+        "emoji": "✨"
+      },
+      {
+        "number": "6",
+        "name": "Surskit",
+        "type": "Grass",
+        "emoji": "✨"
+      },
+      {
+        "number": "8",
+        "name": "Combee",
+        "type": "Grass",
+        "emoji": "✨"
+      },
+      {
+        "number": "9",
+        "name": "Foongus",
+        "type": "Grass",
+        "emoji": "✨"
+      },
+      {
+        "number": "11",
+        "name": "Phantump",
+        "type": "Grass",
+        "emoji": "✨"
+      },
+      {
+        "number": "13",
+        "name": "Rowlet",
+        "type": "Grass",
+        "emoji": "✨"
+      },
+      {
+        "number": "16",
+        "name": "Bounsweet",
+        "type": "Grass",
+        "emoji": "✨"
+      },
+      {
+        "number": "17",
+        "name": "Steenee",
+        "type": "Grass",
+        "emoji": "✨"
+      },
+      {
+        "number": "19",
+        "name": "Smoliv",
+        "type": "Grass",
+        "emoji": "✨"
+      },
+      {
+        "number": "20",
+        "name": "Dolliv",
+        "type": "Grass",
+        "emoji": "✨"
+      },
+      {
+        "number": "23",
+        "name": "Capsakid",
+        "type": "Grass",
+        "emoji": "✨"
+      },
+      {
+        "number": "24",
+        "name": "Capsakid",
+        "type": "Grass",
+        "emoji": "✨"
+      },
+      {
+        "number": "26",
+        "name": "Charmander",
+        "type": "Fire",
+        "emoji": "✨"
+      },
+      {
+        "number": "28",
+        "name": "Vulpix",
+        "type": "Fire",
+        "emoji": "✨"
+      },
+      {
+        "number": "31",
+        "name": "Numel",
+        "type": "Fire",
+        "emoji": "✨"
+      },
+      {
+        "number": "34",
+        "name": "Darumaka",
+        "type": "Fire",
+        "emoji": "✨"
+      },
+      {
+        "number": "36",
+        "name": "Litwick",
+        "type": "Fire",
+        "emoji": "✨"
+      },
+      {
+        "number": "37",
+        "name": "Lampent",
+        "type": "Fire",
+        "emoji": "✨"
+      },
+      {
+        "number": "39",
+        "name": "Heatmor",
+        "type": "Fire",
+        "emoji": "✨"
+      },
+      {
+        "number": "40",
+        "name": "Larvesta",
+        "type": "Fire",
+        "emoji": "✨"
+      },
+      {
+        "number": "43",
+        "name": "Charcadet",
+        "type": "Fire",
+        "emoji": "✨"
+      },
+      {
+        "number": "46",
+        "name": "Carvanha",
+        "type": "Water",
+        "emoji": "✨"
+      },
+      {
+        "number": "48",
+        "name": "Buizel",
+        "type": "Water",
+        "emoji": "✨"
+      },
+      {
+        "number": "50",
+        "name": "Tympole",
+        "type": "Water",
+        "emoji": "✨"
+      },
+      {
+        "number": "51",
+        "name": "Palpitoad",
+        "type": "Water",
+        "emoji": "✨"
+      },
+      {
+        "number": "53",
+        "name": "Cubchoo",
+        "type": "Water",
+        "emoji": "✨"
+      },
+      {
+        "number": "55",
+        "name": "Cryogonal",
+        "type": "Water",
+        "emoji": "✨"
+      },
+      {
+        "number": "56",
+        "name": "Froakie",
+        "type": "Water",
+        "emoji": "✨"
+      },
+      {
+        "number": "58",
+        "name": "Wiglett",
+        "type": "Water",
+        "emoji": "✨"
+      },
+      {
+        "number": "60",
+        "name": "Finizen",
+        "type": "Water",
+        "emoji": "✨"
+      },
+      {
+        "number": "61",
+        "name": "Finizen",
+        "type": "Water",
+        "emoji": "✨"
+      },
+      {
+        "number": "63",
+        "name": "Magnemite",
+        "type": "Lightning",
+        "emoji": "✨"
+      },
+      {
+        "number": "64",
+        "name": "Magneton",
+        "type": "Lightning",
+        "emoji": "✨"
+      },
+      {
+        "number": "67",
+        "name": "Tynamo",
+        "type": "Lightning",
+        "emoji": "✨"
+      },
+      {
+        "number": "68",
+        "name": "Eelektrik",
+        "type": "Lightning",
+        "emoji": "✨"
+      },
+      {
+        "number": "71",
+        "name": "Toxel",
+        "type": "Lightning",
+        "emoji": "✨"
+      },
+      {
+        "number": "74",
+        "name": "Tadbulb",
+        "type": "Lightning",
+        "emoji": "✨"
+      },
+      {
+        "number": "75",
+        "name": "Tadbulb",
+        "type": "Lightning",
+        "emoji": "✨"
+      },
+      {
+        "number": "76",
+        "name": "Tadbulb",
+        "type": "Lightning",
+        "emoji": "✨"
+      },
+      {
+        "number": "80",
+        "name": "Cleffa",
+        "type": "Psychic",
+        "emoji": "✨"
+      },
+      {
+        "number": "81",
+        "name": "Clefairy",
+        "type": "Psychic",
+        "emoji": "✨"
+      },
+      {
+        "number": "83",
+        "name": "Togepi",
+        "type": "Psychic",
+        "emoji": "✨"
+      },
+      {
+        "number": "87",
+        "name": "Snubbull",
+        "type": "Psychic",
+        "emoji": "✨"
+      },
+      {
+        "number": "89",
+        "name": "Mawile",
+        "type": "Psychic",
+        "emoji": "✨"
+      },
+      {
+        "number": "90",
+        "name": "Spoink",
+        "type": "Psychic",
+        "emoji": "✨"
+      },
+      {
+        "number": "94",
+        "name": "Baltoy",
+        "type": "Psychic",
+        "emoji": "✨"
+      },
+      {
+        "number": "97",
+        "name": "Sinistea",
+        "type": "Psychic",
+        "emoji": "✨"
+      },
+      {
+        "number": "99",
+        "name": "Greavard",
+        "type": "Psychic",
+        "emoji": "✨"
+      },
+      {
+        "number": "100",
+        "name": "Greavard",
+        "type": "Psychic",
+        "emoji": "✨"
+      },
+      {
+        "number": "103",
+        "name": "Diglett",
+        "type": "Fighting",
+        "emoji": "✨"
+      },
+      {
+        "number": "105",
+        "name": "Larvitar",
+        "type": "Fighting",
+        "emoji": "✨"
+      },
+      {
+        "number": "107",
+        "name": "Nosepass",
+        "type": "Fighting",
+        "emoji": "✨"
+      },
+      {
+        "number": "108",
+        "name": "Barboach",
+        "type": "Fighting",
+        "emoji": "✨"
+      },
+      {
+        "number": "110",
+        "name": "Bonsly",
+        "type": "Fighting",
+        "emoji": "✨"
+      },
+      {
+        "number": "111",
+        "name": "Drilbur",
+        "type": "Fighting",
+        "emoji": "✨"
+      },
+      {
+        "number": "114",
+        "name": "Crabrawler",
+        "type": "Fighting",
+        "emoji": "✨"
+      },
+      {
+        "number": "116",
+        "name": "Rockruff",
+        "type": "Fighting",
+        "emoji": "✨"
+      },
+      {
+        "number": "118",
+        "name": "Toedscool",
+        "type": "Fighting",
+        "emoji": "✨"
+      },
+      {
+        "number": "121",
+        "name": "Glimmet",
+        "type": "Fighting",
+        "emoji": "✨"
+      },
+      {
+        "number": "122",
+        "name": "Glimmet",
+        "type": "Fighting",
+        "emoji": "✨"
+      },
+      {
+        "number": "126",
+        "name": "Paldean Wooper",
+        "type": "Darkness",
+        "emoji": "✨"
+      },
+      {
+        "number": "127",
+        "name": "Paldean Wooper",
+        "type": "Darkness",
+        "emoji": "✨"
+      },
+      {
+        "number": "131",
+        "name": "Houndour",
+        "type": "Darkness",
+        "emoji": "✨"
+      },
+      {
+        "number": "132",
+        "name": "Houndour",
+        "type": "Darkness",
+        "emoji": "✨"
+      },
+      {
+        "number": "137",
+        "name": "Inkay",
+        "type": "Darkness",
+        "emoji": "✨"
+      },
+      {
+        "number": "139",
+        "name": "Salandit",
+        "type": "Darkness",
+        "emoji": "✨"
+      },
+      {
+        "number": "144",
+        "name": "Bronzor",
+        "type": "Metal",
+        "emoji": "✨"
+      },
+      {
+        "number": "148",
+        "name": "Pawniard",
+        "type": "Metal",
+        "emoji": "✨"
+      },
+      {
+        "number": "149",
+        "name": "Bisharp",
+        "type": "Metal",
+        "emoji": "✨"
+      },
+      {
+        "number": "151",
+        "name": "Togedemaru",
+        "type": "Metal",
+        "emoji": "✨"
+      },
+      {
+        "number": "152",
+        "name": "Meltan",
+        "type": "Metal",
+        "emoji": "✨"
+      },
+      {
+        "number": "154",
+        "name": "Varoom",
+        "type": "Metal",
+        "emoji": "✨"
+      },
+      {
+        "number": "155",
+        "name": "Varoom",
+        "type": "Metal",
+        "emoji": "✨"
+      },
+      {
+        "number": "157",
+        "name": "Dratini",
+        "type": "Dragon",
+        "emoji": "✨"
+      },
+      {
+        "number": "162",
+        "name": "Pidgey",
+        "type": "Colorless",
+        "emoji": "✨"
+      },
+      {
+        "number": "166",
+        "name": "Eevee",
+        "type": "Colorless",
+        "emoji": "✨"
+      },
+      {
+        "number": "167",
+        "name": "Zigzagoon",
+        "type": "Colorless",
+        "emoji": "✨"
+      },
+      {
+        "number": "169",
+        "name": "Swablu",
+        "type": "Colorless",
+        "emoji": "✨"
+      },
+      {
+        "number": "170",
+        "name": "Lillipup",
+        "type": "Colorless",
+        "emoji": "✨"
+      },
+      {
+        "number": "171",
+        "name": "Herdier",
+        "type": "Colorless",
+        "emoji": "✨"
+      },
+      {
+        "number": "173",
+        "name": "Audino",
+        "type": "Colorless",
+        "emoji": "✨"
+      },
+      {
+        "number": "175",
+        "name": "Bunnelby",
+        "type": "Colorless",
+        "emoji": "✨"
+      },
+      {
+        "number": "176",
+        "name": "Yungoos",
+        "type": "Colorless",
+        "emoji": "✨"
+      },
+      {
+        "number": "178",
+        "name": "Skwovet",
+        "type": "Colorless",
+        "emoji": "✨"
+      },
+      {
+        "number": "180",
+        "name": "Lechonk",
+        "type": "Colorless",
+        "emoji": "✨"
+      },
+      {
+        "number": "181",
+        "name": "Lechonk",
+        "type": "Colorless",
+        "emoji": "✨"
+      },
+      {
+        "number": "182",
+        "name": "Lechonk",
+        "type": "Colorless",
+        "emoji": "✨"
+      },
+      {
+        "number": "194",
+        "name": "Ryme",
+        "type": "Normal",
+        "emoji": "🎒"
+      },
+      {
+        "number": "196",
+        "name": "Town Store",
+        "type": "Normal",
+        "emoji": "🎒"
+      }
+    ],
+    "uncommon": [
+      {
+        "number": "3",
+        "name": "Bellossom",
+        "type": "Grass",
+        "emoji": "✨"
+      },
+      {
+        "number": "7",
+        "name": "Masquerain",
+        "type": "Grass",
+        "emoji": "✨"
+      },
+      {
+        "number": "10",
+        "name": "Amoonguss",
+        "type": "Grass",
+        "emoji": "✨"
+      },
+      {
+        "number": "12",
+        "name": "Trevenant",
+        "type": "Grass",
+        "emoji": "✨"
+      },
+      {
+        "number": "14",
+        "name": "Dartrix",
+        "type": "Grass",
+        "emoji": "✨"
+      },
+      {
+        "number": "18",
+        "name": "Tsareena",
+        "type": "Grass",
+        "emoji": "✨"
+      },
+      {
+        "number": "21",
+        "name": "Arboliva",
+        "type": "Grass",
+        "emoji": "✨"
+      },
+      {
+        "number": "27",
+        "name": "Charmeleon",
+        "type": "Fire",
+        "emoji": "✨"
+      },
+      {
+        "number": "29",
+        "name": "Ninetales",
+        "type": "Fire",
+        "emoji": "✨"
+      },
+      {
+        "number": "32",
+        "name": "Camerupt",
+        "type": "Fire",
+        "emoji": "✨"
+      },
+      {
+        "number": "35",
+        "name": "Darmanitan",
+        "type": "Fire",
+        "emoji": "✨"
+      },
+      {
+        "number": "38",
+        "name": "Chandelure",
+        "type": "Fire",
+        "emoji": "✨"
+      },
+      {
+        "number": "41",
+        "name": "Volcarona",
+        "type": "Fire",
+        "emoji": "✨"
+      },
+      {
+        "number": "44",
+        "name": "Armarouge",
+        "type": "Fire",
+        "emoji": "✨"
+      },
+      {
+        "number": "45",
+        "name": "Lapras",
+        "type": "Water",
+        "emoji": "✨"
+      },
+      {
+        "number": "47",
+        "name": "Sharpedo",
+        "type": "Water",
+        "emoji": "✨"
+      },
+      {
+        "number": "49",
+        "name": "Floatzel",
+        "type": "Water",
+        "emoji": "✨"
+      },
+      {
+        "number": "52",
+        "name": "Seismitoad",
+        "type": "Water",
+        "emoji": "✨"
+      },
+      {
+        "number": "54",
+        "name": "Beartic",
+        "type": "Water",
+        "emoji": "✨"
+      },
+      {
+        "number": "57",
+        "name": "Frogadier",
+        "type": "Water",
+        "emoji": "✨"
+      },
+      {
+        "number": "59",
+        "name": "Wugtrio",
+        "type": "Water",
+        "emoji": "✨"
+      },
+      {
+        "number": "65",
+        "name": "Magnezone",
+        "type": "Lightning",
+        "emoji": "✨"
+      },
+      {
+        "number": "69",
+        "name": "Eelektross",
+        "type": "Lightning",
+        "emoji": "✨"
+      },
+      {
+        "number": "77",
+        "name": "Bellibolt",
+        "type": "Lightning",
+        "emoji": "✨"
+      },
+      {
+        "number": "78",
+        "name": "Bellibolt",
+        "type": "Lightning",
+        "emoji": "✨"
+      },
+      {
+        "number": "84",
+        "name": "Togetic",
+        "type": "Psychic",
+        "emoji": "✨"
+      },
+      {
+        "number": "86",
+        "name": "Espeon",
+        "type": "Psychic",
+        "emoji": "✨"
+      },
+      {
+        "number": "88",
+        "name": "Granbull",
+        "type": "Psychic",
+        "emoji": "✨"
+      },
+      {
+        "number": "91",
+        "name": "Grumpig",
+        "type": "Psychic",
+        "emoji": "✨"
+      },
+      {
+        "number": "92",
+        "name": "Lunatone",
+        "type": "Psychic",
+        "emoji": "✨"
+      },
+      {
+        "number": "93",
+        "name": "Solrock",
+        "type": "Psychic",
+        "emoji": "✨"
+      },
+      {
+        "number": "98",
+        "name": "Polteageist",
+        "type": "Psychic",
+        "emoji": "✨"
+      },
+      {
+        "number": "101",
+        "name": "Houndstone",
+        "type": "Psychic",
+        "emoji": "✨"
+      },
+      {
+        "number": "104",
+        "name": "Dugtrio",
+        "type": "Fighting",
+        "emoji": "✨"
+      },
+      {
+        "number": "106",
+        "name": "Pupitar",
+        "type": "Fighting",
+        "emoji": "✨"
+      },
+      {
+        "number": "109",
+        "name": "Whiscash",
+        "type": "Fighting",
+        "emoji": "✨"
+      },
+      {
+        "number": "112",
+        "name": "Stunfisk",
+        "type": "Fighting",
+        "emoji": "✨"
+      },
+      {
+        "number": "113",
+        "name": "Diggersby",
+        "type": "Fighting",
+        "emoji": "✨"
+      },
+      {
+        "number": "115",
+        "name": "Crabominable",
+        "type": "Fighting",
+        "emoji": "✨"
+      },
+      {
+        "number": "117",
+        "name": "Lycanroc",
+        "type": "Fighting",
+        "emoji": "✨"
+      },
+      {
+        "number": "119",
+        "name": "Toedscruel",
+        "type": "Fighting",
+        "emoji": "✨"
+      },
+      {
+        "number": "128",
+        "name": "Paldean Clodsire",
+        "type": "Darkness",
+        "emoji": "✨"
+      },
+      {
+        "number": "129",
+        "name": "Paldean Clodsire",
+        "type": "Darkness",
+        "emoji": "✨"
+      },
+      {
+        "number": "130",
+        "name": "Umbreon",
+        "type": "Darkness",
+        "emoji": "✨"
+      },
+      {
+        "number": "133",
+        "name": "Houndoom",
+        "type": "Darkness",
+        "emoji": "✨"
+      },
+      {
+        "number": "138",
+        "name": "Malamar",
+        "type": "Darkness",
+        "emoji": "✨"
+      },
+      {
+        "number": "140",
+        "name": "Salazzle",
+        "type": "Darkness",
+        "emoji": "✨"
+      },
+      {
+        "number": "142",
+        "name": "Skarmory",
+        "type": "Metal",
+        "emoji": "✨"
+      },
+      {
+        "number": "143",
+        "name": "Mawile",
+        "type": "Metal",
+        "emoji": "✨"
+      },
+      {
+        "number": "145",
+        "name": "Bronzong",
+        "type": "Metal",
+        "emoji": "✨"
+      },
+      {
+        "number": "146",
+        "name": "Probopass",
+        "type": "Metal",
+        "emoji": "✨"
+      },
+      {
+        "number": "147",
+        "name": "Excadrill",
+        "type": "Metal",
+        "emoji": "✨"
+      },
+      {
+        "number": "150",
+        "name": "Kingambit",
+        "type": "Metal",
+        "emoji": "✨"
+      },
+      {
+        "number": "158",
+        "name": "Dragonair",
+        "type": "Dragon",
+        "emoji": "✨"
+      },
+      {
+        "number": "160",
+        "name": "Altaria",
+        "type": "Dragon",
+        "emoji": "✨"
+      },
+      {
+        "number": "161",
+        "name": "Drampa",
+        "type": "Dragon",
+        "emoji": "✨"
+      },
+      {
+        "number": "163",
+        "name": "Pidgeotto",
+        "type": "Colorless",
+        "emoji": "✨"
+      },
+      {
+        "number": "165",
+        "name": "Kangaskhan",
+        "type": "Colorless",
+        "emoji": "✨"
+      },
+      {
+        "number": "168",
+        "name": "Linoone",
+        "type": "Colorless",
+        "emoji": "✨"
+      },
+      {
+        "number": "172",
+        "name": "Stoutland",
+        "type": "Colorless",
+        "emoji": "✨"
+      },
+      {
+        "number": "174",
+        "name": "Bouffalant",
+        "type": "Colorless",
+        "emoji": "✨"
+      },
+      {
+        "number": "177",
+        "name": "Gumshoos",
+        "type": "Colorless",
+        "emoji": "✨"
+      },
+      {
+        "number": "183",
+        "name": "Oinkologne",
+        "type": "Colorless",
+        "emoji": "✨"
+      },
+      {
+        "number": "184",
+        "name": "Oinkologne",
+        "type": "Colorless",
+        "emoji": "✨"
+      },
+      {
+        "number": "185",
+        "name": "Flamigo",
+        "type": "Colorless",
+        "emoji": "✨"
+      },
+      {
+        "number": "186",
+        "name": "Arven",
+        "type": "Normal",
+        "emoji": "🎒"
+      },
+      {
+        "number": "187",
+        "name": "Brassius",
+        "type": "Normal",
+        "emoji": "🎒"
+      },
+      {
+        "number": "189",
+        "name": "Letter of Encouragement",
+        "type": "Normal",
+        "emoji": "🎒"
+      },
+      {
+        "number": "190",
+        "name": "Ortega",
+        "type": "Normal",
+        "emoji": "🎒"
+      },
+      {
+        "number": "191",
+        "name": "Patrol Cap",
+        "type": "Normal",
+        "emoji": "🎒"
+      },
+      {
+        "number": "192",
+        "name": "Pokémon League Headquarters",
+        "type": "Normal",
+        "emoji": "🎒"
+      },
+      {
+        "number": "193",
+        "name": "Poppy",
+        "type": "Normal",
+        "emoji": "🎒"
+      },
+      {
+        "number": "195",
+        "name": "Team Star Grunt",
+        "type": "Normal",
+        "emoji": "🎒"
+      },
+      {
+        "number": "197",
+        "name": "Vengeful Punch",
+        "type": "Normal",
+        "emoji": "🎒"
+      }
+    ],
+    "rare": [
+      {
+        "number": "15",
+        "name": "Decidueye ex",
+        "type": "Grass",
+        "emoji": "✨"
+      },
+      {
+        "number": "22",
+        "name": "Toedscruel ex",
+        "type": "Grass",
+        "emoji": "✨"
+      },
+      {
+        "number": "25",
+        "name": "Scovillain",
+        "type": "Grass",
+        "emoji": "✨"
+      },
+      {
+        "number": "30",
+        "name": "Entei",
+        "type": "Fire",
+        "emoji": "✨"
+      },
+      {
+        "number": "33",
+        "name": "Victini ex",
+        "type": "Fire",
+        "emoji": "✨"
+      },
+      {
+        "number": "42",
+        "name": "Eiscue ex",
+        "type": "Fire",
+        "emoji": "✨"
+      },
+      {
+        "number": "62",
+        "name": "Palafin",
+        "type": "Water",
+        "emoji": "✨"
+      },
+      {
+        "number": "66",
+        "name": "Tyranitar ex",
+        "type": "Lightning",
+        "emoji": "✨"
+      },
+      {
+        "number": "70",
+        "name": "Thundurus",
+        "type": "Lightning",
+        "emoji": "✨"
+      },
+      {
+        "number": "72",
+        "name": "Toxtricity",
+        "type": "Lightning",
+        "emoji": "✨"
+      },
+      {
+        "number": "73",
+        "name": "Pawmot ex",
+        "type": "Lightning",
+        "emoji": "✨"
+      },
+      {
+        "number": "79",
+        "name": "Miraidon ex",
+        "type": "Lightning",
+        "emoji": "✨"
+      },
+      {
+        "number": "82",
+        "name": "Clefable ex",
+        "type": "Psychic",
+        "emoji": "✨"
+      },
+      {
+        "number": "85",
+        "name": "Togekiss",
+        "type": "Psychic",
+        "emoji": "✨"
+      },
+      {
+        "number": "95",
+        "name": "Claydol",
+        "type": "Psychic",
+        "emoji": "✨"
+      },
+      {
+        "number": "96",
+        "name": "Vespiquen ex",
+        "type": "Psychic",
+        "emoji": "✨"
+      },
+      {
+        "number": "102",
+        "name": "Houndstone ex",
+        "type": "Psychic",
+        "emoji": "✨"
+      },
+      {
+        "number": "120",
+        "name": "Klawf ex",
+        "type": "Fighting",
+        "emoji": "✨"
+      },
+      {
+        "number": "123",
+        "name": "Glimmora ex",
+        "type": "Fighting",
+        "emoji": "✨"
+      },
+      {
+        "number": "124",
+        "name": "Koraidon ex",
+        "type": "Fighting",
+        "emoji": "✨"
+      },
+      {
+        "number": "125",
+        "name": "Charizard ex",
+        "type": "Darkness",
+        "emoji": "✨"
+      },
+      {
+        "number": "134",
+        "name": "Houndoom ex",
+        "type": "Darkness",
+        "emoji": "✨"
+      },
+      {
+        "number": "135",
+        "name": "Absol ex",
+        "type": "Darkness",
+        "emoji": "✨"
+      },
+      {
+        "number": "136",
+        "name": "Darkrai",
+        "type": "Darkness",
+        "emoji": "✨"
+      },
+      {
+        "number": "141",
+        "name": "Scizor",
+        "type": "Metal",
+        "emoji": "✨"
+      },
+      {
+        "number": "153",
+        "name": "Melmetal ex",
+        "type": "Metal",
+        "emoji": "✨"
+      },
+      {
+        "number": "156",
+        "name": "Revavroom ex",
+        "type": "Metal",
+        "emoji": "✨"
+      },
+      {
+        "number": "159",
+        "name": "Dragonite ex",
+        "type": "Dragon",
+        "emoji": "✨"
+      },
+      {
+        "number": "164",
+        "name": "Pidgeot ex",
+        "type": "Colorless",
+        "emoji": "✨"
+      },
+      {
+        "number": "179",
+        "name": "Greedent ex",
+        "type": "Colorless",
+        "emoji": "✨"
+      },
+      {
+        "number": "188",
+        "name": "Geeta",
+        "type": "Normal",
+        "emoji": "🎒"
+      }
+    ],
+    "gallery": [
+      {
+        "number": "198",
+        "name": "Gloom",
+        "type": "Grass",
+        "emoji": "✨"
+      },
+      {
+        "number": "199",
+        "name": "Ninetales",
+        "type": "Fire",
+        "emoji": "✨"
+      },
+      {
+        "number": "200",
+        "name": "Palafin",
+        "type": "Water",
+        "emoji": "✨"
+      },
+      {
+        "number": "201",
+        "name": "Bellibolt",
+        "type": "Lightning",
+        "emoji": "✨"
+      },
+      {
+        "number": "202",
+        "name": "Cleffa",
+        "type": "Psychic",
+        "emoji": "✨"
+      },
+      {
+        "number": "203",
+        "name": "Larvitar",
+        "type": "Fighting",
+        "emoji": "✨"
+      },
+      {
+        "number": "204",
+        "name": "Houndour",
+        "type": "Darkness",
+        "emoji": "✨"
+      },
+      {
+        "number": "205",
+        "name": "Scizor",
+        "type": "Metal",
+        "emoji": "✨"
+      },
+      {
+        "number": "206",
+        "name": "Varoom",
+        "type": "Metal",
+        "emoji": "✨"
+      },
+      {
+        "number": "207",
+        "name": "Pidgey",
+        "type": "Colorless",
+        "emoji": "✨"
+      },
+      {
+        "number": "208",
+        "name": "Pidgeotto",
+        "type": "Colorless",
+        "emoji": "✨"
+      },
+      {
+        "number": "209",
+        "name": "Lechonk",
+        "type": "Colorless",
+        "emoji": "✨"
+      },
+      {
+        "number": "222",
+        "name": "Eiscue ex",
+        "type": "Fire",
+        "emoji": "✨"
+      },
+      {
+        "number": "223",
+        "name": "Charizard ex",
+        "type": "Darkness",
+        "emoji": "✨"
+      },
+      {
+        "number": "224",
+        "name": "Revavroom ex",
+        "type": "Metal",
+        "emoji": "✨"
+      },
+      {
+        "number": "225",
+        "name": "Pidgeot ex",
+        "type": "Colorless",
+        "emoji": "✨"
+      },
+      {
+        "number": "226",
+        "name": "Geeta",
+        "type": "Normal",
+        "emoji": "🎒"
+      },
+      {
+        "number": "227",
+        "name": "Poppy",
+        "type": "Normal",
+        "emoji": "🎒"
+      }
+    ],
+    "ultra_rare": [
+      {
+        "number": "210",
+        "name": "Eiscue ex",
+        "type": "Fire",
+        "emoji": "✨"
+      },
+      {
+        "number": "211",
+        "name": "Tyranitar ex",
+        "type": "Lightning",
+        "emoji": "✨"
+      },
+      {
+        "number": "212",
+        "name": "Vespiquen ex",
+        "type": "Psychic",
+        "emoji": "✨"
+      },
+      {
+        "number": "213",
+        "name": "Glimmora ex",
+        "type": "Fighting",
+        "emoji": "✨"
+      },
+      {
+        "number": "214",
+        "name": "Absol ex",
+        "type": "Darkness",
+        "emoji": "✨"
+      },
+      {
+        "number": "215",
+        "name": "Charizard ex",
+        "type": "Darkness",
+        "emoji": "✨"
+      },
+      {
+        "number": "216",
+        "name": "Revavroom ex",
+        "type": "Metal",
+        "emoji": "✨"
+      },
+      {
+        "number": "217",
+        "name": "Pidgeot ex",
+        "type": "Colorless",
+        "emoji": "✨"
+      },
+      {
+        "number": "218",
+        "name": "Geeta",
+        "type": "Normal",
+        "emoji": "🎒"
+      },
+      {
+        "number": "219",
+        "name": "Ortega",
+        "type": "Normal",
+        "emoji": "🎒"
+      },
+      {
+        "number": "220",
+        "name": "Poppy",
+        "type": "Normal",
+        "emoji": "🎒"
+      },
+      {
+        "number": "221",
+        "name": "Ryme",
+        "type": "Normal",
+        "emoji": "🎒"
+      }
+    ],
+    "secret_rare": [
+      {
+        "number": "228",
+        "name": "Charizard ex",
+        "type": "Darkness",
+        "emoji": "✨"
+      },
+      {
+        "number": "229",
+        "name": "Artazon",
+        "type": "Normal",
+        "emoji": "🎒"
+      }
+    ],
+    "energy": [
+      {
+        "number": "230",
+        "name": "Basic Fire Energy",
+        "type": "energy",
+        "emoji": "✨"
+      }
+    ]
+  }
+}

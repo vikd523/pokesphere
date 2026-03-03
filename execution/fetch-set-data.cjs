@@ -75,6 +75,8 @@ async function run() {
     await downloadSet('sv3pt5', 'pokemon-151.json', 'Scarlet & Violet—151', 'Scarlet & Violet', '2023-09-22');
     await downloadSet('swsh7', 'evolving-skies.json', 'Evolving Skies', 'Sword & Shield', '2021-08-27');
     await downloadSet('sv2', 'paldea-evolved.json', 'Paldea Evolved', 'Scarlet & Violet', '2023-06-09');
+    await downloadSet('sv3', 'obsidian-flames.json', 'Obsidian Flames', 'Scarlet & Violet', '2023-08-11');
+    await downloadSet('base1', 'base-set.json', 'Base Set', 'Base', '1999-01-09');
 }
 
 run();
