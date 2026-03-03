@@ -5,7 +5,8 @@
     "series": "Scarlet & Violet",
     "releaseDate": "2023-09-22",
     "totalCards": 207,
-    "apiSetId": "sv3pt5"
+    "apiSetId": "sv3pt5",
+    "tcgGroupId": 23237
   },
   "rarityWeights": {
     "rare": 0.85,

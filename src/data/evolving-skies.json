@@ -5,7 +5,8 @@
     "series": "Sword & Shield",
     "releaseDate": "2021-08-27",
     "totalCards": 237,
-    "apiSetId": "swsh7"
+    "apiSetId": "swsh7",
+    "tcgGroupId": 2848
   },
   "rarityWeights": {
     "rare": 0.85,

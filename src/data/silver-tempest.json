@@ -6,6 +6,7 @@
     "releaseDate": "2022-11-11",
     "totalCards": 65,
     "apiSetId": "swsh12",
+    "tcgGroupId": 3170,
     "apiGallerySetId": "swsh12tg"
   },
   "rarityWeights": {

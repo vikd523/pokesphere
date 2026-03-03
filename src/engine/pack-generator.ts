@@ -43,6 +43,7 @@ export interface SetData {
         totalCards: number;
         apiSetId?: string;
         apiGallerySetId?: string;
+        tcgGroupId?: number;
     };
     rarityWeights: Record<string, number>;
     reverseHoloGalleryChance: number;

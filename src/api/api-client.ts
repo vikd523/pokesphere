@@ -491,6 +491,156 @@ export function buildLookupMap(apiCards: ApiCard[]): CardLookupMap {
     return map;
 }
 
+// ─── TCGCSV.com Real Price Data ────────────────────
+
+export interface TcgCsvPriceEntry {
+    productId: number;
+    name: string;
+    marketPrice: number | null;
+    lowPrice: number | null;
+    midPrice: number | null;
+    subTypeName: string; // e.g. "Normal", "Holofoil", "Reverse Holofoil"
+}
+
+const TCGCSV_PRICE_CACHE_PREFIX = 'pokesphere_tcgcsv_';
+
+/**
+ * Fetch real TCGPlayer pricing from our /api/tcgprices serverless proxy.
+ * Returns a Map keyed by lowercase card name → array of price entries (one per variant).
+ * Cached in localStorage with 6-hour TTL.
+ */
+export async function fetchTcgPrices(groupId: number): Promise<Map<string, TcgCsvPriceEntry[]>> {
+    const cacheKey = `${TCGCSV_PRICE_CACHE_PREFIX}${groupId}`;
+    const priceMap = new Map<string, TcgCsvPriceEntry[]>();
+
+    // Check cache
+    try {
+        const raw = localStorage.getItem(cacheKey);
+        if (raw) {
+            const cached = JSON.parse(raw);
+            if (Date.now() - cached.timestamp < CACHE_TTL_MS) {
+                console.log(`[TCGCSV] Using cached prices for groupId ${groupId}`);
+                for (const [k, v] of Object.entries(cached.data)) {
+                    priceMap.set(k, v as TcgCsvPriceEntry[]);
+                }
+                return priceMap;
+            }
+            localStorage.removeItem(cacheKey);
+        }
+    } catch { /* ignore */ }
+
+    console.log(`[TCGCSV] Fetching real prices for groupId ${groupId} ...`);
+
+    try {
+        const res = await fetch(`/api/tcgprices?groupId=${groupId}`);
+        if (!res.ok) {
+            console.warn(`[TCGCSV] Proxy returned ${res.status}`);
+            return priceMap;
+        }
+        const json = await res.json();
+        if (!json.success) {
+            console.warn(`[TCGCSV] Proxy error:`, json.error);
+            return priceMap;
+        }
+
+        const products: any[] = json.products || [];
+        const prices: any[] = json.prices || [];
+
+        // Build productId → product name map
+        const productNames = new Map<number, string>();
+        for (const p of products) {
+            const id = p.productId ?? p.productID ?? p.ProductId;
+            const name = p.name ?? p.productName ?? p.Name;
+            if (id && name) productNames.set(id, name);
+        }
+
+        // Build the price map keyed by lowercase card name
+        for (const pr of prices) {
+            const productId = pr.productId ?? pr.productID ?? pr.ProductId;
+            const name = productNames.get(productId);
+            if (!name) continue;
+
+            const entry: TcgCsvPriceEntry = {
+                productId,
+                name,
+                marketPrice: pr.marketPrice ?? pr.MarketPrice ?? null,
+                lowPrice: pr.lowPrice ?? pr.LowPrice ?? null,
+                midPrice: pr.midPrice ?? pr.MidPrice ?? null,
+                subTypeName: pr.subTypeName ?? pr.SubTypeName ?? 'Normal',
+            };
+
+            const key = name.toLowerCase();
+            if (!priceMap.has(key)) priceMap.set(key, []);
+            priceMap.get(key)!.push(entry);
+        }
+
+        // Cache the result
+        try {
+            const cacheObj: Record<string, TcgCsvPriceEntry[]> = {};
+            for (const [k, v] of priceMap) cacheObj[k] = v;
+            localStorage.setItem(cacheKey, JSON.stringify({ timestamp: Date.now(), data: cacheObj }));
+        } catch { /* quota exceeded — not critical */ }
+
+        console.log(`[TCGCSV] Got real prices for ${priceMap.size} unique card names`);
+    } catch (err) {
+        console.warn(`[TCGCSV] Fetch failed (will use mock prices):`, err);
+    }
+
+    return priceMap;
+}
+
+/**
+ * Overlay real TCGCSV prices onto an existing CardLookupMap.
+ * Matches by lowercase card name. Returns the count of entries updated.
+ */
+export function overlayTcgPrices(map: CardLookupMap, tcgPrices: Map<string, TcgCsvPriceEntry[]>): number {
+    let updated = 0;
+
+    for (const entry of map.values()) {
+        const nameKey = entry.name.toLowerCase();
+        const priceEntries = tcgPrices.get(nameKey);
+        if (!priceEntries || priceEntries.length === 0) continue;
+
+        // Build allPrices from the real data
+        const newAllPrices: Record<string, number | null> = {};
+        let bestPrice: number | null = null;
+        let bestVariant = 'normal';
+
+        for (const pe of priceEntries) {
+            const variant = pe.subTypeName.toLowerCase().replace(/\s+/g, '');
+            // Normalize TCGPlayer subtype names to match our variant keys
+            const variantKey =
+                variant === 'normal' ? 'normal' :
+                    variant === 'holofoil' ? 'holofoil' :
+                        variant === 'reverseholofoil' ? 'reverseHolofoil' :
+                            variant === '1steditionholofoil' ? '1stEditionHolofoil' :
+                                variant === '1stedition' ? '1stEditionNormal' :
+                                    variant;
+
+            const price = pe.marketPrice;
+            newAllPrices[variantKey] = price;
+
+            if (price !== null && (bestPrice === null || price > bestPrice)) {
+                bestPrice = price;
+                bestVariant = variantKey;
+            }
+        }
+
+        // Only overlay if we got at least one real price
+        if (bestPrice !== null) {
+            entry.allPrices = newAllPrices;
+            entry.marketPrice = bestPrice;
+            entry.priceVariant = bestVariant;
+            entry.priceUpdatedAt = new Date().toISOString().split('T')[0];
+            entry.tcgplayerUrl = entry.tcgplayerUrl ||
+                `https://www.tcgplayer.com/search/pokemon/product?productName=${encodeURIComponent(entry.name)}`;
+            updated++;
+        }
+    }
+
+    return updated;
+}
+
 export function preloadImages(entries: CardLookupEntry[]): void {
     for (const entry of entries) {
         const img = new Image();

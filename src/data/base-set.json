@@ -5,7 +5,8 @@
     "series": "Base",
     "releaseDate": "1999-01-09",
     "totalCards": 102,
-    "apiSetId": "base1"
+    "apiSetId": "base1",
+    "tcgGroupId": 604
   },
   "rarityWeights": {
     "rare": 0.85,

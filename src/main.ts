@@ -16,7 +16,7 @@ import ascendedHeroesData from './data/ascended-heroes.json';
 import { generatePack, type SetData, type PackCard } from './engine/pack-generator';
 import { RARITY_DISPLAY, TYPE_GRADIENTS, isHit, isBigHit, isJackpot } from './engine/rarity-table';
 import { createParticles, destroyParticles } from './effects/particles';
-import { fetchSetCards, fetchCardsByNames, buildLookupMap, preloadImages, clearCache, type CardLookupMap, type CardLookupEntry } from './api/api-client';
+import { fetchSetCards, fetchCardsByNames, buildLookupMap, preloadImages, clearCache, fetchTcgPrices, overlayTcgPrices, type CardLookupMap, type CardLookupEntry } from './api/api-client';
 import { formatPrice, getMarketPrice, calculatePackValue, getTopPulls, getValueTier, formatPriceDate } from './engine/price-engine';
 import { getUser, signOut, onAuthChange, type AuthUser } from './auth';
 import { renderAuthModal, bindAuthModalEvents, setModalMode } from './auth-modal';
@@ -175,17 +175,13 @@ async function loadApiData(): Promise<void> {
     let allCards;
 
     if (CUSTOM_SET_IDS.has(apiSetId)) {
-      // Custom set — use pre-baked imageMap from the JSON data
+      // Custom set — apply pre-baked imageMap for card art (if available)
       const imageMap = (set as any).imageMap as Record<string, { small: string; large: string }> | undefined;
       if (imageMap && Object.keys(imageMap).length > 0) {
-        console.log(`[App] Using pre-baked imageMap for ${apiSetId} (${Object.keys(imageMap).length} entries)`);
-        // Apply imageMap to all card data objects in the set so they carry through pack generation
+        console.log(`[App] Applying pre-baked imageMap for ${apiSetId} (${Object.keys(imageMap).length} entries)`);
         applyImageMapToSet(set, imageMap);
-        state.isLoadingApi = false;
-        render();
-        return; // No API call needed
       }
-      // Fallback: try runtime API lookup (slower, less reliable)
+      // Still fetch card data by name to get real TCGPlayer pricing from pokemontcg.io
       const cardNames = extractUniqueCardNames(set);
       allCards = await fetchCardsByNames(cardNames, apiSetId, (loaded, total) => {
         state.apiProgress = { loaded, total };
@@ -212,6 +208,20 @@ async function loadApiData(): Promise<void> {
 
     const map = buildLookupMap(allCards);
     state.lookupMap = map;
+
+    // ─── Overlay real TCGCSV prices (if set has a tcgGroupId) ───
+    const tcgGroupId = set.set.tcgGroupId;
+    if (tcgGroupId && !CUSTOM_SET_IDS.has(apiSetId)) {
+      try {
+        const realPrices = await fetchTcgPrices(tcgGroupId);
+        if (realPrices.size > 0) {
+          const overlaid = overlayTcgPrices(map, realPrices);
+          console.log(`[TCGCSV] Overlaid real prices on ${overlaid}/${map.size} lookup entries for ${apiSetId}`);
+        }
+      } catch (err) {
+        console.warn('[TCGCSV] Price overlay failed, keeping mock prices:', err);
+      }
+    }
 
     // Re-enrich any inventory cards from this set
     reEnrichInventory();
@@ -300,13 +310,19 @@ function updateLoadingProgress(): void {
 function enrichPack(pack: PackCard[]): void {
   if (!state.lookupMap) return;
   for (const card of pack) {
-    // Try composite key first (name+number), then number, then fuzzy name
+    // Try composite key first (name+number), then name-only, then fuzzy
     const compositeKey = `${card.name.toLowerCase()}|${card.number}`;
     const lookup = state.lookupMap.get(compositeKey)
+      || state.lookupMap.get(card.name.toLowerCase())
       || findFuzzyMatch(card);
     if (lookup) {
-      card.imageSmall = lookup.imageSmall;
-      card.imageLarge = lookup.imageLarge;
+      // Only overwrite images if card doesn't already have pre-baked images
+      // (custom sets apply imageMap before API fetch, and those images are better)
+      if (!card.imageSmall) {
+        card.imageSmall = lookup.imageSmall;
+        card.imageLarge = lookup.imageLarge;
+      }
+      // Always apply pricing data
       card.marketPrice = getMarketPrice(card, lookup);
       card.priceVariant = lookup.priceVariant;
       card.tcgplayerUrl = lookup.tcgplayerUrl;
@@ -1430,13 +1446,20 @@ async function loadAllSetsApiData(): Promise<void> {
     if (!apiSetId) continue;
 
     try {
-      const allCards = await fetchSetCards(apiSetId);
-      const gallerySetId = set.set.apiGallerySetId;
-      if (gallerySetId) {
-        try {
-          const galleryCards = await fetchSetCards(gallerySetId);
-          allCards.push(...galleryCards);
-        } catch { /* gallery fetch optional */ }
+      let allCards;
+      if (CUSTOM_SET_IDS.has(apiSetId)) {
+        // Custom sets — use name-based lookup
+        const cardNames = extractUniqueCardNames(set);
+        allCards = await fetchCardsByNames(cardNames, apiSetId);
+      } else {
+        allCards = await fetchSetCards(apiSetId);
+        const gallerySetId = set.set.apiGallerySetId;
+        if (gallerySetId) {
+          try {
+            const galleryCards = await fetchSetCards(gallerySetId);
+            allCards.push(...galleryCards);
+          } catch { /* gallery fetch optional */ }
+        }
       }
       // Build temporary lookup and re-enrich inventory from it
       const map = buildLookupMap(allCards);

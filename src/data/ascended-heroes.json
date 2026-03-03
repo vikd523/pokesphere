@@ -5,7 +5,8 @@
     "series": "Mega Evolution",
     "releaseDate": "2026-01-30",
     "totalCards": 175,
-    "apiSetId": "me02pt5"
+    "apiSetId": "me02pt5",
+    "tcgGroupId": 24541
   },
   "rarityWeights": {
     "rare": 0.8,

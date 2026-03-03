@@ -1,6 +1,10 @@
 {
     "rewrites": [
         {
+            "source": "/api/tcgprices",
+            "destination": "/api/tcgprices/index.ts"
+        },
+        {
             "source": "/api/pokemontcg/(.*)",
             "destination": "/api/pokemontcg/$1"
         },
