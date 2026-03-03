@@ -77,6 +77,9 @@ async function run() {
     await downloadSet('sv2', 'paldea-evolved.json', 'Paldea Evolved', 'Scarlet & Violet', '2023-06-09');
     await downloadSet('sv3', 'obsidian-flames.json', 'Obsidian Flames', 'Scarlet & Violet', '2023-08-11');
     await downloadSet('base1', 'base-set.json', 'Base Set', 'Base', '1999-01-09');
+    await downloadSet('sv4', 'paradox-rift.json', 'Paradox Rift', 'Scarlet & Violet', '2023-11-03');
+    await downloadSet('sv5', 'temporal-forces.json', 'Temporal Forces', 'Scarlet & Violet', '2024-03-22');
+    await downloadSet('sv6', 'twilight-masquerade.json', 'Twilight Masquerade', 'Scarlet & Violet', '2024-05-24');
 }
 
 run();

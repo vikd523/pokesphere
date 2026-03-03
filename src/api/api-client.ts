@@ -230,6 +230,192 @@ async function fetchFromGitHubFallback(setId: string): Promise<ApiCard[]> {
 }
 
 /**
+ * Strip variant suffixes from a card name to get its base Pokémon name.
+ * "Mega Blastoise ex" → "Blastoise"
+ * "Venusaur ex"       → "Venusaur"
+ * "Pikachu"           → "Pikachu"
+ */
+function toBaseName(name: string): string {
+    return name
+        .replace(/^Mega /i, '')
+        .replace(/ ex$/i, '')
+        .replace(/ V$/i, '')
+        .replace(/ VMAX$/i, '')
+        .replace(/ VSTAR$/i, '')
+        .replace(/ GX$/i, '')
+        .replace(/ EX$/i, '')
+        .trim();
+}
+
+/**
+ * Fetch card images by name for custom sets that don't exist in the Pokémon TCG API.
+ * Batches names into API queries and picks the best image per name (prefers modern sets).
+ * Returns ApiCard[] so it plugs straight into the existing buildLookupMap pipeline.
+ *
+ * Key design: For every API result found (e.g. "Blastoise"), we also emit alias
+ * synthetic ApiCard entries for all custom-set variants that share the same base name
+ * (e.g. "Blastoise ex", "Mega Blastoise ex") so the lookup map has keys for them.
+ */
+export async function fetchCardsByNames(
+    names: string[],
+    cacheId: string,
+    onProgress?: (loaded: number, total: number) => void
+): Promise<ApiCard[]> {
+    // Check cache first
+    const cached = getCachedData(`names_${cacheId}`);
+    if (cached) {
+        console.log(`[API] Using cached name-lookup for ${cacheId} (${cached.length} cards)`);
+        onProgress?.(cached.length, cached.length);
+        return cached;
+    }
+
+    // Deduplicate names (case-insensitive)
+    const uniqueNames = [...new Set(names.map(n => n.trim()))].filter(n => n.length > 0);
+
+    // Decide which names are Pokémon vs Energy vs Trainer/Supporter
+    const TRAINER_KEYWORDS = ['Energy', 'Ball', 'Candy', 'Switch', 'Stretcher', 'Recycler',
+        'Pad', 'Professor', 'Boss', 'Nest', 'Research', 'Iono', 'Nemona', 'Arven'];
+    const pokemonNames = uniqueNames.filter(
+        n => !TRAINER_KEYWORDS.some(kw => n.includes(kw))
+    );
+
+    // Build a map: baseName → all original names that share it
+    // e.g. "blastoise" → ["Blastoise", "Blastoise ex", "Mega Blastoise ex"]
+    const baseToVariants = new Map<string, string[]>();
+    for (const name of pokemonNames) {
+        const base = toBaseName(name).toLowerCase();
+        if (!baseToVariants.has(base)) baseToVariants.set(base, []);
+        baseToVariants.get(base)!.push(name);
+    }
+
+    // Unique base names to search for
+    const baseNames = [...baseToVariants.keys()];
+    const BATCH_SIZE = 10;
+    const allCards: ApiCard[] = [];
+    const seenBases = new Set<string>();
+    const totalBatches = Math.ceil(baseNames.length / BATCH_SIZE);
+
+    console.log(`[API] Name-based lookup for ${baseNames.length} unique base Pokémon names in ${totalBatches} batches`);
+
+    for (let i = 0; i < baseNames.length; i += BATCH_SIZE) {
+        const batch = baseNames.slice(i, i + BATCH_SIZE);
+        // Build query with each name individually encoded
+        const queryParts = batch.map(base => `name:"${base}"`);
+        const queryStr = queryParts.join(' OR ');
+
+        try {
+            const url = `${API_BASE}/v2/cards?q=${encodeURIComponent('(' + queryStr + ')')}&pageSize=${PAGE_SIZE}&page=1&select=id,name,number,rarity,supertype,types,images,tcgplayer&orderBy=-set.releaseDate`;
+            const res = await fetchWithRetry(url);
+            const json: ApiSetResponse = await res.json();
+
+            // Pick the first (most recent) card image per unique base name
+            for (const card of json.data) {
+                const lowerName = card.name.toLowerCase();
+                const base = toBaseName(lowerName);
+                if (seenBases.has(base)) continue;
+                seenBases.add(base);
+
+                // Ensure pricing
+                if (!card.tcgplayer || Object.keys(card.tcgplayer.prices || {}).length === 0) {
+                    const price = generateMockPrice(card.rarity);
+                    card.tcgplayer = {
+                        url: `https://www.tcgplayer.com/search/pokemon/product?productName=${encodeURIComponent(card.name)}`,
+                        updatedAt: new Date().toISOString().split('T')[0],
+                        prices: {
+                            normal: { market: price.normal },
+                            holofoil: { market: price.holo },
+                            reverseHolofoil: { market: price.reverse }
+                        }
+                    };
+                }
+                allCards.push(card);
+
+                // Emit alias cards for every variant sharing this base name
+                const variants = baseToVariants.get(base) || [];
+                for (const variantName of variants) {
+                    if (variantName.toLowerCase() === lowerName) continue; // skip the original
+                    const aliasCard: ApiCard = {
+                        ...card,
+                        id: `${card.id}_alias_${variantName.toLowerCase().replace(/\s+/g, '-')}`,
+                        name: variantName,
+                    };
+                    allCards.push(aliasCard);
+                }
+            }
+        } catch (err) {
+            console.warn(`[API] Name-batch failed for batch ${Math.floor(i / BATCH_SIZE) + 1}/${totalBatches}:`, err);
+            // On failure, try individual lookups for each name in the batch
+            for (const base of batch) {
+                if (seenBases.has(base)) continue;
+                try {
+                    const singleUrl = `${API_BASE}/v2/cards?q=${encodeURIComponent('name:"' + base + '"')}&pageSize=1&page=1&select=id,name,number,rarity,supertype,types,images,tcgplayer&orderBy=-set.releaseDate`;
+                    const singleRes = await fetchWithRetry(singleUrl);
+                    const singleJson: ApiSetResponse = await singleRes.json();
+                    if (singleJson.data.length > 0) {
+                        const card = singleJson.data[0];
+                        seenBases.add(base);
+                        if (!card.tcgplayer || Object.keys(card.tcgplayer.prices || {}).length === 0) {
+                            const price = generateMockPrice(card.rarity);
+                            card.tcgplayer = {
+                                url: `https://www.tcgplayer.com/search/pokemon/product?productName=${encodeURIComponent(card.name)}`,
+                                updatedAt: new Date().toISOString().split('T')[0],
+                                prices: { normal: { market: price.normal }, holofoil: { market: price.holo }, reverseHolofoil: { market: price.reverse } }
+                            };
+                        }
+                        allCards.push(card);
+                        // Alias variants
+                        const variants = baseToVariants.get(base) || [];
+                        for (const variantName of variants) {
+                            if (variantName.toLowerCase() === card.name.toLowerCase()) continue;
+                            allCards.push({ ...card, id: `${card.id}_alias_${variantName.toLowerCase().replace(/\s+/g, '-')}`, name: variantName });
+                        }
+                    }
+                } catch { /* Individual lookup also failed — skip */ }
+                await sleep(200);
+            }
+        }
+
+        onProgress?.(Math.min(seenBases.size, baseNames.length), baseNames.length);
+        // Small delay between batches to avoid rate limits
+        if (i + BATCH_SIZE < baseNames.length) await sleep(400);
+    }
+
+    // Also add trainer/supporter cards with real images from the API
+    const trainerNames = uniqueNames.filter(n => !pokemonNames.includes(n) && !n.includes('Energy'));
+    for (const name of trainerNames) {
+        if (!seenBases.has(name.toLowerCase())) {
+            try {
+                const url = `${API_BASE}/v2/cards?q=${encodeURIComponent('name:"' + name + '" supertype:Trainer')}&pageSize=1&page=1&select=id,name,number,rarity,supertype,types,images,tcgplayer&orderBy=-set.releaseDate`;
+                const res = await fetchWithRetry(url);
+                const json: ApiSetResponse = await res.json();
+                if (json.data.length > 0) {
+                    const card = json.data[0];
+                    seenBases.add(name.toLowerCase());
+                    if (!card.tcgplayer) {
+                        const price = generateMockPrice(card.rarity);
+                        card.tcgplayer = {
+                            url: `https://www.tcgplayer.com/search/pokemon/product?productName=${encodeURIComponent(card.name)}`,
+                            updatedAt: new Date().toISOString().split('T')[0],
+                            prices: { normal: { market: price.normal }, holofoil: { market: price.holo } }
+                        };
+                    }
+                    allCards.push(card);
+                }
+            } catch { /* Skip failed trainer lookups */ }
+            await sleep(200);
+        }
+    }
+
+    if (allCards.length > 0) {
+        setCachedData(`names_${cacheId}`, allCards);
+        console.log(`[API] Cached ${allCards.length} cards (including aliases) for ${cacheId}`);
+    }
+
+    onProgress?.(allCards.length, allCards.length);
+    return allCards;
+}
+
+/**
  * Generates somewhat realistic pricing logic based roughly on actual distribution values.
  */
 function generateMockPrice(rarity?: string) {
@@ -295,6 +481,11 @@ export function buildLookupMap(apiCards: ApiCard[]): CardLookupMap {
         map.set(card.id, entry);
         // Composite key: name|number for precise matching
         map.set(`${card.name.toLowerCase()}|${card.number}`, entry);
+        // Name-only key for fallback matching (custom sets where numbers don't match)
+        const nameKey = card.name.toLowerCase();
+        if (!map.has(nameKey)) {
+            map.set(nameKey, entry);
+        }
     }
 
     return map;

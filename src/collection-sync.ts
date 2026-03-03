@@ -172,6 +172,7 @@ export function collectionToPackCards(cards: CollectionCard[]): PackCard[] {
             imageSmall: c.image_small || undefined,
             imageLarge: c.image_large || undefined,
             marketPrice: c.market_price,
+            setId: c.set_id,
         };
         for (let i = 0; i < qty; i++) {
             result.push({ ...base });

@@ -635,6 +635,67 @@ body {
   border-radius: 20px;
 }
 
+/* --- Inventory Search --- */
+.inventory-search-wrapper {
+  position: relative;
+  max-width: 480px;
+  margin: var(--space-md) auto;
+}
+
+.inventory-search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1rem;
+  pointer-events: none;
+  opacity: 0.5;
+  z-index: 1;
+}
+
+.inventory-search-input {
+  width: 100%;
+  padding: var(--space-sm) var(--space-md) var(--space-sm) 40px;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-md);
+  outline: none;
+  transition: border-color var(--duration-fast), box-shadow var(--duration-fast);
+}
+
+.inventory-search-input::placeholder {
+  color: var(--text-muted);
+}
+
+.inventory-search-input:focus {
+  border-color: var(--accent-gold);
+  box-shadow: 0 0 16px rgba(255, 215, 0, 0.15);
+}
+
+/* --- Inventory Controls --- */
+.inventory-controls {
+  display: flex;
+  gap: var(--space-md);
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: var(--space-sm) 0 var(--space-md);
+}
+
+@media (max-width: 600px) {
+  .inventory-controls {
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  .inventory-search-wrapper {
+    max-width: 100%;
+  }
+}
+
 .collection-tray {
   display: flex;
   align-items: center;

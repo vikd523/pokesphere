@@ -28,6 +28,7 @@ export interface PackCard extends CardData {
     priceVariant?: string;
     tcgplayerUrl?: string | null;
     priceUpdatedAt?: string | null;
+    setId?: string;
 }
 
 export interface SetData {

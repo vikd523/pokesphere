@@ -16,7 +16,7 @@ import ascendedHeroesData from './data/ascended-heroes.json';
 import { generatePack, type SetData, type PackCard } from './engine/pack-generator';
 import { RARITY_DISPLAY, TYPE_GRADIENTS, isHit, isBigHit, isJackpot } from './engine/rarity-table';
 import { createParticles, destroyParticles } from './effects/particles';
-import { fetchSetCards, buildLookupMap, preloadImages, clearCache, type CardLookupMap, type CardLookupEntry } from './api/api-client';
+import { fetchSetCards, fetchCardsByNames, buildLookupMap, preloadImages, clearCache, type CardLookupMap, type CardLookupEntry } from './api/api-client';
 import { formatPrice, getMarketPrice, calculatePackValue, getTopPulls, getValueTier, formatPriceDate } from './engine/price-engine';
 import { getUser, signOut, onAuthChange, type AuthUser } from './auth';
 import { renderAuthModal, bindAuthModalEvents, setModalMode } from './auth-modal';
@@ -77,6 +77,9 @@ const SET_API_IDS: Record<string, string> = {
   'ascended-heroes': 'me02pt5',
 };
 
+// Custom/fictional set IDs that don't exist in the Pokémon TCG API
+const CUSTOM_SET_IDS = new Set(['me01', 'me02', 'me02pt5']);
+
 /** Fetch real logo URLs from the API (proxied on Vercel) and update SET_LOGOS */
 async function fetchSetLogos(): Promise<void> {
   for (const [internalId, apiSetId] of Object.entries(SET_API_IDS)) {
@@ -114,6 +117,8 @@ interface AppState {
   inventoryFilters: {
     type: string;
     rarity: string;
+    searchQuery: string;
+    pack: string;
   };
   inventoryDisplayCount: number;
   // Phase 3: Auth
@@ -141,7 +146,7 @@ const state: AppState = {
   showInventory: false,
   inventory: [],
   selectedCard: null,
-  inventoryFilters: { type: 'All', rarity: 'All' },
+  inventoryFilters: { type: 'All', rarity: 'All', searchQuery: '', pack: 'All' },
   inventoryDisplayCount: 100,
   // Auth
   user: null,
@@ -167,20 +172,31 @@ async function loadApiData(): Promise<void> {
   render();
 
   try {
-    // Fetch main set + gallery set (if exists)
-    const allCards = await fetchSetCards(apiSetId, (loaded, total) => {
-      state.apiProgress = { loaded, total };
-      updateLoadingProgress();
-    });
+    let allCards;
 
-    // If there's a gallery sub-set, fetch that too
-    const gallerySetId = set.set.apiGallerySetId;
-    if (gallerySetId) {
-      try {
-        const galleryCards = await fetchSetCards(gallerySetId);
-        allCards.push(...galleryCards);
-      } catch (err) {
-        console.warn('[App] Gallery fetch failed, continuing with main set:', err);
+    if (CUSTOM_SET_IDS.has(apiSetId)) {
+      // Custom set — fetch images by individual card names instead of set ID
+      const cardNames = extractUniqueCardNames(set);
+      allCards = await fetchCardsByNames(cardNames, apiSetId, (loaded, total) => {
+        state.apiProgress = { loaded, total };
+        updateLoadingProgress();
+      });
+    } else {
+      // Real set — fetch by set ID as normal
+      allCards = await fetchSetCards(apiSetId, (loaded, total) => {
+        state.apiProgress = { loaded, total };
+        updateLoadingProgress();
+      });
+
+      // If there's a gallery sub-set, fetch that too
+      const gallerySetId = set.set.apiGallerySetId;
+      if (gallerySetId) {
+        try {
+          const galleryCards = await fetchSetCards(gallerySetId);
+          allCards.push(...galleryCards);
+        } catch (err) {
+          console.warn('[App] Gallery fetch failed, continuing with main set:', err);
+        }
       }
     }
 
@@ -202,6 +218,18 @@ async function loadApiData(): Promise<void> {
     state.isLoadingApi = false;
     render();
   }
+}
+
+/** Extract all unique card names from a set's data for name-based lookups */
+function extractUniqueCardNames(set: SetData): string[] {
+  const names = new Set<string>();
+  const cards = set.cards as Record<string, Array<{ name: string }>>;
+  for (const rarity of Object.values(cards)) {
+    for (const card of rarity) {
+      names.add(card.name);
+    }
+  }
+  return Array.from(names);
 }
 
 /** Re-enrich existing inventory cards with latest API lookup data */
@@ -571,7 +599,26 @@ function renderInventory(): string {
   const types = ['All', ...Array.from(new Set(state.inventory.map(c => c.type)))].sort();
   const rarities = ['All', ...Array.from(new Set(state.inventory.map(c => c.rarity)))];
 
+  // Build pack list from unique setIds in inventory, mapped to display names
+  const packIds = Array.from(new Set(state.inventory.map(c => c.setId).filter(Boolean))) as string[];
+  const packOptions = packIds.map(id => {
+    const setData = SETS[id];
+    return { id, name: setData ? setData.set.name : id };
+  }).sort((a, b) => a.name.localeCompare(b.name));
+
   let filteredInventory = state.inventory;
+
+  // Search filter
+  const query = state.inventoryFilters.searchQuery.trim().toLowerCase();
+  if (query) {
+    filteredInventory = filteredInventory.filter(c => c.name.toLowerCase().includes(query));
+  }
+
+  // Pack filter
+  if (state.inventoryFilters.pack !== 'All') {
+    filteredInventory = filteredInventory.filter(c => c.setId === state.inventoryFilters.pack);
+  }
+
   if (state.inventoryFilters.type !== 'All') {
     filteredInventory = filteredInventory.filter(c => c.type === state.inventoryFilters.type);
   }
@@ -599,7 +646,26 @@ function renderInventory(): string {
       <h1 class="set-title">My Collection</h1>
       <p class="set-subtitle">Filtered Cards: ${filteredInventory.length} (Total: ${state.inventory.length}) · Display Value: ${formatPrice(totalValue)}</p>
       
-      <div class="inventory-controls" style="display: flex; gap: 1rem; align-items: center; justify-content: center; margin: 1rem 0;">
+      <div class="inventory-search-wrapper">
+        <span class="inventory-search-icon">🔍</span>
+        <input
+          type="text"
+          id="inventory-search"
+          class="inventory-search-input"
+          placeholder="Search Pokémon…"
+          value="${escapeHtml(state.inventoryFilters.searchQuery)}"
+          autocomplete="off"
+        />
+      </div>
+
+      <div class="inventory-controls">
+        <div class="set-selector">
+          <label for="filter-pack">Pack</label>
+          <select id="filter-pack">
+            <option value="All" ${'All' === state.inventoryFilters.pack ? 'selected' : ''}>All Packs</option>
+            ${packOptions.map(p => `<option value="${p.id}" ${p.id === state.inventoryFilters.pack ? 'selected' : ''}>${escapeHtml(p.name)}</option>`).join('')}
+          </select>
+        </div>
         <div class="set-selector">
           <label for="filter-type">Type</label>
           <select id="filter-type">
@@ -792,15 +858,38 @@ function bindEvents(): void {
     }
   });
 
+  const searchInput = document.getElementById('inventory-search') as HTMLInputElement;
+  searchInput?.addEventListener('input', (e) => {
+    state.inventoryFilters.searchQuery = (e.target as HTMLInputElement).value;
+    state.inventoryDisplayCount = 100; // Reset pagination on search
+    render();
+    // Re-focus the search input and restore cursor position after re-render
+    const newInput = document.getElementById('inventory-search') as HTMLInputElement;
+    if (newInput) {
+      newInput.focus();
+      const len = newInput.value.length;
+      newInput.setSelectionRange(len, len);
+    }
+  });
+
+  const filterPack = document.getElementById('filter-pack') as HTMLSelectElement;
+  filterPack?.addEventListener('change', (e) => {
+    state.inventoryFilters.pack = (e.target as HTMLSelectElement).value;
+    state.inventoryDisplayCount = 100;
+    render();
+  });
+
   const filterType = document.getElementById('filter-type') as HTMLSelectElement;
   filterType?.addEventListener('change', (e) => {
     state.inventoryFilters.type = (e.target as HTMLSelectElement).value;
+    state.inventoryDisplayCount = 100;
     render();
   });
 
   const filterRarity = document.getElementById('filter-rarity') as HTMLSelectElement;
   filterRarity?.addEventListener('change', (e) => {
     state.inventoryFilters.rarity = (e.target as HTMLSelectElement).value;
+    state.inventoryDisplayCount = 100;
     render();
   });
 
